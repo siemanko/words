@@ -4,7 +4,7 @@ Browser version of boardgames [codenames](https://en.wikipedia.org/wiki/Codename
 
 Hosted at: https://siemanko.github.io/words/
 
-*Works great on iPad. Double clicks are there only for non-mobile, to deal with laptop touchpads, which are often producing false-click-positives.*
+*Tested and works great on iPad. Double clicks are there only for non-mobile, to deal with laptop touchpads, which are often producing false-click-positives.*
 
 # For Contributors
 

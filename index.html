@@ -294,7 +294,9 @@
             }
 
             $(document).ready(function() {
-                $('[data-toggle="tooltip"]').tooltip();
+                if (!('ontouchstart' in document.documentElement)) {
+                     $('[data-toggle="tooltip"]').tooltip();
+                }
                 $("#spymaster").click(toggle_spymaster);
                 $(".reset-button").click(reset);
                 $("#seed").val(seed);

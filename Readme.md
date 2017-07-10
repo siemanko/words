@@ -1,8 +1,12 @@
 # Words
 
-Browser based codenames. Fork and change one line for english words.
+Browser based codenames.
 
 Available at: https://siemanko.github.io/words/
+
+# For Contributors
+
+This is a developer-friendly version that only has ~300 lines of html. 
 
 ### Adding new languages
 

@@ -8,7 +8,7 @@ Available at: https://siemanko.github.io/words/
 
 Google sheets make the job really easy. I will gladly accept pull request, but please go through the translation manually and make sure they are good before submitting. Adding them to source code should be trivial, it's just a single html file. 
 
-https://docs.google.com/spreadsheets/d/1M167she5EVt5t7-5rv0UFnWlSfsAmBIwNeZ7zFkvS9w/edit?usp=sharing
+https://docs.google.com/spreadsheets/d/1M167she5EVt5t7-5rv0UFnWlSfsAmBIwNeZ7zFkvS9w
 
 ### Different board sizes
 

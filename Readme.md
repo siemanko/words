@@ -1,6 +1,6 @@
 # Words
 
-Browser based codenames.
+Browser version of boardgames [codenames](https://en.wikipedia.org/wiki/Codenames_(board_game)).
 
 Available at: https://siemanko.github.io/words/
 

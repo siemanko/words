@@ -19,3 +19,8 @@ https://docs.google.com/spreadsheets/d/1M167she5EVt5t7-5rv0UFnWlSfsAmBIwNeZ7zFkv
 ### Different board sizes
 
 There are two variables in code the describe board size and changing them should result in something that renders and plays reasonably.
+
+
+### Shoutouts!
+
+Thanks to Jarosław Błasiok (@jaro3000) for helping type up polish words. 

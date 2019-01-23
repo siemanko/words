@@ -3,9 +3,19 @@
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
         <meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
-		<link rel="stylesheet" href="style.css">
+		
+		
+
+
+
+		
+		<!--<link rel="stylesheet" href="style.css">-->
     </head>
     <body>
+	
+	
+<link href="style.css" rel="stylesheet" type="text/css" title="s1" id="s1"/>
+
         <nav class="navbar navbar-default navbar-fixed-top">
             <div class="navbar-header">
                 <span class="navbar-brand"><b>KODE</b>WORDS&nbsp;<small class="hidden-xs hidden-sm">double click them</small></span>
@@ -36,6 +46,12 @@
                       </ul>
                     </li>
                     <li><a href="https://github.com/takartak/kodewords/">Source</a></li>
+					<li><span>Theme:
+						<select id="mySelect">
+  <option value="style.css">Spy Game</option>
+  <option value="horror.css">Horror</option>
+</select></span>
+					</li>
                 </ul>
                 <form class="navbar-form navbar-right" style="margin-right:10px;">
                   <div class="form-group" data-toggle="tooltip" data-placement="bottom" title="Type this on a different device to get the same game">
@@ -268,5 +284,18 @@
           ga('create', 'UA-102294427-1', 'auto');
           ga('send', 'pageview');
         </script>
+		
+		<script>
+function setStyleSource (linkID, sourceLoc) {
+  var theLink = document.getElementById(linkID);
+  theLink.href = sourceLoc;
+  console.log(theLink.href);
+}
+
+document.getElementById("mySelect").addEventListener("change", function(){
+    var selected = this.options[this.selectedIndex].value;
+    setStyleSource ("s1", selected)
+});
+</script>
     </body>
 </html>

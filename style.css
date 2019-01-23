@@ -127,7 +127,7 @@
  }
 
 span.cell-text {
-    border-top: 2px solid;
+    border-top: 2px solid rgba(0,0,0,0.25);
     bottom: 3px;
     position: relative;
     display: block;

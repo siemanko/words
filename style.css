@@ -197,20 +197,31 @@ span.cell-text {
  .cards {
     vertical-align: middle;
     width: 100%;
-    height: 90%;
+    height: 70%;
     border-spacing: 8px;
     border-collapse: separate;
     margin: 0 auto;
-	padding-top: 120px;
+	padding-top: 180px;
 }
 
 .cell {
 	font-size: 24px;
 }
 
-.remaining {
-    font-size: 48px;
-    display: block;
+.remaining, .remaining span {
+	font-size: 60px;
+}
+
+p.navbar-text.navbar-right.remaining.red {
+    position: fixed;
+    bottom: 10px;
+    left: 10px;
+}
+
+p.navbar-text.navbar-right.remaining.blue {
+    position: fixed;
+    bottom: 10px;
+    right: 10px;
 }
 
 

@@ -123,6 +123,7 @@ span.cell-text {
     display: block;
     width: 95%;
     margin: 0 auto;
+	text-transform; uppercase!important;
     /* background: #ffffff66; */
 }
  .cell:hover {

@@ -116,7 +116,7 @@
 }
 
  .cell {
-   border-radius: 0px;
+   border-radius: 3px;
    text-align: center;
    font-weight: bold;
    font-family: stamps;

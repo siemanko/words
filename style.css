@@ -190,6 +190,11 @@ span.cell-text {
  
 @media (max-device-width: 780px) {
 	
+ body {
+   padding-top: 60px;
+   background: url(img/bg-vertical.jpg);
+   background-size: cover;
+ }
 	
 .container {
     width: 90%!important;

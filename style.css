@@ -112,21 +112,18 @@
    background-position: top center!important;
    vertical-align: bottom;
    transition-timing-function: cubic-bezier(1, 0.15, 0.43, 0.93)!important;
-   transition-duration: 0.2s!important;
-   
+   transition-duration: 0.2s!important;   
  }
 
 span.cell-text {
     border-top: 2px solid;
-    /* border-bottom: 2px solid; */
     bottom: 3px;
     position: relative;
     display: block;
     width: 95%;
     margin: 0 auto;
-	text-transform: uppercase!important;
-    /* background: #ffffff66; */
-}
+	text-transform: uppercase;
+ }
  .cell:hover {
     transform: scale(1.2) rotate(-1.3deg);
     box-shadow: 0px 0px 58px;

@@ -4,7 +4,7 @@
  }
 
  body {
-   padding-top: 70px;
+   padding-top: 60px;
    background: url(img/bg02.jpg);
    background-size: cover;
  }
@@ -36,10 +36,17 @@
 
  span.navbar-brand {
    font-family: stamps;
-   font-size: 3em;
+   font-size: 32px;
    color: #ffffff !important;
    text-shadow: 1px 1px 4px rgba(0, 0, 0, 1);
  }
+ 
+  span.navbar-brand b {
+   color: #ffcc00;
+   font-weight: normal;
+ }
+ 
+ 
 
  small {
    font-size: 24px;
@@ -69,14 +76,14 @@
  }
 
  .remaining {
-   font-size: 24px;
+   font-size: 18px;
    font-family: stamps;
    margin: 0px 25px 0px 0px !important;
    text-shadow: 1px 1px 6px rgba(0, 0, 0, 1);
  }
 
  .remaining span {
-   font-size: 38px;
+   font-size: 32px;
    color: #ffffff;
  }
 
@@ -87,6 +94,10 @@
  .blue {
    color: #2d85bf !important;
  }
+ 
+ input#seed {
+    max-width: 150px;
+}
 
  .cards {
     vertical-align: middle;

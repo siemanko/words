@@ -247,6 +247,13 @@ ul.nav.navbar-nav>li a{
 	font-size: 60px;
 }
 
+input#seed {
+    position: fixed;
+    bottom: 30px;
+    left: 50%;
+    margin-left: -75px;
+}
+
 p.navbar-text.navbar-right.remaining.red {
     position: fixed;
     bottom: 10px;

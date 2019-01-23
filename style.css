@@ -69,10 +69,10 @@
  }
 
  .remaining {
-   font-size: 26px;
+   font-size: 24px;
    font-family: stamps;
    margin: 0px 25px 0px 0px !important;
-   text-shadow: 1px 1px 4px rgba(0, 0, 0, 1);
+   text-shadow: 1px 1px 6px rgba(0, 0, 0, 1);
  }
 
  .remaining span {

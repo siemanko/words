@@ -113,7 +113,7 @@
    vertical-align: bottom;
    transition-timing-function: cubic-bezier(1, 0.15, 0.43, 0.93)!important;
    transition-duration: 0.2s!important;
-   text-transform; uppercase!important;
+   
  }
 
 span.cell-text {
@@ -124,7 +124,7 @@ span.cell-text {
     display: block;
     width: 95%;
     margin: 0 auto;
-	text-transform; uppercase!important;
+	text-transform: uppercase!important;
     /* background: #ffffff66; */
 }
  .cell:hover {

@@ -1,11 +1,6 @@
- @font-face {
-   font-family: stamps;
-   src: url(font/stamps.ttf);
- }
-
  body {
    padding-top: 60px;
-   background: url(img/bg02.jpg);
+   background: #53ada9;
    background-size: cover;
  }
 
@@ -35,10 +30,10 @@
  }
 
  span.navbar-brand {
-   font-family: stamps;
+   font-family: courier;
    font-size: 32px;
    color: #ffffff !important;
-   text-shadow: 1px 1px 4px rgba(0, 0, 0, 1);
+   
  }
  
   span.navbar-brand b {
@@ -56,9 +51,9 @@
  ul.nav.navbar-nav li a,
  ul.nav.navbar-nav li span {
    color: #ffffff;
-   text-shadow: 0px 0px 2px rgba(0, 0, 0, 0.5);
-   font-size: 12px !important;
-   font-family: Verdana !important;
+  
+   font-size: 14px !important;
+   font-family: courier !important;
  }
 
  ul.dropdown-menu li a:hover {
@@ -84,9 +79,9 @@
  
  .remaining {
    font-size: 18px;
-   font-family: stamps;
+   font-family: courier;
    margin: 0px 25px 0px 0px !important;
-   text-shadow: 1px 1px 6px rgba(0, 0, 0, 1);
+   
  }
 
  .remaining span {
@@ -116,26 +111,23 @@
 }
 
  .cell {
-   border-radius: 6px;
+   border-radius: 1px;
    text-align: center;
    font-weight: bold;
-   font-family: stamps;
+   font-family: courier;
    font-size: 1.2vw;
    display: table-cell;
-   max-width: 0px;
-   max-height: 0px;
-   background: url(img/yellow.jpg);
-   box-shadow: 0px 0px 9px rgba(0, 0, 0, 1);
+   width: 20%;
+   height: 20%;
+   background: #ffcc00;
    background-size: cover !important;
    background-position: top center!important;
-   vertical-align: bottom;
+   vertical-align: middle;
    transition-timing-function: cubic-bezier(1, 0.15, 0.43, 0.93)!important;
-   transition-duration: 0.2s!important;   
+   transition-duration: 0.1s!important;   
  }
 
 span.cell-text {
-    border-top: 2px solid rgba(0,0,0,0.25); 
-    bottom: 3px;
     position: relative;
     display: block;
     width: 95%;
@@ -143,8 +135,8 @@ span.cell-text {
 	text-transform: uppercase;
  }
  .cell:hover {
-    transform: scale(1.2) rotate(-1.3deg);
-    box-shadow: 0px 0px 58px;
+    transform: scale(1.2) rotate(-2.3deg);
+    box-shadow: 0px 0px 0px 10px rgba(0,0,0,0.1);
 	z-index: 99999!important;
 	position: relative;
 }
@@ -167,28 +159,28 @@ span.cell-text {
  }
 
  .cell-red {
-   background: url(img/red.jpg);
+   background: #d60000;
  }
 
  .cell-blue {
-   background: url(img/blue.jpg);
+   background: #336699;
  }
 
  .cell-neutral {
-   background: url(img/white.jpg);
+   background: #f0f0f0;
  }
 
  .cell-end {
-   background: url(img/death.jpg);
-   color: #eeeeee;
+   background: #1a1a1a;
+   color: #ffffff;
  }
 
  .red-stats {
-   color: red;
+   color: #d60000;
  }
 
  .blue-stats {
-   color: blue;
+   color: #336699;
  }
 
  .cell-strike {
@@ -199,7 +191,6 @@ span.cell-text {
 	
  body {
    padding-top: 60px;
-   background: url(img/bg-vertical.jpg);
    background-size: cover;
  }
 	

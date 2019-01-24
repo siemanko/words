@@ -122,8 +122,8 @@
    font-family: stamps;
    font-size: 1.2vw;
    display: table-cell;
-   max-width: 0px;
-   max-height: 0px;
+   width: 20%;
+   height: 20%;
    background: url(../img/yellow-horror.jpg);
    box-shadow: 0px 0px 9px rgba(0, 0, 0, 1);
    background-size: cover !important;

@@ -1,11 +1,11 @@
  @font-face {
    font-family: stamps;
-   src: url(font/stamps.ttf);
+   src: url(../font/stamps.ttf);
  }
 
  body {
    padding-top: 60px;
-   background: url(img/bg02.jpg);
+   background: url(../img/bg02.jpg);
    background-size: cover;
  }
 
@@ -124,7 +124,7 @@
    display: table-cell;
    max-width: 0px;
    max-height: 0px;
-   background: url(img/yellow.jpg);
+   background: url(../img/yellow.jpg);
    box-shadow: 0px 0px 9px rgba(0, 0, 0, 1);
    background-size: cover !important;
    background-position: top center!important;
@@ -167,19 +167,19 @@ span.cell-text {
  }
 
  .cell-red {
-   background: url(img/red.jpg);
+   background: url(../img/red.jpg);
  }
 
  .cell-blue {
-   background: url(img/blue.jpg);
+   background: url(../img/blue.jpg);
  }
 
  .cell-neutral {
-   background: url(img/white.jpg);
+   background: url(../img/white.jpg);
  }
 
  .cell-end {
-   background: url(img/death.jpg);
+   background: url(../img/death.jpg);
    color: #eeeeee;
  }
 
@@ -199,7 +199,7 @@ span.cell-text {
 	
  body {
    padding-top: 60px;
-   background: url(img/bg-vertical.jpg);
+   background: url(../img/bg-vertical.jpg);
    background-size: cover;
  }
 	

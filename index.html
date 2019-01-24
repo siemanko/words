@@ -22,14 +22,8 @@
             </div>
             <div class="collapse navbar-collapse" id="menu">
                 <ul class="nav navbar-nav">
-                    <li><a href="https://en.wikipedia.org/wiki/Codenames_(board_game)" target="_blank">Rules</a></li>
-                    <li id="spymaster-li"
-                        data-toggle="tooltip"
-                        data-placement="bottom"
-                        title="Display the colors of all tiles.">
-                        <a href="#" id="spymaster">Toggle Spymaster</a>
-                    </li>
-                    <li class="dropdown">
+				
+				<li class="dropdown">
                       <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">New Game<span class="caret"></span></a>
                       <ul class="dropdown-menu">
                         <li><a href="#" class="reset-button" data-language="en">English</a></li>
@@ -41,14 +35,26 @@
 						<li><a href="#" class="reset-button" data-language="ppl">People</a></li>
                       </ul>
                     </li>
-                    <li><a href="https://github.com/takartak/kodewords/">Source</a></li>
+					
+                  
+                    <li id="spymaster-li"
+                        data-toggle="tooltip"
+                        data-placement="bottom"
+                        title="Display the colors of all tiles.">
+                        <a href="#" id="spymaster">Spymaster View</a>
+                    </li>
+                    
+                    
 					<li><span>Skin:
 						<select id="mySelect">
   <option value="css/style.css">Spy Game</option>
   <option value="css/horror.css">Horror</option>
 </select></span>
 					</li>
+					  <li><a href="https://en.wikipedia.org/wiki/Codenames_(board_game)" target="_blank">Rules</a></li>
+					<li><a href="https://github.com/takartak/kodewords/">Source</a></li>
                 </ul>
+				
                 <form class="navbar-form navbar-right" style="margin-right:10px;">
                   <div class="form-group" data-toggle="tooltip" data-placement="bottom" title="Type this on a different device to get the same game">
                     <input type="text" class="form-control" id="seed" placeholder="seed">

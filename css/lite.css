@@ -118,7 +118,7 @@
    font-size: 17px;
    display: table-cell;
    width: 20%;
-   height: 20%;
+   max-height: calc(97%/4)!important;
    background: #ffcc00;
    background-size: cover !important;
    background-position: top center!important;

@@ -152,8 +152,14 @@ span.cell-text {
  
 
  .cell-inrevealed {
-	 
+	 vertical-align: middle;
  }
+ 
+    .cell-inrevealed span.cell-text::before {
+    content: "?";
+    display: block;
+    font-size: 2em;
+}
 
  .cell-inrevealed:hover {
    cursor: pointer;

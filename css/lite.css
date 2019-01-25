@@ -1,6 +1,6 @@
  body {
    padding-top: 60px;
-   background: #53ada9;
+   background: #3a3a3a;
    background-size: cover;
  }
 
@@ -146,11 +146,7 @@ span.cell-text {
 	 
  }
  
- .cell-inrevealed span.cell-text::before {
-    content: "?";
-    display: block;
-    font-size: 2em;
-}
+
 
  .cell-inrevealed:hover {
    cursor: pointer;

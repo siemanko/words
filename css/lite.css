@@ -30,7 +30,7 @@
  }
 
  span.navbar-brand {
-   font-family: courier;
+   font-family: verdana;
    font-size: 32px;
    color: #ffffff !important;
    
@@ -53,7 +53,7 @@
    color: #ffffff;
   
    font-size: 14px !important;
-   font-family: courier !important;
+   font-family: verdana !important;
  }
 
  ul.dropdown-menu li a:hover {
@@ -79,7 +79,7 @@
  
  .remaining {
    font-size: 18px;
-   font-family: courier;
+   font-family: verdana;
    margin: 0px 25px 0px 0px !important;
    
  }
@@ -111,10 +111,10 @@
 }
 
  .cell {
-   border-radius: 1px;
+   border-radius: 3px;
    text-align: center;
    font-weight: bold;
-   font-family: courier;
+   font-family: verdana;
    font-size: 1.2vw;
    display: table-cell;
    width: 20%;
@@ -145,6 +145,12 @@ span.cell-text {
  .cell-inrevealed {
 	 
  }
+ 
+ .cell-inrevealed span.cell-text::before {
+    content: "?";
+    display: block;
+    font-size: 2em;
+}
 
  .cell-inrevealed:hover {
    cursor: pointer;
@@ -155,25 +161,49 @@ span.cell-text {
  }
  
  .cell-revealed span.cell-text {
-   opacity: 0.4;
+   opacity: 0.7;
  }
 
  .cell-red {
    background: #d60000;
  }
+ 
+  .cell-revealed.cell-red span.cell-text::before {
+    content: ":)";
+    display: block;
+    font-size: 2em;
+}
 
  .cell-blue {
    background: #336699;
  }
+ 
+   .cell-revealed.cell-blue span.cell-text::before {
+    content: ";)";
+    display: block;
+    font-size: 2em;
+}
 
  .cell-neutral {
    background: #f0f0f0;
  }
+ 
+   .cell-revealed.cell-neutral span.cell-text::before {
+    content: ":|";
+    display: block;
+    font-size: 2em;
+}
 
  .cell-end {
    background: #1a1a1a;
    color: #ffffff;
  }
+ 
+   .cell-revealed.cell-end span.cell-text::before {
+    content: ":(";
+    display: block;
+    font-size: 2em;
+}
 
  .red-stats {
    color: #d60000;

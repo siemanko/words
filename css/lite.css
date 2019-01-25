@@ -1,8 +1,9 @@
- body {
-   padding-top: 60px;
-   background: #3a3a3a;
-   background-size: cover;
- }
+
+body {
+    padding-top: 60px;
+    background: repeating-linear-gradient( 45deg, #8354b3, #8354b3 40px, #9060bc 40px, #9060bc 80px );
+    background-size: cover;
+}
 
  body *,
  td,
@@ -118,7 +119,7 @@
    font-size: 17px;
    display: table-cell;
    width: 20%;
-   max-height: calc(97%/4)!important;
+   height: 18%!important;
    background: #ffcc00;
    background-size: cover !important;
    background-position: top center!important;
@@ -157,7 +158,8 @@ span.cell-text {
  }
  
  .cell-revealed span.cell-text {
-   opacity: 0.7;
+   opacity: 0.5;
+   color: #ffffff;
  }
 
  .cell-red {

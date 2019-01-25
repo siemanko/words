@@ -123,7 +123,7 @@
    font-size: 1.2vw;
    display: table-cell;
    width: 20%;
-   max-height: calc(97%/4)!important;
+   height: 18%!important;
    background: url(../img/yellow.jpg);
    box-shadow: 0px 0px 9px rgba(0, 0, 0, 1);
    background-size: cover !important;

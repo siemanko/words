@@ -186,6 +186,12 @@ span.cell-text {
    background: #f0f0f0;
  }
  
+  .cell-revealed.cell-neutral span.cell-text {
+   color: #777777;
+ }
+ 
+ 
+ 
    .cell-revealed.cell-neutral span.cell-text::before {
     content: ":|";
     display: block;

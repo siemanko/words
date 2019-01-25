@@ -114,9 +114,8 @@ body {
  .cell {
    border-radius: 3px;
    text-align: center;
-   font-weight: bold;
    font-family: verdana;
-   font-size: 17px;
+   font-size: 1.2vw;
    display: table-cell;
    width: 20%;
    height: 18%!important;

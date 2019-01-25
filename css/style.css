@@ -1,6 +1,6 @@
  @font-face {
-   font-family: stamps;
-   src: url(../font/stamps.ttf);
+   font-family: social;
+   src: url(../font/social.ttf);
  }
 
  body {
@@ -35,7 +35,7 @@
  }
 
  span.navbar-brand {
-   font-family: stamps;
+   font-family: social;
    font-size: 32px;
    color: #ffffff !important;
    text-shadow: 1px 1px 4px rgba(0, 0, 0, 1);
@@ -84,7 +84,7 @@
  
  .remaining {
    font-size: 18px;
-   font-family: stamps;
+   font-family: social;
    margin: 0px 25px 0px 0px !important;
    text-shadow: 1px 1px 6px rgba(0, 0, 0, 1);
  }
@@ -118,9 +118,8 @@
  .cell {
    border-radius: 6px;
    text-align: center;
-   font-weight: bold;
-   font-family: stamps;
-   font-size: 1.2vw;
+   font-family: social;
+   font-size: 1.5vw;
    display: table-cell;
    width: 20%;
    height: 18%!important;
@@ -141,6 +140,7 @@ span.cell-text {
     width: 95%;
     margin: 0 auto;
 	text-transform: uppercase;
+	padding-top: 7px;
  }
  .cell:hover {
     transform: scale(1.2) rotate(-1.3deg);

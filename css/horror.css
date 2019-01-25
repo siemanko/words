@@ -118,9 +118,8 @@
  .cell {
    border-radius: 3px;
    text-align: center;
-   font-weight: bold;
    font-family: stamps;
-   font-size: 1.2vw;
+   font-size: 1.4vw;
    display: table-cell;
    width: 20%;
    height: 18%!important;

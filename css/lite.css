@@ -128,7 +128,9 @@ body {
    background-position: top center!important;
    vertical-align: middle;
    transition-timing-function: cubic-bezier(1, 0.15, 0.43, 0.93)!important;
-   transition-duration: 0.1s!important;   
+   transition-duration: 0.1s!important; 
+   box-shadow: 3px 3px 0px rgba(0,0,0,0.3);
+   
  }
 
 span.cell-text {
@@ -140,9 +142,10 @@ span.cell-text {
  }
  .cell:hover {
     transform: scale(1.2) rotate(-2.3deg);
-    box-shadow: 0px 0px 0px 10px rgba(0,0,0,0.1);
+    box-shadow: 8px 8px 0px rgba(0,0,0,0.1);
 	z-index: 99999!important;
 	position: relative;
+	background: #ffe062;
 }
  
 

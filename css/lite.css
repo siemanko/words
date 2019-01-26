@@ -29,6 +29,10 @@ body {
    background: rgba(0, 0, 0, 0);
    box-shadow: none;
  }
+ 
+ nav.navbar a, nav.navbar div, nav.navbar span {
+    text-shadow: 2px 2px 0px rgba(0,0,0,0.5)!important;
+}
 
  span.navbar-brand {
    font-family: verdana;

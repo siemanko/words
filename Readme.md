@@ -1,17 +1,26 @@
-# Words
+# KodeWords
 
-This is Browser version of the boardgame [codenames](https://en.wikipedia.org/wiki/Codenames_(board_game)).
+This is a browser version for the board of the game "Codenames" https://en.wikipedia.org/wiki/Codenames_(board_game)).
 
-Hosted at: https://takartak.github.io/kodewords
+My version is hosted at: https://takartak.github.io/kodewords
 
-# For Contributors
+Many thanks to Szymon Sidor for developing this https://github.com/siemanko/words which is basically the core for my version.
 
-This is a developer-friendly version that only has ~300 lines of html. 
+# Game Skins
 
-# Adding new languages
+Initially I just wanted to make some front-end tweaks and add graphics and fonts to make the game pretty.
+Then I decided to add some scripting for swaping css files so now there is support for game skins.
 
-Google sheets make the job really easy. I will gladly accept pull request, but please go through the translation manually and make sure they are good before submitting. 
+# Adding new languages / word lists
 
+Translations: Google sheets make the job really easy. I will gladly accept pull request, but please go through the translation manually and make sure they are good before submitting. 
 https://docs.google.com/spreadsheets/d/1M167she5EVt5t7-5rv0UFnWlSfsAmBIwNeZ7zFkvS9w
+
+New word lists: You can find many word list generators out there. Use them and make new lists, random or themed and have fun!
+
+
+
+
+
 
 

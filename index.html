@@ -1,325 +1,330 @@
-<html>
-    <head>
-        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
-        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
-        <meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
-        <style>
-            body {
-                padding-top: 70px;
-            }
-            .cards {
-                vertical-align: middle;
-                width: 100%;
-                height: 95%;
-                border-spacing: 10px;
-                border-collapse: separate;
-            }
+﻿<html>
 
-            .cell {
-                border-radius: 10px;
-                text-align: center;
-                font-weight: bold;
-                font-size: 1.4vw;
-                display: table-cell;
-                max-width: 0px;
-                max-height: 0px;
-            }
-            .cell-inrevealed {
-                border: 2px dotted black;
-            }
-            .cell-inrevealed:hover {
-                border: 2px solid black;
-                cursor: pointer;
-            }
-            .cell-revealed {
-                border: 2px solid black;
-                cursor: auto;
-            }
-            .cell-red {
-                background: #FFCCCC;
-            }
-            .cell-blue {
-                background: #99CCFF;
-            }
-            .cell-neutral {
-                background: #eeeeee;
-            }
-            .cell-end {
-                background: black;
-                color: white;
-            }
-            .red-stats {
-                color: red;
-            }
-            .blue-stats {
-                color: blue;
-            }
-            .cell-strike {
-                opacity: 0.2;
-            }
-        </style>
-    </head>
-    <body>
-        <nav class="navbar navbar-default navbar-fixed-top">
-            <div class="navbar-header">
-                <span class="navbar-brand">Words&nbsp;<small class="hidden-xs hidden-sm">double click them</small></span>
-                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#menu" aria-expanded="false">
+  <head>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
+    <meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
+  </head>
+
+  <body>
+
+
+    <link href="css/lite.css" rel="stylesheet" type="text/css" title="s1" id="s1" />
+
+    <nav class="navbar navbar-default navbar-fixed-top">
+      <div class="navbar-header">
+        <a href="https://takartak.github.io/kodewords/"><span class="navbar-brand"><b>KODE</b>WORDS&nbsp;<small class="hidden-xs hidden-sm">double click them</small></span></a>
+        <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#menu" aria-expanded="false">
                     <span class="sr-only">Toggle navigation</span>
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-            </div>
-            <div class="collapse navbar-collapse" id="menu">
-                <ul class="nav navbar-nav">
-                    <li><a href="https://en.wikipedia.org/wiki/Codenames_(board_game)">Rules</a></li>
-                    <li id="spymaster-li"
-                        data-toggle="tooltip"
-                        data-placement="bottom"
-                        title="Display the colors of all tiles.">
-                        <a href="#" id="spymaster">Toggle Spymaster</a>
-                    </li>
-                    <li class="dropdown">
-                      <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Reset Game<span class="caret"></span></a>
-                      <ul class="dropdown-menu">
-                        <li><a href="#" class="reset-button" data-language="en">English</a></li>
-                        <li role="separator" class="divider"></li>
-                        <li><a href="#" class="reset-button" data-language="pl">Polish</a></li>
-                      </ul>
-                    </li>
-                    <li><a href="https://github.com/siemanko/words/"><tt>Source</tt></a></li>
-                </ul>
-                <form class="navbar-form navbar-right" style="margin-right:10px;">
-                  <div class="form-group" data-toggle="tooltip" data-placement="bottom" title="Type this on a different device to get the same game">
-                    <input type="text" class="form-control" id="seed" placeholder="seed">
-                  </div>
-                </form>
-                    <p class="navbar-text navbar-right"
-                       style="color:red"
-                       data-toggle="tooltip"
-                       data-placement="bottom"
-                       title="Number of red tiles that weren't discovered yet.">
-                       Red left: <span id="red-left"></span>
-                    </p>
-                    <p class="navbar-text navbar-right"
-                       style="color:blue"
-                       data-toggle="tooltip"
-                       data-placement="bottom"
-                       title="Number of blue tiles that weren't discovered yet.">
-                       Blue left: <span id="blue-left"></span>
-                    </p>
-            </div>
-        </nav>
+      </div>
+      <div class="collapse navbar-collapse" id="menu">
+        <ul class="nav navbar-nav">
 
-        <div class="container">
-            <div id="game">
-            </div>
-        </div>
-        <!-- Latest compiled and minified JavaScript -->
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
-        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/seedrandom/2.4.3/seedrandom.min.js" integrity="sha256-64f1BOntWrbWIG++Jw3Ad4BSjTz8FG2DLeZ0kD3lLcc=" crossorigin="anonymous"></script>
-        <script>
-            var game = {};
-            game.num_rows = 5;
-            game.num_cols = 5;
-            game.words = [];
-            game.revealed = [];
-            game.allrevealed = false;
-            game.type  = []
-            game.error = null;
+          <li class="dropdown">
+            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">New Game<span class="caret"></span></a>
+            <ul class="dropdown-menu">
+              <li><a href="#" class="reset-button" data-language="en">English</a></li>
+              <li role="separator" class="divider"></li>
+              <li><a href="#" class="reset-button" data-language="pl">Polish</a></li>
+              <li role="separator" class="divider"></li>
+              <li><a href="#" class="reset-button" data-language="el">Greek</a></li>
+              <li role="separator" class="divider"></li>
+              <li><a href="#" class="reset-button" data-language="ppl">You know them!</a></li>
+            </ul>
+          </li>
 
-            var random_comparer = function(a, b) {
-                return 2 * Math.random() - 1;
+
+          <li id="spymaster-li" data-toggle="tooltip" data-placement="bottom" title="Display the colors of all tiles.">
+            <a href="#" id="spymaster">Spymaster View</a>
+          </li>
+
+
+          <li><span>Skin:
+						<select id="mySelect">
+<option value="css/lite.css">Lite</option>
+<option value="css/style.css">Spy Game</option>
+<option value="css/horror.css">Horror</option>
+<option value="css/summer.css">Summer</option>
+
+</select></span>
+          </li>
+          <li><a href="https://en.wikipedia.org/wiki/Codenames_(board_game)" target="_blank">Rules</a></li>
+          <li><a href="https://github.com/takartak/kodewords/">Source</a></li>
+        </ul>
+
+        <form class="navbar-form navbar-right" style="margin-right:10px;">
+          <div class="form-group" data-toggle="tooltip" data-placement="bottom" title="Type this on a different device to get the same game">
+            <input type="text" class="form-control" id="seed" placeholder="seed">
+          </div>
+        </form>
+        <p class="navbar-text navbar-right remaining red" data-toggle="tooltip" data-placement="bottom" title="Number of red tiles that weren't discovered yet.">
+          RED: <span id="red-left"></span>
+        </p>
+        <p class="navbar-text navbar-right remaining blue" data-toggle="tooltip" data-placement="bottom" title="Number of blue tiles that weren't discovered yet.">
+          BLUE: <span id="blue-left"></span>
+        </p>
+      </div>
+    </nav>
+
+    <div class="container">
+      <div id="game">
+      </div>
+    </div>
+    <!-- Latest compiled and minified JavaScript -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/seedrandom/2.4.3/seedrandom.min.js" integrity="sha256-64f1BOntWrbWIG++Jw3Ad4BSjTz8FG2DLeZ0kD3lLcc=" crossorigin="anonymous"></script>
+    <script>
+      var game = {};
+      game.num_rows = 5;
+      game.num_cols = 5;
+      game.words = [];
+      game.revealed = [];
+      game.allrevealed = false;
+      game.type = []
+      game.error = null;
+
+      var random_comparer = function(a, b) {
+        return 2 * Math.random() - 1;
+      }
+      var polish_words = ["afryka", "amazonka", "ambasada", "ambulans", "ameryka", "anglia", "anioΕ‚", "antarktyka", "atlantyda", "australia", "awaria", "aztek", "babka", "bal", "bank", "bar", "basen", "baweΕ‚na", "baΕ‚wan", "beczka", "belka", "berlin", "bermudy", "bicz", "blok", "bomba", "budowa", "but", "butelka", "bΔ…k", "cebula", "centaur", "centrum", "chiny", "chochlik", "choroba", "ciaΕ‚o", "cieΕ„", "czapa", "czar", "czas", "czekolada", "czujka", "dania", "diament", "dinozaur", "dno", "doktor", "donice", "drzewo", "duch", "dusza", "dwΓ³r", "dywan", "dzieΕ„", "dziobak", "dziura", "dziΔ™cioΕ‚", "dzwon", "egipt", "ekran", "europa", "fala", "fartuch", "feniks", "figura", "film", "flet", "foka", "francja", "francuz", "funt", "gaz", "geniusz", "gigant", "gnat", "gniazdko", "golf", "gotyk", "goΕ‚Δ…b", "gra", "grabarz", "gracja", "grecja", "groszek", "grzmot", "grzyb", "guma", "guzik", "gwiazda", "gΓ³ra", "gΕ‚adki", "gΕ‚owa", "hak", "helikopter", "himalaje", "holender", "hollywood", "hotel", "humor", "igΕ‚a", "jabΕ‚ko", "jagoda", "jaja", "jatka", "jednoroΕΌec", "jowisz", "jΔ™zyk", "kaczor", "kalosz", "kamieΕ„", "kangur", "kaptur", "karawan", "kasa", "kasyno", "kciuk", "keczup", "kiwi", "klamka", "klatka", "klawisz", "klucz", "kod", "kolec", "komΓ³rka", "konar", "koncert", "kontakt", "kontrakt", "korona", "korzenie", "kostium", "kot", "kozioΕ‚", "koΕ‚o", "koΕ„", "koΕ›ciΓ³Ε‚", "koΕ›Δ‡", "krakΓ³w", "krasnal", "krata", "kret", "kropka", "krzesΕ‚o", "krzyΕΌ", "krΓ³l", "krΓ³lik", "krΓ³lowa", "krΓ³wka", "krΔ™gi", "ksiΔ™ΕΌniczka", "ksiΔ™ΕΌyc", "kucharz", "kwadrat", "lakier", "las", "laser", "laska", "lew", "limuzyna", "lina", "lina", "lis", "loch ness", "lody", "londyn", "lot", "lud", "maj", "maks", "mamut", "marchew", "masa", "materiaΕ‚", "meksyk", "merkury", "miedΕΊ", "mikroskop", "milioner", "mistrz", "miΓ³d", "model", "moskwa", "most", "mucha", "mur", "muszla", "mysz", "napad", "nauczyciel", "naukowiec", "nektar", "niebo", "niedΕΊwiedΕΊ", "niemcy", "ninja", "niΔ‡", "noc", "noga", "nora", "nos", "nowy jork", "nurek", "nΓ³ΕΌ", "obcy", "obsada", "ogier", "ogieΕ„", "ogon", "oko", "olej", "olimp", "oliwa", "opera", "opoka", "organy", "orzech", "orzeΕ‚", "oΕ›miornica", "pajΔ…k", "paleta", "paluszki", "pan", "papier", "pas", "pasta", "pazur", "pekin", "perΕ‚a", "pielΔ™gniarka", "pierΕ›cieΕ„", "pies", "pilot", "pingwin", "piramida", "pirat", "pistolet", "placek", "plastik", "plaΕΌa", "plik", "pochodnia", "pociecha", "pociΔ…g", "poczta", "podkowa", "podkΕ‚ad", "pojazd", "pokrywka", "pole", "policja", "polska", "port", "powietrze", "poΕ‚Δ…czenie", "praca", "prawnik", "prawo", "promieΕ„", "przewodnik", "pudΕ‚o", "punkt", "pupil", "pustka", "pΓ³Ε‚noc", "pΕ‚ot", "pΕ‚yta", "rak", "rakieta", "rama", "rekin", "rewolucja", "robak", "robot", "ruda", "rura", "ryba", "rycerz", "rzut", "rzym", "rzΔ…d", "rzΔ™sa", "rΓ³g", "rΓ³ΕΌa", "rΔ™ka", "rΔ™kawica", "samochΓ³d", "samolot", "satelita", "saturn", "serce", "siano", "siekacz", "sieΔ‡", "silnik", "siΕ‚a", "skorpion", "skorupa", "smok", "soczewka", "sokΓ³Ε‚", "spadek", "spadochron", "splot", "stadion", "stan", "statek", "stopa", "stopieΕ„", "stoΕ‚ek", "strona", "strumieΕ„", "strzaΕ‚", "stΓ³Ε‚", "sukienka", "superbohater", "szafa", "szczyt", "szczΔ™Ε›cie", "szekspir", "szkocja", "szkoΕ‚a", "szkΕ‚o", "szmugiel", "sznur", "szpieg", "szpilka", "szpital", "sztuka", "sΕ‚up", "tablica", "talerz", "talia", "taniec", "tchΓ³rz", "teatr", "teleskop", "toaleta", "tokio", "torebka", "trawa", "trucizna", "truteΕ„", "trΓ³jkΔ…t", "trΔ…ba", "tuba", "tusz", "tusza", "ucho", "usta", "wachlarz", "waga", "waszyngton", "wiatr", "widelec", "wiedΕΊma", "wieloryb", "wieΕΌa", "wieΕΌowiec", "wiosna", "wkΕ‚ad", "woda", "wojna", "wstΔ™p", "wybuch", "wydech", "wΔ…ΕΌ", "zamek", "zebra", "zespΓ³Ε‚", "zieleΕ„", "ziemia", "zmiana", "zmywacz", "znak", "zwoje", "zΔ…b", "zΕ‚odziej", "zΕ‚oto", "Ε‚awa", "Ε‚oΕΌysko", "Ε‚uk", "Ε‚Γ³dΕΊ", "Ε›limak", "Ε›mierΔ‡", "Ε›nieg", "Ε›wierszcz", "Ε›winia", "ΕΌabka", "ΕΌebro", "ΕΌelazo", "ΕΌoΕ‚nierz", "ΕΌubr", "ΕΌuk", "ΕΌuraw", "ΕΌycie"];
+      var english_words = ["africa", "agent", "air", "alien", "alps", "amazon", "ambulance", "america", "angel", "antarctica", "apple", "arm", "atlantis", "australia", "aztec", "back", "ball", "band", "bank", "bar", "bark", "bat", "battery", "beach", "bear", "beat", "bed", "beijing", "bell", "belt", "berlin", "bermuda", "berry", "bill", "block", "board", "bolt", "bomb", "bond", "boom", "boot", "bottle", "bow", "box", "bridge", "brush", "buck", "buffalo", "bug", "bugle", "button", "calf", "canada", "cap", "capital", "car", "card", "carrot", "casino", "cast", "cat", "cell", "centaur", "center", "chair", "change", "charge", "check", "chest", "chick", "china", "chocolate", "church", "circle", "cliff", "cloak", "club", "code", "cold", "comic", "compound", "concert", "conductor", "contract", "cook", "copper", "cotton", "court", "cover", "crane", "crash", "cricket", "cross", "crown", "cycle", "czech", "dance", "date", "day", "death", "deck", "degree", "diamond", "dice", "dinosaur", "disease", "doctor", "dog", "draft", "dragon", "dress", "drill", "drop", "duck", "dwarf", "eagle", "egypt", "embassy", "engine", "england", "europe", "eye", "face", "fair", "fall", "fan", "fence", "field", "fighter", "figure", "file", "film", "fire", "fish", "flute", "fly", "foot", "force", "forest", "fork", "france", "game", "gas", "genious", "germany", "ghost", "giant", "glass", "glove", "gold", "grace", "grass", "greece", "green", "ground", "ham", "hand", "hawk", "head", "heart", "helicopter", "himalayas", "hole", "hollywood", "honey", "hood", "hook", "horn", "horse", "horseshoe", "hospital", "hotel", "ice", "ice cream", "india", "iron", "ivory", "jack", "jam", "jet", "jupiter", "kangaroo", "ketchup", "key", "kid", "king", "kiwi", "knife", "knight", "lab", "lap", "laser", "lawyer", "lead", "lemon", "leprechaun", "life", "light", "limousine", "line", "link", "lion", "litter", "loch ness", "lock", "log", "london", "luck", "mail", "mammoth", "maple", "marble", "march", "mass", "match", "mercury", "mexico", "microscope", "millionarie", "mine", "mint", "missile", "model", "mole", "moon", "moscow", "mount", "mouse", "mouth", "mug", "nail", "needle", "net", "new york", "night", "ninja", "note", "novel", "nurse", "nut", "octopus", "oil", "olive", "olympus", "opera", "orange", "organ", "palm", "pan", "pants", "paper", "parachute", "park", "part", "pass", "paste", "penguin", "pheonix", "piano", "pie", "pilot", "pin", "pipe", "pirate", "pistol", "pit", "pitch", "plane", "plastic", "plate", "platypus", "play", "plot", "point", "poison", "pole", "police", "pool", "port", "post", "pound", "press", "princess", "pumpkin", "pupil", "pyramid", "queen", "rabbit", "racket", "ray", "revolution", "ring", "robin", "robot", "rock", "rome", "root", "rose", "roulette", "round", "row", "ruler", "satellite", "saturn", "scale", "school", "scientist", "scorpion", "screen", "scuba diver", "seal", "server", "shadow", "shakespeare", "shark", "ship", "shoe", "shop", "shot", "sink", "skyscraper", "slip", "slug", "smuggler", "snow", "snowman", "sock", "soldier", "soul", "sound", "space", "spell", "spider", "spike", "spine", "spot", "spring", "spy", "square", "stadium", "staff", "star", "state", "stick", "stock", "straw", "stream", "strike", "string", "sub", "suit", "superhero", "swing", "switch", "table", "tablet", "tag", "tail", "tap", "teacher", "telescope", "temple", "theater", "thief", "thumb", "tick", "tie", "time", "tokyo", "tooth", "torch", "tower", "track", "train", "triangle", "trip", "trunk", "tube", "turkey", "undertaker", "unicorn", "vacuum", "van", "vet", "wake", "wall", "war", "washer", "washington", "watch", "water", "wave", "web", "well", "whale", "whip", "wind", "witch", "worm", "yard"];
+	  
+      var greek_words = ["ΧΟΛΥΓΟΥΝΤ", "ΟΘΟΝΗ", "ΠΑΙΖΩ", "ΜΑΡΜΑΡΟ", "ΔΕΙΝΟΣΑΥΡΟΣ", "ΓΑΤΑ", "ΠΙΣΣΑ", "ΔΕΣΜΟΣ", "ΕΛΛΑΔΑ", "ΚΑΤΑΣΤΡΩΜΑ", "ΑΚΙΔΑ", "ΚΕΝΤΡΟ", "ΚΕΝΟ", "ΜΟΝΟΚΕΡΟΣ", "ΝΕΚΡΟΘΑΦΤΗΣ", "ΚΑΛΤΣΑ", "ΛΟΧ ΝΕΣ", "ΑΛΟΓΟ", "ΒΕΡΟΛΙΝΟ", "ΠΛΑΤΥΠΟΥΣ", "ΛΙΜΑΝΙ", "ΣΤΗΘΟΣ", "ΚΟΥΤΙ", "ΧΗΜΙΚΗ ΕΝΩΣΗ", "ΠΛΟΙΟ", "ΡΟΛΟΙ", "ΧΩΡΟΣ", "ΦΛΑΟΥΤΟ", "ΠΥΡΓΟΣ", "ΘΑΝΑΤΟΣ", "ΚΑΛΑ", "ΕΚΘΕΣΗ", "ΔΟΝΤΙ", "ΠΡΟΣΩΠΙΚΟ", "ΝΟΜΟΣΧΕΔΙΟ", "ΒΟΛΗ", "ΒΑΣΙΛΙΑΣ", "ΤΗΓΑΝΙ", "ΤΕΤΡΑΓΩΝΟ", "ΒΟΥΒΑΛΙ", "ΕΠΙΣΤΗΜΟΝΑΣ", "ΝΕΟΣΣΟΣ", "ΑΤΛΑΝΤΙΔΑ", "ΚΑΤΑΣΚΟΠΟΣ", "ΤΑΧΥΔΡΟΜΕΙΟ", "ΚΑΡΠΟΣ", "ΚΟΥΤΣΟΥΡΟ", "ΠΕΙΡΑΤΗΣ", "ΠΡΟΣΩΠΟ", "ΡΑΒΔΙ", "ΝΟΣΟΣ", "ΑΥΛΗ", "ΒΟΥΝΟ", "ΓΥΜΝΟΣΑΛΙΑΓΚΑΣ", "ΖΑΡΙΑ", "ΟΔΗΓΩ", "ΑΓΚΙΣΤΡΟ", "ΚΑΡΟΤΟ", "ΔΗΛΗΤΗΡΙΟ", "ΣΤΟΚ", "ΠΟΔΙ", "ΔΑΔΑ", "ΜΠΡΑΤΣΟ", "ΦΙΓΟΥΡΑ", "ΟΡΥΧΕΙΟ", "ΚΟΣΤΟΥΜΙ", "ΓΕΡΑΝΟΣ", "ΠΕΚΙΝΟ", "ΜΑΖΑ", "ΜΙΚΡΟΣΚΟΠΙΟ", "ΚΙΝΗΤΗΡΑΣ", "ΚΙΝΑ", "ΑΧΥΡΟ", "ΠΑΝΤΕΛΟΝΙ", "ΕΥΡΩΠΗ", "ΜΠΟΤΑ", "ΠΡΙΓΚΙΠΙΣΣΑ", "ΣΥΝΔΕΣΜΟΣ", "ΤΥΧΗ", "ΕΛΙΑ", "ΠΑΛΑΜΗ", "ΔΑΣΚΑΛΟΣ", "ΑΝΤΙΧΕΙΡΑΣ", "ΧΤΑΠΟΔΙ", "ΚΟΥΚΟΥΛΑ", "ΓΡΑΒΑΤΑ", "ΓΙΑΤΡΟΣ", "ΙΧΝΗ", "ΚΡΙΚΕΤ", "MILLIONARIE", "ΝΕΑ ΥΟΡΚΗ", "ΚΑΤΑΣΤΑΣΗ", "ΒΕΡΜΟΥΔΑ", "ΠΑΡΚΟ", "ΤΟΥΡΚΙΑ", "ΣΟΚΟΛΑΤΑ", "ΤΑΞΙΔΙ", "ΡΑΚΕΤΑ", "ΝΥΧΤΕΡΙΔΑ", "ΠΙΔΑΚΑΣ", "ΣΑΙΞΠΗΡ", "ΜΠΟΥΛΟΝΙ", "ΔΙΑΚΟΠΤΗΣ", "ΤΕΙΧΟΣ", "ΨΥΧΗ", "ΦΑΝΤΑΣΜΑ", "ΧΡΟΝΟΣ", "ΧΟΡΟΣ", "ΑΜΑΖΟΝΑ", "ΧΑΡΗ", "ΜΟΣΧΑ", "ΚΟΛΟΚΥΘΙ", "ΑΝΤΑΡΚΤΙΚΗ", "ΜΑΣΤΙΓΙΟ", "ΚΑΡΔΙΑ", "ΤΡΑΠΕΖΙ", "ΜΠΑΛΑ", "ΜΑΧΗΤΗΣ", "ΚΡΥΟ", "ΗΜΕΡΑ", "ΑΝΟΙΞΗ", "ΑΓΩΝΑΣ", "ΔΙΑΜΑΝΤΙ", "ΚΕΝΤΑΥΡΟΣ", "ΜΑΡΤΙΟΣ", "ΡΟΥΛΕΤΑ", "ΣΚΥΛΟΣ", "ΔΙΑΣΧΙΖΩ", "ΚΥΜΑ", "ΠΑΠΙΑ", "ΑΝΕΜΟΣ", "ΣΗΜΕΙΟ", "ΟΥΡΑΝΟΞΥΣΤΗΣ", "ΧΑΡΤΙ", "ΜΗΛΟ", "ΛΑΔΙ", "ΜΑΓΕΙΡΑΣ", "ΠΕΤΩ", "ΕΚΜΑΓΕΙΟ", "ΑΡΚΟΥΔΑ", "ΚΑΡΦΙΤΣΑ", "ΚΛΕΦΤΗΣ", "ΚΟΡΜΟΣ", "ΑΜΕΡΙΚΗ", "ΜΥΘΙΣΤΟΡΗΜΑ", "ΚΥΤΤΑΡΟ", "ΤΟΞΟ", "ΜΟΝΤΕΛΟ", "ΜΑΧΑΙΡΙ", "ΙΠΠΟΤΗΣ", "ΔΙΚΑΣΤΗΡΙΟ", "ΣΙΔΕΡΟ", "ΦΑΛΑΙΝΑ", "ΣΚΙΑ", "ΣΥΜΒΑΣΗ", "ΕΡΜΗΣ", "ΑΓΩΓΟΣ", "ΣΦΡΑΓΙΔΑ", "ΑΥΤΟΚΙΝΗΤΟ", "ΔΑΧΤΥΛΙΔΙ", "ΠΑΙΔΙ", "ΠΙΑΝΟ", "ΛΕΙΖΕΡ", "Η?ΧΟΣ", "ΠΟΛΟΣ", "ΥΠΕΡΗΡΩΑΣ", "ΕΠΑΝΑΣΤΑΣΗ", "ΛΑΚΚΟΣ", "ΑΕΡΙΟ", "ΠΟΤΗΡΙ", "ΒΑΣΙΓΚΤΩΝ", "ΦΛΟΙΟΣ", "ΧΙΟΝΙ", "ΕΛΕΦΑΝΤΟΔΟΝΤΟ", "ΣΩΛΗΝΑΣ", "ΚΑΛΥΜΜΑ", "ΒΑΘΜΟΣ", "ΤΟΚΙΟ", "ΕΚΚΛΗΣΙΑ", "ΠΙΤΑ", "ΣΩΛΗΝΑΣ", "ΤΕΤΡΑΓΩΝΟ", "ΚΟΜΙΚΣ", "ΨΑΡΙ", "ΓΕΦΥΡΑ", "ΦΕΓΓΑΡΙ", "ΜΕΡΟΣ", "ΑΖΤΕΚΩΝ", "ΛΑΘΡΕΜΠΟΡΟΣ", "ΤΡΕΝΟ", "ΠΡΕΣΒΕΙΑ", "ΜΑΘΗΤΗΣ", "ΔΥΤΗΣ", "ΠΑΓΟΣ", "ΠΑΡΑΚΕΝΤΗΣΗ", "ΚΩΔΙΚΑΣ", "ΠΑΠΟΥΤΣΙ", "ΥΠΗΡΕΤΗΣ", "ΛΕΣΧΗ", "ΣΕΙΡΑ", "ΠΥΡΑΜΙΔΑ", "ΕΝΤΟΜΟ", "ΠΙΓΚΟΥΙΝΟΣ", "ΛΙΒΡΑ", "ΙΜΑΛΑΙΑ", "ΤΣΕΧΟΣ", "ΡΩΜΗ", "ΜΑΤΙ", "ΣΑΝΙΔΑ", "ΚΡΕΒΑΤΙ", "ΣΗΜΕΙΟ", "ΓΑΛΛΙΑ", "ΜΑΜΟΥΘ", "ΒΑΜΒΑΚΙ", "ΚΟΚΚΙΝΟΛΑΙΜΗΣ", "ΚΑΘΑΡΑ", "ΣΑΛΠΙΓΓΑ", "ΣΦΕΝΤΑΜΙ", "ΑΓΓΛΙΑ", "ΠΕΔΙΟ", "ΡΟΜΠΟΤ", "ΟΙΚΟΠΕΔΟ", "ΑΦΡΙΚΗ", "ΕΤΙΚΕΤΑ", "ΣΤΟΜΑ", "ΑΚΤΙΝΙΔΙΑ", "ΕΛΙΑ", "ΣΧΟΛΕΙΟ", "ΝΕΡΟΧΥΤΗΣ", "ΠΙΣΤΟΛΙ", "ΟΠΕΡΑ", "ΜΕΝΤΑ", "ΡΙΖΑ", "ΥΠΟ", "ΣΤΕΜΜΑ", "ΠΙΣΩ", "ΕΠΙΠΕΔΟ", "ΜΕΞΙΚΟ", "ΜΑΝΔΥΑΣ", "ΚΥΚΛΟΣ", "ΔΙΣΚΙΟ", "ΑΥΣΤΡΑΛΙΑ", "ΠΡΑΣΙΝΟΣ", "ΑΙΓΥΠΤΟΣ", "ΓΡΑΜΜΗ", "ΔΙΚΗΓΟΡΟΣ", "ΜΑΓΙΣΣΑ", "ΑΛΕΞΙΠΤΩΤΟ", "ΔΥΣΤΥΧΗΜΑ", "ΧΡΥΣΟΣ", "ΣΗΜΕΙΩΣΗ", "ΛΙΟΝΤΑΡΙ", "ΠΛΑΣΤΙΚΗ ΥΛΗ", "ΙΣΤΟΣ", "ΑΣΘΕΝΟΦΟΡΟ", "ΝΟΣΟΚΟΜΕΙΟ", "ΣΗΜΑΙΝΩ", "ΚΛΕΙΔΑΡΙΑ", "ΝΕΡΟ", "ΛΟΝΔΙΝΟ", "ΚΑΖΙΝΟ", "ΚΥΚΛΟΣ", "ΜΠΑΡ", "ΓΚΡΕΜΟΣ", "ΣΤΡΟΓΓΥΛΟ", "ΒΟΜΒΑ", "ΓΙΓΑΝΤΑΣ", "ΧΕΡΙ", "ΝΙΝΤΖΑ", "ΤΡΙΑΝΤΑΦΥΛΛΟ", "ΓΛΙΣΤΡΑΩ", "ΛΙΜΟΥΖΙΝΑ", "ΠΕΡΑΣΜΑ", "ΘΕΑΤΡΟ", "ΠΛΑΚΑ", "ΔΟΡΥΦΟΡΟΣ", "ΚΕΤΣΑΠ", "ΞΕΝΟΔΟΧΕΙΟ", "ΟΥΡΑ", "ΤΣΙΜΠΟΥΡΙ", "ΕΔΑΦΟΣ", "ΑΣΤΥΝΟΜΙΑ", "ΝΑΝΟΣ", "ΑΝΕΜΙΣΤΗΡΑΣ", "ΦΟΡΕΜΑ", "ΚΡΟΝΟΣ", "ΓΡΑΣΙΔΙ", "ΒΟΥΡΤΣΑ", "ΚΑΡΕΚΛΑ", "ΒΡΑΧΟΣ", "ΠΙΛΟΤΟΣ", "ΤΗΛΕΣΚΟΠΙΟ", "ΑΡΧΕΙΟ", "ΕΡΓΑΣΤΗΡΙΟ", "ΙΝΔΙΑ", "ΚΥΒΕΡΝΗΤΗΣ", "ΝΥΧΙ", "ΚΟΥΝΙΑ", "ΟΛΥΜΠΟΣ", "ΑΛΛΑΓΗ", "ΗΜΕΡΟΜΗΝΙΑ", "ΡΕΥΜΑ", "ΒΛΗΜΑ", "ΚΛΙΜΑΚΑ", "ΖΩΝΗ", "ΑΓΓΕΛΟΣ", "ΤΥΠΟΣ", "ΜΟΥΡΟ", "ΚΑΡΤΑ", "ΕΛΕΓΧΟΣ", "ΠΡΟΣΧΕΔΙΟ", "ΚΕΦΑΛΙ", "ΑΓΚΑΛΙΑ", "ΠΟΡΤΟΚΑΛΙ", "ΠΑΓΩΤΟ", "ΤΑΙΝΙΑ", "ΡΟΔΕΛΑ", "ΠΙΣΙΝΑ", "ΚΑΡΧΑΡΙΑΣ", "ΒΑΝ", "ΣΕΙΡΑ", "ΜΟΣΧΑΡΙ", "ΓΕΡΑΚΙ", "ΑΕΤΟΣ", "ΒΕΛΟΝΑ", "ΔΑΣΟΣ", "ΔΡΑΚΟΣ", "ΚΛΕΙΔΙ", "ΖΩΝΗ", "ΚΑΠΑΚΙ", "ΤΡΥΠΑΝΙ", "ΓΑΝΤΙ", "ΕΠΙΚΟΛΛΗΣΗ", "ΠΤΩΣΗ", "ΦΩΤΙΑ", "ΑΡΑΧΝΗ", "ΣΠΟΝΔΥΛΙΚΗ ΣΤΗΛΗ", "ΣΤΡΑΤΙΩΤΗΣ", "ΚΕΡΑΤΟ", "ΒΑΣΙΛΙΣΣΑ", "ΖΑΜΠΟΝ", "ΣΚΟΥΠΙΔΙΑ", "ΖΩΗ", "ΝΑΟΣ", "ΚΟΥΝΕΛΙ", "ΚΟΥΜΠΙ", "ΠΑΙΧΝΙΔΙ", "ΑΣΤΕΡΙ", "ΖΕΥΣ", "ΚΤΗΝΙΑΤΡΟΣ", "ΝΥΧΤΑ", "ΑΕΡΑΣ", "ΜΠΑΤΑΡΙΑ", "ΙΔΙΟΦΥΙΑ", "ΚΑΤΑΣΤΗΜΑ", "ΜΠΟΥΚΑΛΙ", "ΣΤΑΔΙΟ", "ΕΞΩΓΗΙΝΟ", "ΦΩΣ", "ΤΡΙΓΩΝΟ", "ΛΕΜΟΝΙ", "ΝΟΣΟΚΟΜΑ", "ΠΤΩΣΗ", "ΠΙΣΤΑ", "ΤΡΑΠΕΖΑ", "ΓΕΡΜΑΝΙΑ", "ΣΚΟΥΛΗΚΙ", "ΑΚΤΙΝΑ", "ΚΕΦΑΛΑΙΟ", "ΑΠΕΡΓΙΑ", "ΠΟΛΕΜΟΣ", "ΣΥΝΑΥΛΙΑ", "ΜΕΛΙ", "ΚΑΝΑΔΑΣ", "ΕΛΑΦΙ", "ΧΙΟΝΑΝΘΡΩΠΟΣ", "ΡΥΘΜΟΣ", "ΜΑΡΜΕΛΑΔΑ", "ΧΑΛΚΟΣ", "ΠΑΡΑΛΙΑ", "ΚΟΥΔΟΥΝΙ", "ΚΑΛΛΙΚΑΤΖΑΡΟΣ", "ΦΟΙΝΙΚΑΣ", "ΔΥΝΑΜΗ", "ΚΕΡΑΙΑ", "ΠΙΡΟΥΝΙ", "ΑΛΠΕΙΣ", "ΘΕΣΗ", "ΦΡΑΚΤΗΣ", "ΚΑΓΚΟΥΡΩ", "ΠΟΝΤΙΚΙ", "ΚΟΥΠΑ", "ΠΕΤΑΛΟ", "ΣΚΟΡΠΙΟΣ", "ΠΡΑΚΤΟΡΑΣ", "ΕΛΙΚΟΠΤΕΡΟ", "ΤΡΥΠΑ", "ΟΡΓΑΝΟ", "ΓΡΥΛΟΣ", "ΧΡΕΩΣΗ"];
+	  
+      var people_list = ["Kobe Bryant", "Robert Downey Jr.", "Madonna", "Michael Jackson", "Jean-Claude Van Damme", "Tony Hawk", "Lionel Messi", "Beyonce", "Jackie Chan", "Kate Winslet", "Channing Tatum", "Ewan McGregor", "Orlando Bloom", "Harrison Ford", "Jack Black", "Jet Li", "Mariah Carey", "Queen Latifah", "Charles Chaplin", "Bruce Springsteen", "Keanu Reeves", "Marlon Brando", "Bill Clinton", "Johnny Depp", "Samuel L. Jackson", "Paula Deen", "Clint Eastwood", "Mark Wahlberg", "Oprah Winfrey", "Tom Cruise", "Liam Neeson", "James Earl Jones", "Jonathan Taylor Thomas", "LeBron James", "Reese Witherspoon", "Ben Stiller", "Rachel McAdams", "Heath Ledger", "Kevin Spacey", "Andrew Lloyd Webber", "Eddie Murphy", "Elijah Wood", "Macaulay Culkin", "Rush Limbaugh", "John Travolta", "Arnold Schwarzenegger", "Cristiano Ronaldo", "Steve Martin", "Bill Murray", "Keira Knightley", "Mary-Kate and Ashley Olsen", "Donald Trump", "NSYNC", "Peyton Manning", "Will Ferrell", "Ellen DeGeneres", "Taylor Swift", "U2", "Penn & Teller", "Carrie Fisher", "Hugh Jackman", "Sandra Bullock", "Stephen King", "Russell Crowe", "The Rolling Stones", "Bruce Willis", "Whoopi Goldberg", "Will Smith", "Cameron Diaz", "Tom Hiddleston", "Jimmy Fallon", "Matt Damon", "Eminem", "Drew Barrymore", "Michael Phelps", "Celine Dion", "Owen Wilson", "Mark Zuckerberg", "Bill Gates", "Jennifer Aniston", "Daniel Craig", "Antonio Banderas", "Julia Roberts", "Robin Williams", "Mandy Moore", "James Taylor", "Emma Watson", "Neil Diamond", "Lady Gaga", "Backstreet Boys", "Dan Brown", "John Williams", "Amanda Bynes", "Nicolas Cage", "Weird Al Yankovick", "Danny Glover", "Ellen DeGeneres", "Barack Obama", "Britney Spears", "the Beatles", "Batman", "Bugs Bunny", "Fix-It Felix", "Po the panda", "Wonder Woman", "Pac-Man", "Forrest Gump", "Ramona Quimby", "Spider-Man", "Tinker Bell", "Charlotte the spider", "the Incredible Hulk", "Legolas", "Calvin (and Hobbes)", "Goofy", "Jar Jar Binks", "Mother Goose", "Burton 'Gus' Guster", "Captain Jack Sparrow", "Bilbo Baggins", "Anne of Green Gables", "Fozzy", "Captain Hook", "Danny Ocean", "Waldo", "Indiana Jones", "Gonzo", "the Lorax", "Peter Pan", "Piglet", "Hermione Granger", "Moby Dick", "Spock", "Elmo", "Nemo", "Napoleon Dynamite", "Clifford the Big Red Dog", "Corduroy Bear", "Ronald McDonald", "Alice (in Wonderland)", "Cap'n Crunch", "Jason Bourne", "Superman", "Rocky", "Snow White", "the Wizard of Oz", "the Big Friendly Giant", "Charlie Brown", "Mulan", "Ebenezer Scrooge", "Han Solo", "Gaston", "Pikachu", "the Beast", "Willy Wonka", "Princess Leia", "Toucan Sam", "Fred Flintstone", "SpongeBob SquarePants", "Lando Calrissian", "Rapunzel", "Peeta Mellark", "Cinderella", "Lightning McQueen", "Sid the sloth", "Katniss Everdeen", "Buffy Summers", "Johnny Bravo", "Mr. Peabody", "Garfield", "the Tin Man", "Severus Snape", "Obi-Wan Kenobi", "Link from Zelda", "Wreck-It Ralph", "Miss Piggy", "Samwise Gamgee", "Mary Poppins", "Donald Duck", "President Josiah 'Jed' Bartlet", "Prince Charming", "Tron", "Darth Vader", "Elsa", "Mario", "Jean Valjean", "Lorelai Gilmore", "Alvin and the Chipmunks", "the Cat in the Hat", "Clark Kent", "the Mad Hatter", "Bambi", "Captain America", "Tigger", "Stitch", "Daniel Tiger", "Frog and Toad", "Paddington Bear", "Lord Voldermort", "Big Bird", "Ludwig van Beethoven", "Joan of Arc", "Samuel Morse", "Steve Jobs", "Audrey Hepburn", "Betsy Ross", "James Cook", "Pablo Picasso", "Anne Frank", "Ronald Reagan", "Walter Cronkite", "John Calvin", "Genghis Khan", "Patrick Henry", "Mother Teresa", "John Hancock", "Fred Rogers", "Herbert Hoover", "Marie Curie", "Cleopatra", "Elizabeth I of England", "John Adams", "Adolf Hitler", "Julius Caesar", "Claude Monet", "Aristotle", "Leonardo da Vinci", "Elvis Presley", "Eli Whitney", "Harriet Tubman", "Rosa Parks", "Norman Rockwell", "George W. Carver", "Alexander the Great", "the Wright Brothers", "C. S. Lewis", "Vincent van Gogh", "Winston Churchill", "John Locke", "Frederick Douglass", "Plato", "Martin Luther King, Jr.", "Henry VIII of England", "Lewis and Clark", "Franklin D. Roosevelt", "Galileo Galilei", "Joseph Stalin", "Alexander Graham Bell", "Harry Houdini", "Jackson Pollock", "Ernest Hemingway", "Nathaniel Hawthorne", "Theodore Roosevelt", "Amelia Earhart", "Samuel Adams", "Sigmund Freud", "Louis Armstrong", "Nelson Mandela", "Charles Dickens", "Benjamin Franklin", "Beethoven", "Pope John Paul II", "Napoleon Bonaparte", "Socrates", "Simon Bolivar", "Immanuel Kant", "Lewis Carrol", "Eleanor Roosevelt", "Thomas Edison", "Edgar Allan Poe", "Lord Byron", "Queen Victoria", "Mohammad Ali", "Billy the Kid", "Richard Nixon", "Lucille Ball", "Andy Warhol", "Babe Ruth", "Voltaire", "Michelangelo", "Woodrow Wilson", "Davy Crockett", "Ulysses S. Grant", "Nikola Tesla", "Mahatma Gandhi", "Grover Cleveland", "Dwight D. Eisenhower", "Walt Disney", "Francis Bacon", "Sir Isaac Newton", "Copernicus", "Alexander Hamilton", "George Washington", "Jimmy Stewart", "Victor Hugo", "William Shakespeare", "Henry Ford", "King Arthur", "Wolfgang Amadeus Mozart", "Abraham Lincoln"];
+      var word_lists = {
+        'en': english_words,
+        'pl': polish_words,
+        'el': greek_words,
+        'ppl': people_list
+      }
+
+      function shuffled_array(arr) {
+        arr = arr.slice();
+        for (var i = arr.length - 1; i >= 1; --i) {
+          var j = getRandomInt(0, i + 1);
+          var temp = arr[i];
+          arr[i] = arr[j]
+          arr[j] = temp;
+        }
+        return arr;
+      }
+
+      function getRandomInt(min, max) {
+        min = Math.ceil(min);
+        max = Math.floor(max);
+        return Math.floor(Math.random() * (max - min)) + min; //The maximum is exclusive and the minimum is inclusive
+      }
+
+      function getRemaining(c) {
+        var res = 0;
+        for (var idx = 0; idx < game.num_rows * game.num_cols; idx += 1) {
+          if (!game.revealed[idx] && game.type[idx] == c) {
+            res += 1;
+          }
+        }
+        return res;
+      }
+
+      function render() {
+        var game_ui = $("#game");
+        game_ui.html("");
+        if (game.error) {
+          var p = $('<p class="lead" \>');
+          p.html(game.error);
+          game_ui.append(p);
+        } else {
+          table = $('<table class="cards" />');
+          $('#spymaster-li').removeClass();
+          if (game.allrevealed) {
+            $('#spymaster-li').addClass("active");
+          }
+          for (var i = 0; i < game.num_rows; i += 1) {
+            var row = $("<tr>")
+            for (var j = 0; j < game.num_cols; j += 1) {
+              var idx = i * game.num_cols + j;
+              var cell = $("<td>")
+              cell.addClass("cell");
+              if (game.revealed[idx] || game.allrevealed) {
+                cell.addClass("cell-revealed");
+                if (game.type[idx] === "r") {
+                  cell.addClass("cell-red");
+                } else if (game.type[idx] === "b") {
+                  cell.addClass("cell-blue");
+                } else if (game.type[idx] === "n") {
+                  cell.addClass("cell-neutral");
+                } else if (game.type[idx] === "e") {
+                  cell.addClass("cell-end");
+                }
+                if (game.revealed[idx] && game.allrevealed) {
+                  cell.addClass("cell-strike");
+                }
+              } else {
+                cell.addClass("cell-inrevealed");
+              }
+              cell.click(function(inner) {
+                return function() {
+                  toggle_reveal(inner);
+                }
+              }(idx));
+              cell.on('touchend', function(inner) {
+                return function() {
+                  toggle_reveal(inner);
+                }
+              }(idx));
+              var word = $("<span>");
+
+              word.text(game.words[idx])
+              word.addClass("cell-text")
+              cell.append(word);
+              row.append(cell);
             }
-            var polish_words = ["afryka", "amazonka", "ambasada", "ambulans", "ameryka", "anglia", "anioł", "antarktyka", "atlantyda", "australia", "awaria", "aztek", "babka", "bal", "bank", "bar", "basen", "bawełna", "bałwan", "beczka", "belka", "berlin", "bermudy", "bicz", "blok", "bomba", "budowa", "but", "butelka", "bąk", "cebula", "centaur", "centrum", "chiny", "chochlik", "choroba", "ciało", "cień", "czapa", "czar", "czas", "czekolada", "czujka", "dania", "diament", "dinozaur", "dno", "doktor", "donice", "drzewo", "duch", "dusza", "dwór", "dywan", "dzień", "dziobak", "dziura", "dzięcioł", "dzwon", "egipt", "ekran", "europa", "fala", "fartuch", "feniks", "figura", "film", "flet", "foka", "francja", "francuz", "funt", "gaz", "geniusz", "gigant", "gnat", "gniazdko", "golf", "gotyk", "gołąb", "gra", "grabarz", "gracja", "grecja", "groszek", "grzmot", "grzyb", "guma", "guzik", "gwiazda", "góra", "gładki", "głowa", "hak", "helikopter", "himalaje", "holender", "hollywood", "hotel", "humor", "igła", "jabłko", "jagoda", "jaja", "jatka", "jednorożec", "jowisz", "język", "kaczor", "kalosz", "kamień", "kangur", "kaptur", "karawan", "kasa", "kasyno", "kciuk", "keczup", "kiwi", "klamka", "klatka", "klawisz", "klucz", "kod", "kolec", "komórka", "konar", "koncert", "kontakt", "kontrakt", "korona", "korzenie", "kostium", "kot", "kozioł", "koło", "koń", "kościół", "kość", "kraków", "krasnal", "krata", "kret", "kropka", "krzesło", "krzyż", "król", "królik", "królowa", "krówka", "kręgi", "księżniczka", "księżyc", "kucharz", "kwadrat", "lakier", "las", "laser", "laska", "lew", "limuzyna", "lina", "lina", "lis", "loch ness", "lody", "londyn", "lot", "lud", "maj", "maks", "mamut", "marchew", "masa", "materiał", "meksyk", "merkury", "miedź", "mikroskop", "milioner", "mistrz", "miód", "model", "moskwa", "most", "mucha", "mur", "muszla", "mysz", "napad", "nauczyciel", "naukowiec", "nektar", "niebo", "niedźwiedź", "niemcy", "ninja", "nić", "noc", "noga", "nora", "nos", "nowy jork", "nurek", "nóż", "obcy", "obsada", "ogier", "ogień", "ogon", "oko", "olej", "olimp", "oliwa", "opera", "opoka", "organy", "orzech", "orzeł", "ośmiornica", "pająk", "paleta", "paluszki", "pan", "papier", "pas", "pasta", "pazur", "pekin", "perła", "pielęgniarka", "pierścień", "pies", "pilot", "pingwin", "piramida", "pirat", "pistolet", "placek", "plastik", "plaża", "plik", "pochodnia", "pociecha", "pociąg", "poczta", "podkowa", "podkład", "pojazd", "pokrywka", "pole", "policja", "polska", "port", "powietrze", "połączenie", "praca", "prawnik", "prawo", "promień", "przewodnik", "pudło", "punkt", "pupil", "pustka", "północ", "płot", "płyta", "rak", "rakieta", "rama", "rekin", "rewolucja", "robak", "robot", "ruda", "rura", "ryba", "rycerz", "rzut", "rzym", "rząd", "rzęsa", "róg", "róża", "ręka", "rękawica", "samochód", "samolot", "satelita", "saturn", "serce", "siano", "siekacz", "sieć", "silnik", "siła", "skorpion", "skorupa", "smok", "soczewka", "sokół", "spadek", "spadochron", "splot", "stadion", "stan", "statek", "stopa", "stopień", "stołek", "strona", "strumień", "strzał", "stół", "sukienka", "superbohater", "szafa", "szczyt", "szczęście", "szekspir", "szkocja", "szkoła", "szkło", "szmugiel", "sznur", "szpieg", "szpilka", "szpital", "sztuka", "słup", "tablica", "talerz", "talia", "taniec", "tchórz", "teatr", "teleskop", "toaleta", "tokio", "torebka", "trawa", "trucizna", "truteń", "trójkąt", "trąba", "tuba", "tusz", "tusza", "ucho", "usta", "wachlarz", "waga", "waszyngton", "wiatr", "widelec", "wiedźma", "wieloryb", "wieża", "wieżowiec", "wiosna", "wkład", "woda", "wojna", "wstęp", "wybuch", "wydech", "wąż", "zamek", "zebra", "zespół", "zieleń", "ziemia", "zmiana", "zmywacz", "znak", "zwoje", "ząb", "złodziej", "złoto", "ława", "łożysko", "łuk", "łódź", "ślimak", "śmierć", "śnieg", "świerszcz", "świnia", "żabka", "żebro", "żelazo", "żołnierz", "żubr", "żuk", "żuraw", "życie"];
-            var english_words = ["africa", "agent", "air", "alien", "alps", "amazon", "ambulance", "america", "angel", "antarctica", "apple", "arm", "atlantis", "australia", "aztec", "back", "ball", "band", "bank", "bar", "bark", "bat", "battery", "beach", "bear", "beat", "bed", "beijing", "bell", "belt", "berlin", "bermuda", "berry", "bill", "block", "board", "bolt", "bomb", "bond", "boom", "boot", "bottle", "bow", "box", "bridge", "brush", "buck", "buffalo", "bug", "bugle", "button", "calf", "canada", "cap", "capital", "car", "card", "carrot", "casino", "cast", "cat", "cell", "centaur", "center", "chair", "change", "charge", "check", "chest", "chick", "china", "chocolate", "church", "circle", "cliff", "cloak", "club", "code", "cold", "comic", "compound", "concert", "conductor", "contract", "cook", "copper", "cotton", "court", "cover", "crane", "crash", "cricket", "cross", "crown", "cycle", "czech", "dance", "date", "day", "death", "deck", "degree", "diamond", "dice", "dinosaur", "disease", "doctor", "dog", "draft", "dragon", "dress", "drill", "drop", "duck", "dwarf", "eagle", "egypt", "embassy", "engine", "england", "europe", "eye", "face", "fair", "fall", "fan", "fence", "field", "fighter", "figure", "file", "film", "fire", "fish", "flute", "fly", "foot", "force", "forest", "fork", "france", "game", "gas", "genious", "germany", "ghost", "giant", "glass", "glove", "gold", "grace", "grass", "greece", "green", "ground", "ham", "hand", "hawk", "head", "heart", "helicopter", "himalayas", "hole", "hollywood", "honey", "hood", "hook", "horn", "horse", "horseshoe", "hospital", "hotel", "ice", "ice cream", "india", "iron", "ivory", "jack", "jam", "jet", "jupiter", "kangaroo", "ketchup", "key", "kid", "king", "kiwi", "knife", "knight", "lab", "lap", "laser", "lawyer", "lead", "lemon", "leprechaun", "life", "light", "limousine", "line", "link", "lion", "litter", "loch ness", "lock", "log", "london", "luck", "mail", "mammoth", "maple", "marble", "march", "mass", "match", "mercury", "mexico", "microscope", "millionarie", "mine", "mint", "missile", "model", "mole", "moon", "moscow", "mount", "mouse", "mouth", "mug", "nail", "needle", "net", "new york", "night", "ninja", "note", "novel", "nurse", "nut", "octopus", "oil", "olive", "olympus", "opera", "orange", "organ", "palm", "pan", "pants", "paper", "parachute", "park", "part", "pass", "paste", "penguin", "pheonix", "piano", "pie", "pilot", "pin", "pipe", "pirate", "pistol", "pit", "pitch", "plane", "plastic", "plate", "platypus", "play", "plot", "point", "poison", "pole", "police", "pool", "port", "post", "pound", "press", "princess", "pumpkin", "pupil", "pyramid", "queen", "rabbit", "racket", "ray", "revolution", "ring", "robin", "robot", "rock", "rome", "root", "rose", "roulette", "round", "row", "ruler", "satellite", "saturn", "scale", "school", "scientist", "scorpion", "screen", "scuba diver", "seal", "server", "shadow", "shakespeare", "shark", "ship", "shoe", "shop", "shot", "sink", "skyscraper", "slip", "slug", "smuggler", "snow", "snowman", "sock", "soldier", "soul", "sound", "space", "spell", "spider", "spike", "spine", "spot", "spring", "spy", "square", "stadium", "staff", "star", "state", "stick", "stock", "straw", "stream", "strike", "string", "sub", "suit", "superhero", "swing", "switch", "table", "tablet", "tag", "tail", "tap", "teacher", "telescope", "temple", "theater", "thief", "thumb", "tick", "tie", "time", "tokyo", "tooth", "torch", "tower", "track", "train", "triangle", "trip", "trunk", "tube", "turkey", "undertaker", "unicorn", "vacuum", "van", "vet", "wake", "wall", "war", "washer", "washington", "watch", "water", "wave", "web", "well", "whale", "whip", "wind", "witch", "worm", "yard"];
-            var word_lists = {'en': english_words, 'pl': polish_words}
-            function shuffled_array(arr) {
-                arr = arr.slice();
-                for (var i = arr.length - 1; i >= 1; --i) {
-                    var j = getRandomInt(0, i + 1);
-                    var temp = arr[i];
-                    arr[i] = arr[j]
-                    arr[j] = temp;
-                }
-                return arr;
-            }
+            table.append(row);
 
-            function getRandomInt(min, max) {
-                min = Math.ceil(min);
-                max = Math.floor(max);
-                return Math.floor(Math.random() * (max - min)) + min; //The maximum is exclusive and the minimum is inclusive
-            }
+          }
+          game_ui.append(table);
+          $('#red-left').text(getRemaining("r"));
+          $('#blue-left').text(getRemaining("b"));
+        }
+        sessionStorage.setItem("game", JSON.stringify(game));
+      }
 
-            function getRemaining(c) {
-                var res = 0;
-                for (var idx = 0; idx < game.num_rows * game.num_cols; idx += 1) {
-                    if (!game.revealed[idx] && game.type[idx] == c) {
-                        res += 1;
-                    }
-                }
-                return res;
-            }
+      function toggle_reveal(idx) {
+        game.revealed[idx] = !game.revealed[idx];
+        render();
+      }
 
-            function render() {
-                var game_ui = $("#game");
-                game_ui.html("");
-                if (game.error) {
-                    var p = $('<p class="lead" \>');
-                    p.html(game.error);
-                    game_ui.append(p);
-                } else {
-                    table = $('<table class="cards" />');
-                    $('#spymaster-li').removeClass();
-                    if (game.allrevealed) {
-                        $('#spymaster-li').addClass("active");
-                    }
-                    for (var i=0; i < game.num_rows; i+=1) {
-                        var row = $("<tr>")
-                        for (var j=0; j < game.num_cols; j+=1) {
-                            var idx = i * game.num_cols + j;
-                            var cell = $("<td>")
-                            cell.addClass("cell");
-                            if (game.revealed[idx] || game.allrevealed) {
-                                cell.addClass("cell-revealed");
-                                if (game.type[idx] === "r") {
-                                    cell.addClass("cell-red");
-                                } else if (game.type[idx] === "b") {
-                                    cell.addClass("cell-blue");
-                                } else if (game.type[idx] === "n") {
-                                    cell.addClass("cell-neutral");
-                                } else if (game.type[idx] === "e") {
-                                    cell.addClass("cell-end");
-                                }
-                                if (game.revealed[idx] && game.allrevealed) {
-                                    cell.addClass("cell-strike");
-                                }
-                            } else {
-                                cell.addClass("cell-inrevealed");
-                            }
-                            cell.dblclick(function(inner) { return function() { toggle_reveal(inner); }}(idx));
-                            cell.on('touchend', function(inner) { return function() { toggle_reveal(inner); }}(idx));
-                            var word = $("<span>");
+      function toggle_spymaster() {
+        game.allrevealed = !game.allrevealed;
+        render();
+      }
 
-                            word.text(game.words[idx])
-                            word.addClass("cell-text")
-                            cell.append(word);
-                            row.append(cell);
-                        }
-                        table.append(row);
+      function set_from_seed() {
+        var seed = $('#seed').val().split('-', 2);
+        sessionStorage.setItem("seed", JSON.stringify($('#seed').val()));
 
-                    }
-                    game_ui.append(table);
-                    $('#red-left').text(getRemaining("r"));
-                    $('#blue-left').text(getRemaining("b"));
-                }
-                sessionStorage.setItem("game", JSON.stringify(game));
-            }
+        game.error = null;
+        if (seed.length != 2) {
+          game.error = "Seed must be of form <mark>lang</mark>-<mark>phrase</mark>, where <mark>lang</mark> is the language and <mark>phrase</mark> defines the board.";
+          render();
+          return;
+        }
+        var lang = seed[0];
+        var seed = seed[1];
+        if (!word_lists[lang]) {
+          game.error = "Language must be one of " + Object.keys(word_lists).sort().join(', ') + ".";
+          render();
+          return;
+        }
+        allwords = word_lists[lang];
 
-            function toggle_reveal(idx) {
-                game.revealed[idx] = !game.revealed[idx];
-                render();
-            }
+        Math.seedrandom($('#seed').val());
 
-            function toggle_spymaster() {
-                game.allrevealed = !game.allrevealed;
-                render();
-            }
+        total = game.num_rows * game.num_cols;
+        nthings = Math.floor(total / 3);
+        game.type = [];
+        for (var i = 0; i < nthings; i += 1) {
+          game.type.push("r");
+          game.type.push("b");
+        }
+        if (getRandomInt(0, 2) === 0) {
+          game.type.push("r");
+        } else {
+          game.type.push("b");
+        }
+        game.type.push("e");
+        for (var i = 0; i < total - (2 * nthings + 2); i += 1) {
+          game.type.push("n");
+        }
+        game.type = shuffled_array(game.type);
 
-            function set_from_seed() {
-                var seed = $('#seed').val().split('-', 2);
-                sessionStorage.setItem("seed", JSON.stringify($('#seed').val()));
+        game.revealed = [];
+        for (var idx = 0; idx < game.num_rows * game.num_cols; idx += 1) {
+          game.revealed.push(0);
+        }
+        game.words = shuffled_array(allwords).slice(0, total);
+        render();
+      }
 
-                game.error = null;
-                if (seed.length != 2) {
-                    game.error = "Seed must be of form <mark>lang</mark>-<mark>phrase</mark>, where <mark>lang</mark> is the language and <mark>phrase</mark> defines the board.";
-                    render(); return;
-                }
-                var lang = seed[0];
-                var seed = seed[1];
-                if (!word_lists[lang]) {
-                    game.error = "Language must be one of " + Object.keys(word_lists).sort().join(', ') + ".";
-                    render(); return;
-                }
-                allwords = word_lists[lang];
+      alphabet = "abcdefghijklmnopqrstuvwxyz"
 
-                Math.seedrandom($('#seed').val());
+      function int_to_string(seed) {
+        var res = "";
+        while (seed > 0) {
+          res += alphabet[seed % alphabet.length];
+          seed = Math.floor(seed / alphabet.length);
+        }
+        return res;
+      }
 
-                total = game.num_rows * game.num_cols;
-                nthings = Math.floor(total / 3);
-                game.type = [];
-                for (var i = 0; i < nthings; i += 1) {
-                    game.type.push("r");
-                    game.type.push("b");
-                }
-                if (getRandomInt(0, 2) === 0) {
-                    game.type.push("r");
-                } else {
-                    game.type.push("b");
-                }
-                game.type.push("e");
-                for (var i = 0; i < total - (2 * nthings + 2); i += 1) {
-                    game.type.push("n");
-                }
-                game.type = shuffled_array(game.type);
+      function reset(event) {
+        var lang = "en";
+        if (event) {
+          lang = $(event.toElement).attr("data-language");
+        }
+        console.log(lang);
+        Math.seedrandom();
+        seed = getRandomInt(0, 1e9);
+        seed_str = lang + "-" + int_to_string(seed);
+        $('#seed').val(seed_str);
+        set_from_seed();
+      }
 
-                game.revealed = [];
-                for (var idx = 0; idx < game.num_rows * game.num_cols; idx += 1) { game.revealed.push(0); }
-                game.words = shuffled_array(allwords).slice(0, total);
-                render();
-            }
+      $(document).ready(function() {
+        if (!('ontouchstart' in document.documentElement)) {
+          $('[data-toggle="tooltip"]').tooltip();
+        }
+        $("#spymaster").click(toggle_spymaster);
+        $(".reset-button").click(reset);
+        $("#seed").val(seed);
+        $("#seed").keyup(set_from_seed);
 
-            alphabet = "abcdefghijklmnopqrstuvwxyz"
+        if (sessionStorage.getItem("game")) {
+          seed = JSON.parse(sessionStorage.getItem("seed"));
+          $('#seed').val(seed);
+          game = JSON.parse(sessionStorage.getItem("game"));
+          render();
+        } else {
+          reset();
+        }
+      });
 
-            function int_to_string(seed) {
-                var res = "";
-                while (seed > 0) {
-                    res += alphabet[seed % alphabet.length];
-                    seed = Math.floor(seed / alphabet.length);
-                }
-                return res;
-            }
+    </script>
+    <script>
+      (function(i, s, o, g, r, a, m) {
+        i['GoogleAnalyticsObject'] = r;
+        i[r] = i[r] || function() {
+          (i[r].q = i[r].q || []).push(arguments)
+        }, i[r].l = 1 * new Date();
+        a = s.createElement(o),
+          m = s.getElementsByTagName(o)[0];
+        a.async = 1;
+        a.src = g;
+        m.parentNode.insertBefore(a, m)
+      })(window, document, 'script', 'https://www.google-analytics.com/analytics.js', 'ga');
+      ga('create', 'UA-102294427-1', 'auto');
+      ga('send', 'pageview');
 
-            function reset(event) {
-                var lang = "en";
-                if (event) {
-                    lang = $(event.toElement).attr("data-language");
-                }
-                console.log(lang);
-                Math.seedrandom();
-                seed = getRandomInt(0, 1e9);
-                seed_str = lang + "-" + int_to_string(seed);
-                $('#seed').val(seed_str);
-                set_from_seed();
-            }
+    </script>
 
-            $(document).ready(function() {
-                if (!('ontouchstart' in document.documentElement)) {
-                     $('[data-toggle="tooltip"]').tooltip();
-                }
-                $("#spymaster").click(toggle_spymaster);
-                $(".reset-button").click(reset);
-                $("#seed").val(seed);
-                $("#seed").keyup(set_from_seed);
+    <script>
+      function setStyleSource(linkID, sourceLoc) {
+        var theLink = document.getElementById(linkID);
+        theLink.href = sourceLoc;
+        console.log(theLink.href);
+      }
 
-                if (sessionStorage.getItem("game")) {
-                    seed = JSON.parse(sessionStorage.getItem("seed"));
-                    $('#seed').val(seed);
-                    game = JSON.parse(sessionStorage.getItem("game"));
-                    render();
-                } else {
-                    reset();
-                }
-            });
-        </script>
-        <script>
-          (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-          (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-          m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-          })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
-          ga('create', 'UA-102294427-1', 'auto');
-          ga('send', 'pageview');
-        </script>
-    </body>
+      document.getElementById("mySelect").addEventListener("change", function() {
+        var selected = this.options[this.selectedIndex].value;
+        setStyleSource("s1", selected)
+      });
+
+    </script>
+  </body>
+
 </html>

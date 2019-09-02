@@ -1,0 +1,295 @@
+ @font-face {
+   font-family: social;
+   src: url(../font/social.ttf);
+ }
+
+ body {
+   padding-top: 60px;
+   background: url(../img/bg-horror.jpg);
+   background-size: cover;
+ }
+
+ body *,
+ td,
+ span {
+   transition-duration: 0.4s !important;
+   -webkit-touch-callout: none;
+   /* iOS Safari */
+   -webkit-user-select: none;
+   /* Safari */
+   -khtml-user-select: none;
+   /* Konqueror HTML */
+   -moz-user-select: none;
+   /* Firefox */
+   -ms-user-select: none;
+   /* Internet Explorer/Edge */
+   user-select: none;
+   /* Non-prefixed version, currently
+                                  supported by Chrome and Opera */
+ }
+
+ .navbar {
+   border: none;
+   background: rgba(0, 0, 0, 0);
+   box-shadow: none;
+ }
+
+ span.navbar-brand {
+   font-family: social;
+   font-size: 32px;
+   color: #ffffff !important;
+   text-shadow: 1px 1px 4px rgba(0, 0, 0, 1);
+ }
+ 
+  span.navbar-brand b {
+   color: #ffcc00;
+   font-weight: normal;
+ }
+ 
+ 
+
+ small {
+   font-size: 24px;
+   display: none;
+ }
+
+ ul.nav.navbar-nav li a,
+ ul.nav.navbar-nav li span {
+   color: #ffffff;
+   text-shadow: 0px 0px 2px rgba(0, 0, 0, 0.5);
+   font-size: 12px !important;
+   font-family: Verdana !important;
+ }
+
+ ul.dropdown-menu li a:hover {
+   background: none;
+   opacity: 0.3;
+ }
+
+ ul.dropdown-menu {
+   background: rgba(0, 0, 0, 0.6);
+   border: none;
+ }
+ 
+ 
+
+ li.divider {
+   background-color: rgba(255, 255, 255, 0.2) !important;
+ }
+
+ ul.nav.navbar-nav li select {
+    margin-top: 15px;
+    color: #000000;
+}
+ 
+ .remaining {
+   font-size: 18px;
+   font-family: social;
+   margin: 0px 25px 0px 0px !important;
+   text-shadow: 1px 1px 6px rgba(0, 0, 0, 1);
+ }
+
+ .remaining span {
+   font-size: 32px;
+   color: #ffffff;
+ }
+
+ .red {
+   color: #d63838 !important;
+ }
+
+ .blue {
+   color: #2d85bf !important;
+ }
+ 
+ input#seed {
+    max-width: 150px;
+}
+
+ .cards {
+    vertical-align: middle;
+    width: 95%;
+    height: 97%;
+    border-spacing: 10px;
+    border-collapse: separate;
+    margin: 0 auto;
+}
+
+ .cell {
+   border-radius: 3px;
+   text-align: center;
+   font-family: social;
+   font-size: 1.4vw;
+   display: table-cell;
+   width: 20%;
+   height: 18%!important;
+   background: url(../img/yellow-horror.jpg);
+   box-shadow: 0px 0px 9px rgba(0, 0, 0, 1);
+   background-size: cover !important;
+   background-position: top center!important;
+   vertical-align: bottom;
+   transition-timing-function: cubic-bezier(1, 0.15, 0.43, 0.93)!important;
+   transition-duration: 0.2s!important;   
+ }
+
+span.cell-text {
+    /*border-top: 2px solid rgba(0,0,0,0.25);*/
+    bottom: 8px;
+    position: relative;
+    display: block;
+    width: 95%;
+    margin: 0 auto;
+	text-transform: uppercase;
+	color: #8a0408;
+ }
+ .cell:hover {
+    transform: scale(1.2) rotate(-1.3deg);
+    box-shadow: 0px 0px 58px;
+	z-index: 99999!important;
+	position: relative;
+}
+ 
+
+ .cell-inrevealed {
+	 vertical-align: middle;
+ }
+ 
+    .cell-inrevealed span.cell-text::before {
+    content: "?";
+    display: block;
+    font-size: 2em;
+}
+
+ .cell-inrevealed:hover {
+   cursor: pointer;
+ }
+
+ .cell-revealed {
+	 pointer-events: none;
+ }
+ 
+ .cell-revealed span.cell-text {
+   
+   color: rgba(255,255,255,0.7);
+   text-shadow: 0px 0px 5px rgba(0,0,0,0.7);
+ }
+
+ .cell-red {
+   background: url(../img/red-horror.jpg);
+ }
+
+ .cell-blue {
+   background: url(../img/blue-horror.jpg);
+ }
+
+ .cell-neutral {
+   background: url(../img/white-horror.jpg);
+ }
+
+ .cell-end {
+   background: url(../img/death-horror.jpg);
+   color: #eeeeee;
+ }
+
+ .red-stats {
+   color: red;
+ }
+
+ .blue-stats {
+   color: blue;
+ }
+
+ .cell-strike {
+   opacity: 0.2;
+ }
+ 
+@media (max-device-width: 780px) {
+	
+ body {
+   padding-top: 60px;
+   background: url(../img/bg-horror.jpg);
+   background-size: cover;
+ }
+	
+.container {
+    width: 90%!important;
+	height: 100%!important;
+}
+
+.navbar-header {
+    display: block!important;
+    width: 100%;
+    text-align: center;
+	height: 74px;
+}
+
+span.navbar-brand {
+    font-size: 70px;
+	width: 100%;
+	line-height: 74px;
+}
+
+ul.nav.navbar-nav {
+	width: 100%;
+	margin: 0 auto;
+	text-align: center;
+	margin-top: 20px;
+}
+
+
+
+ul.nav.navbar-nav>li {
+	float: none;
+	display: inline-block;
+
+}
+
+ul.nav.navbar-nav>li a, ul.nav.navbar-nav>li span, ul.nav.navbar-nav>li span select{
+	
+	font-size: 25px!important;
+}
+
+ .cards {
+    vertical-align: middle;
+    width: 100%;
+    height: 70%;
+    border-spacing: 8px;
+    border-collapse: separate;
+    margin: 0 auto;
+	padding-top: 180px;
+}
+
+.cell {
+	font-size: 20px;
+}
+
+
+
+.remaining, .remaining span {
+	font-size: 60px;
+}
+
+input#seed {
+    position: fixed;
+    bottom: 30px;
+    left: 50%;
+    margin-left: -75px;
+}
+
+p.navbar-text.navbar-right.remaining.red {
+    position: fixed;
+    bottom: 10px;
+    left: 10px;
+}
+
+p.navbar-text.navbar-right.remaining.blue {
+    position: fixed;
+    bottom: 10px;
+    right: 10px;
+}
+
+
+
+
+ }
+

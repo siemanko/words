@@ -1,26 +1,24 @@
-# Words
+# KodeWords
+This is a browser version for the board of the game "Codenames" https://en.wikipedia.org/wiki/Codenames_(board_game)).
 
-Browser version of boardgames [codenames](https://en.wikipedia.org/wiki/Codenames_(board_game)).
+My version is hosted at: https://takartak.github.io/kodewords
+Many thanks to Szymon Sidor for developing this https://github.com/siemanko/words which is basically the core for my version.
 
-Hosted at: https://siemanko.github.io/words/
+# Game Skins
+Initially I just wanted to make some front-end tweaks and add graphics and fonts to make the game pretty.
+Then I decided to add some scripting for swaping css files so now there is support for game skins.
 
-*Tested and works great on iPad. Double clicks are there only for non-mobile, to deal with laptop touchpads, which are often producing false-click-positives.*
-
-# For Contributors
-
-This is a developer-friendly version that only has ~300 lines of html. 
-
-### Adding new languages
-
-Google sheets make the job really easy. I will gladly accept pull request, but please go through the translation manually and make sure they are good before submitting. 
-
+# Adding new languages
+Google sheets make the job really easy. Use the following file but go through the translation manually and make sure they are good before submitting. 
 https://docs.google.com/spreadsheets/d/1M167she5EVt5t7-5rv0UFnWlSfsAmBIwNeZ7zFkvS9w
 
-### Different board sizes
+# Other word lists
+You can find many word list generators out there.
+Use them to make new lists, random or themed and have hours of fun!
 
-There are two variables in code the describe board size and changing them should result in something that renders and plays reasonably.
 
 
-### Shoutouts!
 
-Thanks to Jarosław Błasiok (@jaro3000) for helping type up polish words. 
+
+
+

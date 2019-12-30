@@ -1,7 +1,7 @@
 <html>
     <head>
-        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
-        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+
         <meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
         <style>
             body {
@@ -57,92 +57,123 @@
             .cell-strike {
                 opacity: 0.2;
             }
-            .loader {
-                border: 3px solid #f3f3f3; /* Light grey */
-                border-radius: 50%;
-                width: 20px;
-                height: 20px;
-                animation: spin 0.75s linear infinite;
+
+
+            .border-md-right {
+                border-right: 1px solid silver;
             }
-            .loader-blue {
-                border-top: 3px solid #77AAFF;
-            }
-            .loader-red {
-                border-top: 3px solid #FF8888;
-            }
-            @keyframes spin {
-                0% { transform: rotate(0deg); }
-                100% { transform: rotate(360deg); }
+
+            @media (max-width: 768px) {
+                .border-md-right {
+                    border-right: none;
+                }
             }
         </style>
     </head>
     <body>
-        <nav class="navbar navbar-default navbar-fixed-top">
-            <div class="navbar-header">
-                <span class="navbar-brand">Words&nbsp;<small class="hidden-xs hidden-sm">double click them</small></span>
-                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#menu" aria-expanded="false">
-                    <span class="sr-only">Toggle navigation</span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                </button>
-            </div>
+        <nav class="navbar navbar-expand-lg fixed-top navbar-light bg-light">
+            <span class="navbar-brand">Words</span>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#menu" aria-controls="navbarTogglerDemo01" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
             <div class="collapse navbar-collapse" id="menu">
-                <ul class="nav navbar-nav">
-                    <li><a href="https://en.wikipedia.org/wiki/Codenames_(board_game)">Rules</a></li>
+                <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
+                    <li class="nav-item"><a href='#' class="nav-link" data-toggle="modal" data-target="#about-modal">About</a></li>
                     <li id="spymaster-li"
+                        class="nav-item"
                         data-toggle="tooltip"
                         data-placement="bottom"
                         title="Display the colors of all tiles.">
-                        <a href="#" id="spymaster">Toggle Spymaster</a>
+                        <a class="nav-link" href="#" id="spymaster">Spymaster</a>
                     </li>
-                    <li class="dropdown">
-                      <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Reset Game<span class="caret"></span></a>
-                      <ul class="dropdown-menu">
-                        <li><a href="#" class="reset-button" data-language="en">English</a></li>
-                        <li role="separator" class="divider"></li>
-                        <li><a href="#" class="reset-button" data-language="pl">Polish</a></li>
-                      </ul>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                          Reset
+                        </a>
+                        <div class="dropdown-menu">
+                          <a class="dropdown-item reset-button" href="#" data-language="en">English</a>
+                            <!-- <li role="separator" class="divider"></li> -->
+                          <a class="dropdown-item reset-button" href="#" data-language="pl">Polish</a>
+                        </div>
                     </li>
-                    <li><a href="https://github.com/siemanko/words/"><tt>Source</tt></a></li>
                 </ul>
-                <form class="navbar-form navbar-right" style="margin-right:10px;">
-                  <div class="form-group" data-toggle="tooltip" data-placement="bottom" title="Type this on a different device to get the same game">
-                    <input type="text" class="form-control" id="seed" placeholder="seed">
-                  </div>
+
+                <form class="form-inline my-2 my-lg-0">
+                    <div class="input-group">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text" id="basic-addon1">seed</span>
+                        </div>
+                        <input class="form-control" type="text" class="form-control" id="seed" placeholder="seed"  data-toggle="tooltip" data-placement="bottom" title="Type this on a different device to get the same game">
+                    </div>
                 </form>
-                    <p class="navbar-text navbar-right"
-                       style="color:red"
-                       data-toggle="tooltip"
-                       data-placement="bottom"
-                       title="Number of red tiles that weren't discovered yet.">
-                       Red left: <span id="red-left"></span>
-                    </p>
-                    <p class="navbar-text navbar-right"
-                       style="color:blue"
-                       data-toggle="tooltip"
-                       data-placement="bottom"
-                       title="Number of blue tiles that weren't discovered yet.">
-                       Blue left: <span id="blue-left"></span>
-                    </p>
+
             </div>
         </nav>
+        <div class="modal fade" id="about-modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">About Words</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <p>Simple website to keep track on a codenames game.</p>
+
+                        <p>On laptops you need to <b>double-click</b> the words to select them.</p>
+
+                        <p>Check out <i>Spy assistant</i> tab for an automated tool to recommend spymaster clues. It works best towards endgame.</p>
+                    </div>
+                    <div class="modal-footer">
+                        <a class="btn btn-info" href="https://en.wikipedia.org/wiki/Codenames_(board_game)">Rules</a>
+                        <a class="btn btn-info" href="https://github.com/siemanko/words/">Source</a>
+                    </div>
+                </div>
+            </div>
+        </div>
 
         <div class="container">
             <div class="collapse" id="recommend">
-                <div class="well">
-                    <div id="recommend-blue-loader" class="loader loader-blue"></div>
-                    <font color="#77AAFF"> <div id="recommend-blue"></div></font>
-                    <div id="recommend-red-loader" class="loader loader-red"></div>
-                    <font color="#FF8888"> <div id="recommend-red"></div></font>
+                <div class="card">
+                    <ul class="list-group list-group-flush">
+                        <li class="list-group-item">
+                            <div id="recommend-blue-loader" class="spinner-grow text-primary" role="status"></div>
+                            <font color="#77AAFF"> <div id="recommend-blue"></div></font>
+                        </li>
+                        <li class="list-group-item">
+                            <div id="recommend-red-loader" class="spinner-grow text-danger" role="status"></div>
+                            <font color="#FF8888"> <div id="recommend-red"></div></font>
+                        </li>
+                    </ul>
                 </div>
             </div>
             <div id="game">
             </div>
+            <div class="float-right">
+                <span
+                   style="color:red"
+                   data-toggle="tooltip"
+                   data-placement="bottom"
+                   title="Number of red tiles that weren't discovered yet.">
+                   Red left: <span id="red-left"></span>
+                </span>
+                &nbsp;
+                <span
+                   style="color:blue"
+                   data-toggle="tooltip"
+                   data-placement="bottom"
+                   align="right"
+                   title="Number of blue tiles that weren't discovered yet.">
+                   Blue left: <span id="blue-left"></span>
+                </span>
+            </div>
         </div>
         <!-- Latest compiled and minified JavaScript -->
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
-        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+        <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
+        <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+
         <script src="https://cdnjs.cloudflare.com/ajax/libs/seedrandom/2.4.3/seedrandom.min.js" integrity="sha256-64f1BOntWrbWIG++Jw3Ad4BSjTz8FG2DLeZ0kD3lLcc=" crossorigin="anonymous"></script>
         <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@1.0.0/dist/tf.min.js"> </script>
         <script src="recommend/localStorageDB.js"></script>

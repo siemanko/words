@@ -1,6 +1,7 @@
 var storage_key = "recommendation";
 var vec_shape = [-1, 300]
 
+var query_cache = {}
 var model = null;
 
 
@@ -89,38 +90,51 @@ function distances_to_words(word_list) {
 }
 
 function recommend(good, bad, fail, risk, num_guesses) {
-    var good_dist = distances_to_words(good);
-    var bad_dist = distances_to_words(bad);
-    var fail_dist = distances_to_words(fail)
+    return new Promise(function(resolve, reject) {
+        const res = tf.tidy(function() {
+            var good_dist = distances_to_words(good);
+            var bad_dist = distances_to_words(bad);
+            var fail_dist = distances_to_words(fail)
 
-    // this is tiny big hacky - I use tensor.mul(-1).topk to emulate sort.
-    var bad_score = bad_dist.mul(-1).topk(bad_dist.shape[1], true).values.slice([0, risk], [-1, 1]).mul(-1).squeeze();
-    var bad_score = tf.minimum(fail_dist.min(-1), bad_score);
-    var good_score = good_dist.mul(-1).topk(good_dist.shape[1], true).values.slice([0, num_guesses - 1], [-1, 1]).squeeze();
+            // this is tiny big hacky - I use tensor.mul(-1).topk to emulate sort.
+            var bad_score = bad_dist.mul(-1).topk(bad_dist.shape[1], true).values.slice([0, risk], [-1, 1]).mul(-1).squeeze();
+            var bad_score = tf.minimum(fail_dist.min(-1), bad_score);
+            var good_score = good_dist.mul(-1).topk(good_dist.shape[1], true).values.slice([0, num_guesses - 1], [-1, 1]).squeeze();
 
-    var score = good_score.add(bad_score);
-    var best_scores = score.topk(1000);
-    var best_candidates = best_scores.indices.bufferSync().values
+            var score = good_score.add(bad_score);
+            var best_scores = score.topk(1000);
+            var best_candidates = best_scores.indices.arraySync()
 
-    var forbidden_words = new Set()
-    for (var word of [...good, ...bad, ...fail]) {
-        forbidden_words.add(word);
-        forbidden_words.add(word + 's');
-    }
-    var res = []
-    for (var candidate_idx of best_candidates) {
-        word = model.word[candidate_idx];
-        if (!forbidden_words.has(word)) {
-            res.push(word);
-            forbidden_words.add(word);
-            forbidden_words.add(word + 's');
-        }
-    }
-    return res;
+            var forbidden_words = new Set()
+
+            function forbid_word(word) {
+                forbidden_words.add(word);
+                forbidden_words.add(word + 's');
+                forbidden_words.add(word + 'ing');
+                forbidden_words.add(word + 'ings');
+                forbidden_words.add(word + 'ed');
+            }
+
+            for (var word of [...good, ...bad, ...fail]) {
+                forbid_word(word)
+            }
+            var res = []
+            for (var candidate_idx of best_candidates) {
+                word = model.word[candidate_idx];
+                if (!forbidden_words.has(word)) {
+                    res.push(word);
+                    forbid_word(word)
+                }
+            }
+            return res
+        });
+        resolve(res);
+    });
 }
 
 function demo_recommend() {
     load_model(function() {
-        console.log(recommend(["church", "cat", "atlantis"], ["eye", "aztec", "buck", "pin", "hospital"], ["fair"], 1, 3))
+        var promise = recommend(["church", "cat", "atlantis"], ["eye", "aztec", "buck", "pin", "hospital"], ["fair"], 1, 3);
+        promise.then(function(value) { console.log(value.slice(0, 5)); });
     });
 }

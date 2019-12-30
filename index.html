@@ -10,7 +10,7 @@
             .cards {
                 vertical-align: middle;
                 width: 100%;
-                height: 95%;
+                height: 80%;
                 border-spacing: 10px;
                 border-collapse: separate;
             }
@@ -56,6 +56,23 @@
             }
             .cell-strike {
                 opacity: 0.2;
+            }
+            .loader {
+                border: 3px solid #f3f3f3; /* Light grey */
+                border-radius: 50%;
+                width: 20px;
+                height: 20px;
+                animation: spin 0.75s linear infinite;
+            }
+            .loader-blue {
+                border-top: 3px solid #77AAFF;
+            }
+            .loader-red {
+                border-top: 3px solid #FF8888;
+            }
+            @keyframes spin {
+                0% { transform: rotate(0deg); }
+                100% { transform: rotate(360deg); }
             }
         </style>
     </head>
@@ -112,6 +129,14 @@
         </nav>
 
         <div class="container">
+            <div class="collapse" id="recommend">
+                <div class="well">
+                    <div id="recommend-blue-loader" class="loader loader-blue"></div>
+                    <font color="#77AAFF"> <div id="recommend-blue"></div></font>
+                    <div id="recommend-red-loader" class="loader loader-red"></div>
+                    <font color="#FF8888"> <div id="recommend-red"></div></font>
+                </div>
+            </div>
             <div id="game">
             </div>
         </div>
@@ -119,7 +144,7 @@
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/seedrandom/2.4.3/seedrandom.min.js" integrity="sha256-64f1BOntWrbWIG++Jw3Ad4BSjTz8FG2DLeZ0kD3lLcc=" crossorigin="anonymous"></script>
-        <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@1.0.0/dist/tf.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@1.0.0/dist/tf.min.js"> </script>
         <script src="recommend/localStorageDB.js"></script>
         <script src="recommend/recommend.js"></script>
         <script>
@@ -131,6 +156,7 @@
             game.allrevealed = false;
             game.type  = []
             game.error = null;
+            game.show_recommend = true;
 
             var random_comparer = function(a, b) {
                 return 2 * Math.random() - 1;
@@ -165,13 +191,107 @@
                 return res;
             }
 
+            function recommend_needed() {
+                return !game.error && game.allrevealed && game.show_recommend && $('#seed').val().split('-', 2)[0] == 'en';
+            }
+
+            function hash(str) {
+                var i = str.length
+                var hash1 = 5381
+                var hash2 = 52711
+
+                while (i--) {
+                    const char = str.charCodeAt(i)
+                    hash1 = (hash1 * 33) ^ char
+                    hash2 = (hash2 * 33) ^ char
+                }
+
+                return (hash1 >>> 0) * 4096 + (hash2 >>> 0)
+            }
+
+
+            function get_query_and_hash(color) {
+                w = {r: [], b: [], n: [], e: []};
+                var res = 0;
+                for (var idx = 0; idx < game.num_rows * game.num_cols; idx += 1) {
+                    if (!game.revealed[idx]) {
+                        w[game.type[idx]].push(game.words[idx])
+                    }
+                }
+                if (w.b.length == 0 || w.r.length == 0 || w.e.length == 0) {
+                    return [null, null];
+                }
+                if (color == 'blue') {
+                    var good = w.b;
+                    var bad = w.r.concat(w.n);
+                    var num_guesses = w.b.length;
+                } else {
+                    var good = w.r
+                    var bad = w.b.concat(w.n);
+                    var num_guesses = w.r.length;
+                }
+                var fail = w.e;
+                var risk = 0;
+                function query() { console.log('actual query'); return recommend(good, bad, fail, risk, num_guesses)};
+                var query_hash = 'good:' + good.join(',') + ' bad:' + bad.join(',') +' fail:' + fail.join(',') +
+                                 ' risk:' + risk + ' num_guesses:' + num_guesses;
+                query_hash = hash(query_hash);
+                return [query, query_hash];
+            }
+
+            var current_hash = {blue: null, red: null}
+            function recommend_thread(color) {
+                var loader = $('#recommend-' + color + '-loader');
+                var text = $('#recommend-' + color);
+                var wait_delay = 250;
+
+                function invoke_self() {recommend_thread(color);}
+
+
+                if (recommend_needed()) {
+                    if (model === null) {
+                        loader.show();
+                        load_model(invoke_self);
+                        return;
+                    }
+                    [query, query_hash] = get_query_and_hash(color);
+
+                    if (query_hash === null) {
+                        loader.hide();
+                        text.text('no recommendation available');
+                        current_hash[color] = null;
+                        setTimeout(invoke_self, wait_delay);
+                        return;
+                    }
+                    if (query_hash === current_hash[color]) {
+                        setTimeout(invoke_self, wait_delay);
+                        return
+                    }
+                    text.text('');
+                    loader.show();
+                    setTimeout(function() {
+                        query().then(function(value) {
+                            loader.hide();
+                            text.text(value.slice(0, 10).join(', '))
+                            current_hash[color] = query_hash;
+                            setTimeout(invoke_self, 0);
+                        });
+                    }, 10);
+                } else {
+                    setTimeout(invoke_self, wait_delay);
+                }
+            }
+
+
             function render() {
+                var recommend = $('#recommend');
                 var game_ui = $("#game");
                 game_ui.html("");
                 if (game.error) {
                     var p = $('<p class="lead" \>');
                     p.html(game.error);
                     game_ui.append(p);
+                    recommend.collapse('hide');
                 } else {
                     table = $('<table class="cards" />');
                     $('#spymaster-li').removeClass();
@@ -211,11 +331,11 @@
                             row.append(cell);
                         }
                         table.append(row);
-
                     }
                     game_ui.append(table);
                     $('#red-left').text(getRemaining("r"));
                     $('#blue-left').text(getRemaining("b"));
+                    recommend.collapse(recommend_needed() ? 'show' : 'hide')
                 }
                 sessionStorage.setItem("game", JSON.stringify(game));
             }
@@ -314,6 +434,9 @@
                 } else {
                     reset();
                 }
+                recommend_thread('red');
+                recommend_thread('blue');
+
             });
         </script>
         <script>

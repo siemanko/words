@@ -102,7 +102,7 @@ function recommend(good, bad, fail, risk, num_guesses) {
             var good_score = good_dist.mul(-1).topk(good_dist.shape[1], true).values.slice([0, num_guesses - 1], [-1, 1]).squeeze();
 
             var score = good_score.add(bad_score);
-            var best_scores = score.topk(1000);
+            var best_scores = score.topk(100);
             var best_candidates = best_scores.indices.arraySync()
 
             var forbidden_words = new Set()

@@ -285,7 +285,7 @@
                         load_model(invoke_self);
                         return;
                     }
-                    [query, query_hash] = get_query_and_hash(color);
+                    var [query, query_hash] = get_query_and_hash(color);
 
                     if (query_hash === null) {
                         loader.hide();
@@ -294,7 +294,7 @@
                         setTimeout(invoke_self, wait_delay);
                         return;
                     }
-                    if (query_hash === current_hash[color]) {
+                    if (current_hash[color] == query_hash) {
                         setTimeout(invoke_self, wait_delay);
                         return
                     }

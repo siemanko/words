@@ -4,8 +4,13 @@
 
         <meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
         <style>
+            html {
+                background-color: #ffffff;
+                /* Or any color / image you want */
+            }
             body {
                 padding-top: 70px;
+                background-color: white;
             }
             .cards {
                 vertical-align: middle;
@@ -145,6 +150,7 @@
                                 </form>
                             </div>
                         </div>
+
                     </li>
                     <!-- reset  -->
                     <li class="nav-item dropdown">
@@ -156,6 +162,8 @@
                           <a class="dropdown-item reset-button" href="#" data-language="pl">Polish</a>
                         </div>
                     </li>
+                    <li class="nav-item"><a href='#' class="nav-link" id="fullscreen">Fullscreen</a></li>
+
                 </ul>
                 <!-- seed input -->
                 <form class="form-inline my-2 my-lg-0">
@@ -586,7 +594,10 @@
                 }
                 recommend_thread('red');
                 recommend_thread('blue');
-                $('body')[0].requestFullscreen();
+                $('#fullscreen').click(function() {
+                    console.log("requesting fullscreen")
+                    $('body')[0].requestFullscreen();
+                });
             });
         </script>
         <script>

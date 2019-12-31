@@ -71,9 +71,16 @@
                 border-right: 1px solid silver;
             }
 
+            .recommend-box {
+                height:3rem;
+            }
+
             @media (max-width: 768px) {
                 .border-md-right {
                     border-right: none;
+                }
+                .recommend-box {
+                    overflow-x: scroll;
                 }
             }
             @media (min-width: 768px) {
@@ -81,6 +88,9 @@
                     min-width: 25rem;
                 }
             }
+
+
+
         </style>
     </head>
     <body>
@@ -213,11 +223,11 @@
             <div class="collapse" id="recommend">
                 <div class="card">
                     <ul class="list-group list-group-flush">
-                        <li class="list-group-item text-truncate" style="height:3rem;overflow-x: scroll;">
+                        <li class="list-group-item text-truncate recommend-box">
                             <div id="recommend-blue-loader" class="spinner-grow spinner-grow-sm align-middle text-primary" role="status"></div>
                             <font color="#77AAFF"><div id="recommend-blue"></div></font>
                         </li>
-                        <li class="list-group-item text-truncate" style="height:3rem;overflow-x: scroll;">
+                        <li class="list-group-item text-truncate reommend-box">
                             <div id="recommend-red-loader" class="spinner-grow spinner-grow-sm align-middle text-danger" role="status"></div>
                             <font color="#FF8888"><div id="recommend-red"></div></font>
                         </li>

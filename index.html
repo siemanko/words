@@ -185,6 +185,26 @@
                     <li class="nav-item"><a href='#' class="nav-link" id="fullscreen">Fullscreen</a></li>
 
                 </ul>
+                <div class="nav-text">
+                    <span
+                       style="color:red"
+                       data-toggle="tooltip"
+                       data-placement="bottom"
+                       title="Number of red tiles that weren't discovered yet.">
+                       Red left: <span id="red-left"></span>
+                    </span>
+                    &nbsp;
+                    <span
+                       style="color:blue"
+                       data-toggle="tooltip"
+                       data-placement="bottom"
+                       align="right"
+                       title="Number of blue tiles that weren't discovered yet.">
+                       Blue left: <span id="blue-left"></span>
+                    </span>
+                    &nbsp;
+                    &nbsp;
+                </div>
                 <!-- seed input -->
                 <form class="form-inline my-2 my-lg-0">
                     <div class="input-group">
@@ -222,7 +242,7 @@
         </div>
 
         <div class="container" style="height: 100%; display:flex; flex-direction:column;">
-            <div class="row" style="flex: 0.9">
+            <div class="row" style="flex: 1.0">
                 <div class="col-sm-3 col-md-2 collapse" id="recommend">
                     <table class="table-style">
                         <tr>
@@ -245,24 +265,6 @@
 
                 </div>
                 <div class="col" id="game"></div>
-            </div>
-            <div style="text-align: right; flex: 0.1">
-                <span
-                   style="color:red"
-                   data-toggle="tooltip"
-                   data-placement="bottom"
-                   title="Number of red tiles that weren't discovered yet.">
-                   Red left: <span id="red-left"></span>
-                </span>
-                &nbsp;
-                <span
-                   style="color:blue"
-                   data-toggle="tooltip"
-                   data-placement="bottom"
-                   align="right"
-                   title="Number of blue tiles that weren't discovered yet.">
-                   Blue left: <span id="blue-left"></span>
-                </span>
             </div>
         </div>
         <!-- Latest compiled and minified JavaScript -->

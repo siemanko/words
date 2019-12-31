@@ -10,9 +10,9 @@
             .cards {
                 vertical-align: middle;
                 width: 100%;
-                height: 80%;
                 border-spacing: 10px;
                 border-collapse: separate;
+                height: 100%;
             }
 
             .cell {
@@ -193,7 +193,7 @@
             </div>
         </div>
 
-        <div class="container">
+        <div class="container" style="height: 100%; display:flex; flex-direction:column;">
             <div class="collapse" id="recommend">
                 <div class="card">
                     <ul class="list-group list-group-flush">
@@ -208,9 +208,10 @@
                     </ul>
                 </div>
             </div>
+
             <div id="game">
             </div>
-            <div class="float-right">
+            <div style="text-align: right; height: 3rem">
                 <span
                    style="color:red"
                    data-toggle="tooltip"
@@ -382,6 +383,7 @@
                 var recommend = $('#recommend');
                 var game_ui = $("#game");
                 game_ui.html("");
+                game_ui.css({'flex': 1})
                 $('#risk').val(game.risk);
                 $('#num-guesses').val(game.num_guesses);
                 if (game.error) {

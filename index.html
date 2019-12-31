@@ -586,10 +586,7 @@
                 }
                 recommend_thread('red');
                 recommend_thread('blue');
-                setTimeout(function(){
-                    // This hides the address bar:
-                    window.scrollTo(0, 1);
-                }, 0);
+                $('body')[0].requestFullscreen();
             });
         </script>
         <script>

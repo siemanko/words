@@ -26,40 +26,36 @@ function load_model(callback) {
         }
     }
 
-    var load_steps = new Uint8Array(new SharedArrayBuffer(1));
-    var total_steps = 2
-    function on_step_done() {
-        if (Atomics.add(load_steps, 0, 1) === total_steps - 1) {
-            ldb.set(storage_key, [vec, word])
-            process_data();
-        }
-    }
-
-    function on_vec_loaded(event) {
-        vec = new Float32Array(event.target.response);
-        on_step_done();
-    }
-
-    function on_word_loaded(event) {
-        word = event.target.response;
-        on_step_done();
-    }
-
     function on_ldb_ready(value) {
         if (value === null) {
             console.log("fetching model for the first time.");
 
-            var oReq = new XMLHttpRequest();
-            oReq.addEventListener("load", on_vec_loaded);
-            oReq.open("GET", "recommend/vec.bytes");
-            oReq.responseType = "arraybuffer";
-            oReq.send();
+            var vec_promise = new Promise(function(resolve, reject) {
+                var oReq = new XMLHttpRequest();
+                oReq.addEventListener("load", function(event) {
+                    vec = new Float32Array(event.target.response);
+                    resolve();
+                });
+                oReq.open("GET", "recommend/vec.bytes");
+                oReq.responseType = "arraybuffer";
+                oReq.send();
+            });
 
-            var oReq = new XMLHttpRequest();
-            oReq.addEventListener("load", on_word_loaded);
-            oReq.open("GET", "recommend/word.json");
-            oReq.responseType = "json";
-            oReq.send();
+            var word_promise = new Promise(function(resolve, reject) {
+                var oReq = new XMLHttpRequest();
+                oReq.addEventListener("load", function() {
+                    word = event.target.response;
+                    resolve();
+                });
+                oReq.open("GET", "recommend/word.json");
+                oReq.responseType = "json";
+                oReq.send();
+            })
+
+            Promise.all([vec_promise, word_promise]).then(function() {
+                ldb.set(storage_key, [vec, word])
+                process_data();
+            })
         } else {
             console.log("loading model from local storage.");
             vec = value[0];

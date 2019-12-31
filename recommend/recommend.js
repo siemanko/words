@@ -90,6 +90,7 @@ function distances_to_words(word_list) {
 }
 
 function recommend(good, bad, fail, risk, num_guesses) {
+    console.log("query", good, bad, fail, risk, num_guesses);
     return new Promise(function(resolve, reject) {
         const res = tf.tidy(function() {
             var good_dist = distances_to_words(good);

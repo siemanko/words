@@ -107,18 +107,20 @@
             <div class="collapse navbar-collapse" id="menu">
                 <!-- navigation buttons -->
                 <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
-                    <li class="nav-item"><a href='#' class="nav-link" data-toggle="modal" data-target="#about-modal">About</a></li>
+                    <li class="nav-item"><a href='#' class="nav-link" data-toggle="modal" data-target="#about-modal">
+                        <img src="icons/info.svg" style="height:2rem" />&nbsp;About
+                    </a></li>
                     <li id="spymaster-li"
                         class="nav-item"
                         data-toggle="tooltip"
                         data-placement="bottom"
                         title="Display the colors of all tiles.">
-                        <a class="nav-link" href="#" id="spymaster">Spymaster</a>
+                        <a class="nav-link" href="#" id="spymaster"><img src="icons/detective.svg" style="height:2rem" />&nbsp;Spymaster</a>
                     </li>
                     <!-- spy assistant  -->
                     <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                          Spy Assistant
+                        <a class="nav-link" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                          <img src="icons/ai.svg" style="height:2rem" />&nbsp;Spy Assistant
                         </a>
                         <div class="dropdown-menu text-muted wide-non-mobile">
                             <div class="form-group" id="recommend-lang-warning">
@@ -182,8 +184,8 @@
                     </li>
                     <!-- reset  -->
                     <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                          Reset
+                        <a class="nav-link" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                          <img src="icons/reset.svg" style="height:2rem" />&nbsp;Reset
                         </a>
                         <div class="dropdown-menu">
                           <a class="dropdown-item reset-button" href="#" data-language="en">English</a>
@@ -545,15 +547,17 @@
                 total = game.num_rows * game.num_cols;
                 nthings = Math.floor(total / 3);
                 game.type = [];
-                for (var i = 0; i < nthings; i += 1) {
-                    game.type.push("r");
-                    game.type.push("b");
+                reds_and_blues = []
+                for (var i = 0; i < nthings + 1; i += 1) {
+                    reds_and_blues.push("r");
+                    reds_and_blues.push("b");
                 }
-                if (getRandomInt(0, 2) === 0) {
-                    game.type.push("r");
-                } else {
-                    game.type.push("b");
+                var reds_and_blues = seeded_shuffle.shuffle(reds_and_blues, seed, true).slice(0, reds_and_blues.length - 1);
+                for (var color of reds_and_blues) {
+                    game.type.push(color);
                 }
+                console.log(reds_and_blues)
+
                 game.type.push("e");
                 for (var i = 0; i < total - (2 * nthings + 2); i += 1) {
                     game.type.push("n");

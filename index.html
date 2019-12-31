@@ -562,7 +562,19 @@
                 render();
             }
 
+            var current_version = 2;
+
+            function verify_storage() {
+                if (sessionStorage.getItem('storage_version') < current_version) {
+                    indexedDB.deleteDatabase('d2');
+                    sessionStorage.clear();
+                    sessionStorage.setItem('storage_version', current_version);
+                    alert('Website was updated to new version! Deleting your old settings.')
+                }
+            }
+
             $(document).ready(function() {
+                verify_storage();
                 if (!('ontouchstart' in document.documentElement)) {
                      $('[data-toggle="tooltip"]').tooltip();
                 }

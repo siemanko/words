@@ -17,11 +17,7 @@
                 height: 100%;
             }
 
-            /* this fix from 2017 still works! */
-            nav.navbar.fixed-top {
-                max-height:100%;
-                overflow-y:auto;
-            }
+
 
             .cell {
                 border-radius: 10px;
@@ -80,9 +76,18 @@
                 font-size: 1rem;
             }
             @media (max-width: 768px) {
-              .recommend-box {
-                font-size: 0.7rem;
-              }
+                .recommend-box {
+                    font-size: 0.7rem;
+                }
+
+            }
+
+            @media (max-width: 992px) {
+                /* this fix from 2017 still works! */
+                nav.navbar.fixed-top {
+                    max-height:100%;
+                    overflow-y:auto;
+                }
             }
 
             @media (min-width: 768px) {
@@ -480,7 +485,15 @@
                     game_ui.append(table);
                     $('#red-left').text(getRemaining("r"));
                     $('#blue-left').text(getRemaining("b"));
-                    recommend.collapse(recommend_needed() ? 'show' : 'hide')
+                    if (recommend_needed()) {
+                        recommend.addClass('d-none');
+                        recommend.addClass('d-sm-block');
+                        recommend.collapse('show');
+                    } else {
+                        recommend.collapse('hide');
+                        recommend.removeClass('d-none');
+                        recommend.removeClass('d-sm-block');
+                    }
                     if (get_lang() == 'en') {
                         $('#recommend-lang-warning').hide();
                     } else {

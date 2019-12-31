@@ -15,7 +15,7 @@
                 background-color: white;
                 height: 100%;
             }
-            .cards {
+            .table-style {
                 vertical-align: middle;
                 width: 100%;
                 border-spacing: 10px;
@@ -67,22 +67,22 @@
             }
 
 
-            .border-md-right {
-                border-right: 1px solid silver;
-            }
-
             .recommend-box {
-                height:3rem;
+                display: table-cell;
+                max-height: 0px;
+                max-width: 0px;
+                min-width: 100%;
+                overflow-y: scroll;
+                text-align: center;
+                border: 2px solid black;
+                border-radius: 10px;
+                line-height: 1.2;
+            }
+            .wide-non-mobile {
+
             }
 
-            @media (max-width: 768px) {
-                .border-md-right {
-                    border-right: none;
-                }
-                .recommend-box {
-                    overflow-x: scroll;
-                }
-            }
+
             @media (min-width: 768px) {
                 .wide-non-mobile {
                     min-width: 25rem;
@@ -219,23 +219,30 @@
             </div>
         </div>
 
-        <div class="container" style="height: 90%; display:flex; flex-direction:column;">
-            <div class="collapse" id="recommend">
-                <div class="card">
-                    <ul class="list-group list-group-flush">
-                        <li class="list-group-item text-truncate recommend-box">
-                            <div id="recommend-blue-loader" class="spinner-grow spinner-grow-sm align-middle text-primary" role="status"></div>
-                            <font color="#77AAFF"><div id="recommend-blue"></div></font>
-                        </li>
-                        <li class="list-group-item text-truncate reommend-box">
-                            <div id="recommend-red-loader" class="spinner-grow spinner-grow-sm align-middle text-danger" role="status"></div>
-                            <font color="#FF8888"><div id="recommend-red"></div></font>
-                        </li>
-                    </ul>
-                </div>
-            </div>
+        <div class="container" style="height: 100%; display:flex; flex-direction:column;">
+            <div class="row" style="flex: 1">
+                <div class="col-sm-3 col-md-2 collapse" id="recommend">
+                    <table class="table-style">
+                        <tr>
+                            <td class="recommend-box align-middle">
+                                <div height="100%">
+                                    <div id="recommend-blue-loader" class="spinner-grow spinner-grow-sm align-middle text-primary" role="status"></div>
+                                    <font color="#77AAFF"><div id="recommend-blue"></div></font>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="recommend-box align-middle">
+                                <div height="100%">
+                                    <div id="recommend-red-loader" class="spinner-grow spinner-grow-sm align-middle text-danger" role="status"></div>
+                                    <font color="#FF8888"><div id="recommend-red"></div></font>
+                                </div>
+                            </td>
+                        </tr>
+                    </table >
 
-            <div id="game">
+                </div>
+                <div class="col" id="game"></div>
             </div>
             <div style="text-align: right; height: 3rem">
                 <span
@@ -394,7 +401,7 @@
                     setTimeout(function() {
                         query().then(function(value) {
                             loader.hide();
-                            text.text(value.slice(0, 10).join(', '))
+                            text.html(value.slice(0, 8).join('<br>'))
                             current_hash[color] = query_hash;
                             setTimeout(invoke_self, 0);
                         });
@@ -409,7 +416,6 @@
                 var recommend = $('#recommend');
                 var game_ui = $("#game");
                 game_ui.html("");
-                game_ui.css({'flex': 1})
                 $('#risk').val(game.risk);
                 $('#num-guesses').val(game.num_guesses);
                 if (game.error) {
@@ -418,7 +424,7 @@
                     game_ui.append(p);
                     recommend.collapse('hide');
                 } else {
-                    table = $('<table class="cards" />');
+                    table = $('<table class="table-style" />');
                     $('#spymaster-li').removeClass();
                     if (game.allrevealed) {
                         $('#spymaster-li').addClass("active");

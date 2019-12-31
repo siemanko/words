@@ -324,7 +324,7 @@
                     var bad = w.b.concat(w.n);
                 }
                 var fail = w.e;
-                if (good.length == 0 || fail.length == 0) {
+                if (good.length == 0) {
                     return [null, null];
                 }
 
@@ -366,7 +366,7 @@
 
                     if (query_hash === null) {
                         loader.hide();
-                        text.text('no recommendation available');
+                        text.text('zero words left to guess.');
                         current_hash[color] = null;
                         setTimeout(invoke_self, wait_delay);
                         return;

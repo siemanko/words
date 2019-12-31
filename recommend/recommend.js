@@ -101,9 +101,12 @@ function recommend(good, bad, fail, risk, num_guesses) {
             }
             if (bad.length > 0) {
                 var bad_dist = distances_to_words(bad);
-                if (fail_and_bad_score === null) { throw new Error('empty-fail + non-empty bad is not supported')}
                 var bad_score = bad_dist.mul(-1).topk(bad_dist.shape[1], true).values.slice([0, risk], [-1, 1]).mul(-1).squeeze();
-                fail_and_bad_score = tf.minimum(bad_score, fail_and_bad_score);
+                if (fail_and_bad_score === null) {
+                    fail_and_bad_score = bad_score;
+                } else {
+                    fail_and_bad_score = tf.minimum(bad_score, fail_and_bad_score);
+                }
             }
 
             var good_dist = distances_to_words(good);

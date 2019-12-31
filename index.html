@@ -284,8 +284,12 @@
                 return res;
             }
 
+            function get_lang() {
+                return $('#seed').val().split('-', 2)[0]
+            }
+
             function recommend_needed() {
-                return !game.error && game.allrevealed && game.show_recommend && $('#seed').val().split('-', 2)[0] == 'en';
+                return !game.error && game.allrevealed && game.show_recommend && get_lang() == 'en';
             }
 
             function hash(str) {
@@ -311,21 +315,31 @@
                         w[game.type[idx]].push(game.words[idx])
                     }
                 }
-                if (w.b.length == 0 || w.r.length == 0 || w.e.length == 0) {
-                    return [null, null];
-                }
+
                 if (color == 'blue') {
                     var good = w.b;
                     var bad = w.r.concat(w.n);
-                    var num_guesses = w.b.length;
                 } else {
                     var good = w.r
                     var bad = w.b.concat(w.n);
-                    var num_guesses = w.r.length;
                 }
-                num_guesses = Math.min(num_guesses, game.num_guesses);
                 var fail = w.e;
-                var risk = 0;
+                if (good.length == 0 || fail.length == 0) {
+                    return [null, null];
+                }
+
+                var num_guesses = Math.min(good.length, parseInt(game.num_guesses));
+                if (game.risk == 'allbutblack') {
+                    bad = [];
+                    var risk = 0;
+                } else if (game.risk == 'all') {
+                    bad = [];
+                    fail = [];
+                    var risk = 0;
+                } else {
+                    var risk = Math.min(parseInt(game.risk), bad.length);
+                }
+
                 function query() { return recommend(good, bad, fail, risk, num_guesses)};
                 var query_hash = 'good:' + good.join(',') + ' bad:' + bad.join(',') +' fail:' + fail.join(',') +
                                  ' risk:' + risk + ' num_guesses:' + num_guesses;
@@ -439,7 +453,7 @@
                     $('#red-left').text(getRemaining("r"));
                     $('#blue-left').text(getRemaining("b"));
                     recommend.collapse(recommend_needed() ? 'show' : 'hide')
-                    if (recommend_needed()) {
+                    if (get_lang() == 'en') {
                         $('#recommend-lang-warning').hide();
                     } else {
                         $('#recommend-lang-warning').show();

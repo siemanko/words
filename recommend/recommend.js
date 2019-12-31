@@ -93,16 +93,26 @@ function recommend(good, bad, fail, risk, num_guesses) {
     console.log("query", good, bad, fail, risk, num_guesses);
     return new Promise(function(resolve, reject) {
         const res = tf.tidy(function() {
-            var good_dist = distances_to_words(good);
-            var bad_dist = distances_to_words(bad);
-            var fail_dist = distances_to_words(fail)
-
             // this is tiny big hacky - I use tensor.mul(-1).topk to emulate sort.
-            var bad_score = bad_dist.mul(-1).topk(bad_dist.shape[1], true).values.slice([0, risk], [-1, 1]).mul(-1).squeeze();
-            var bad_score = tf.minimum(fail_dist.min(-1), bad_score);
+            var fail_and_bad_score = null;
+            if (fail.length > 0) {
+                var fail_dist = distances_to_words(fail)
+                fail_and_bad_score = fail_dist.min(-1);
+            }
+            if (bad.length > 0) {
+                var bad_dist = distances_to_words(bad);
+                if (fail_and_bad_score === null) { throw new Error('empty-fail + non-empty bad is not supported')}
+                var bad_score = bad_dist.mul(-1).topk(bad_dist.shape[1], true).values.slice([0, risk], [-1, 1]).mul(-1).squeeze();
+                fail_and_bad_score = tf.minimum(bad_score, fail_and_bad_score);
+            }
+
+            var good_dist = distances_to_words(good);
             var good_score = good_dist.mul(-1).topk(good_dist.shape[1], true).values.slice([0, num_guesses - 1], [-1, 1]).squeeze();
 
-            var score = good_score.add(bad_score);
+            var score = good_score;
+            if (fail_and_bad_score !== null) {
+                score = score.add(fail_and_bad_score);
+            }
             var best_scores = score.topk(100);
             var best_candidates = best_scores.indices.arraySync()
 

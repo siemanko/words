@@ -14,20 +14,26 @@
             .table-style {
                 vertical-align: middle;
                 width: 100%;
-                border-spacing: 10px;
                 border-collapse: separate;
                 height: 100%;
+                margin: 0px;
+                border-spacing: 1rem 1rem;
             }
 
-            .cell {
-                border-radius: 10px;
-                text-align: center;
-                font-weight: bold;
-                font-size: 1.4vw;
-                display: table-cell;
+            .cell-style {
+                border: 2px solid black;
                 max-width: 0px;
                 max-height: 0px;
+                text-align: center;
             }
+
+            .word {
+                border-radius: 10px;
+                font-weight: bold;
+                font-size: 1.4vw;
+            }
+
+
             .cell-inrevealed {
                 border: 2px dotted black;
             }
@@ -62,19 +68,20 @@
                 opacity: 0.2;
             }
 
-
-            .recommend-box {
-                display: table-cell;
-                max-height: 0px;
-                max-width: 0px;
-                min-width: 100%;
-                overflow-y: scroll;
-                text-align: center;
-                border: 2px solid black;
-                border-radius: 10px;
-                line-height: 1.2;
-                font-size: 1rem;
+            .cluemaster-control {
+                height: 1px;
+                padding: 0px;
             }
+
+            .cluemaster-control .form-group {
+                margin-bottom: 0px;
+                padding-top: 0.5rem;
+            }
+
+            .cluemaster-control > form {
+                margin: 0px;
+            }
+
             @media (max-width: 768px) {
                 .recommend-box {
                     font-size: 0.7rem;
@@ -110,12 +117,12 @@
                     <li class="nav-item"><a href='#' id="about" class="nav-link" data-toggle="modal" data-target="#about-modal">
                         <img src="icons/info.svg" style="height:2rem" />&nbsp;About
                     </a></li>
-                    <li id="spymaster-li"
+                    <li id="cluemaster-li"
                         class="nav-item"
                         data-toggle="tooltip"
                         data-placement="bottom"
                         title="Display the colors of all tiles.">
-                        <a class="nav-link" href="#" id="spymaster"><img src="icons/detective.svg" style="height:2rem" />&nbsp;Spymaster</a>
+                        <a class="nav-link" href="#" id="cluemaster"><img src="icons/detective.svg" style="height:2rem" />&nbsp;cluemaster</a>
                     </li>
                     <!-- spy assistant  -->
                     <li class="nav-item dropdown">
@@ -136,7 +143,7 @@
                             <div id="intro-recommend">
                                 <form class="px-4 py-1">
                                     <div class="form-group text-justify">
-                                        <small>Automated tool to recommend Spymaster clues. It works best towards endgame. It is based on the <a href="https://nlp.stanford.edu/projects/glove/">glove vectors</a>. This specific application was inspired by a <a href="https://jsomers.net/glove-codenames/">blog post</a> that I saw on hacker news.</small>
+                                        <small>Automated tool to recommend cluemaster clues. It works best towards endgame. It is based on the <a href="https://nlp.stanford.edu/projects/glove/">glove vectors</a>. This specific application was inspired by a <a href="https://jsomers.net/glove-codenames/">blog post</a> that I saw on hacker news.</small>
                                     </div>
                                     <div class="form-group text-center">
                                         <button class="btn btn-primary" id="enable-recommend">Enable</button>
@@ -240,7 +247,7 @@
 
                         <p>On laptops you need to <b>double-click</b> the words to select them.</p>
 
-                        <p>Check out <i>Spy assistant</i> tab for an automated tool to recommend spymaster clues. It works best towards endgame.</p>
+                        <p>Check out <i>Spy assistant</i> tab for an automated tool to recommend cluemaster clues. It works best towards endgame.</p>
                     </div>
                     <div class="modal-footer">
                         <a class="btn btn-info" href="https://en.wikipedia.org/wiki/Codenames_(board_game)">Rules</a>
@@ -250,28 +257,47 @@
             </div>
         </div>
 
-        <div class="container" style="height: 100%; display:flex; flex-direction:column;">
-            <div class="row" style="flex: 1.0">
+        <div class="container-fluid h-100">
+            <div class="row h-100">
                 <div class="col-3 col-lg-2 collapse d-none d-sm-block" id="recommend">
-                    <table class="table-style">
-                        <tr>
-                            <td class="recommend-box align-middle">
-                                <div height="100%">
-                                    <div id="recommend-blue-loader" class="spinner-grow spinner-grow-sm align-middle text-primary" role="status"></div>
-                                    <font color="#77AAFF"><div id="recommend-blue"></div></font>
-                                </div>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td class="recommend-box align-middle">
-                                <div height="100%">
-                                    <div id="recommend-red-loader" class="spinner-grow spinner-grow-sm align-middle text-danger" role="status"></div>
-                                    <font color="#FF8888"><div id="recommend-red"></div></font>
-                                </div>
-                            </td>
-                        </tr>
-                    </table >
-
+                    <div class="row h-100">
+                        <div class="col" >
+                            <table class="table-style" style="border-spacing: 0rem 1rem;">
+                                <tr>
+                                    <td class="cell-style align-middle cluemaster-control">
+                                        <form>
+                                          <div class="form-group">
+                                            <label for="auto-cluemaster">Example label</label>
+                                            <div class="btn-group w-100" role="group" id="auto-cluemaster">
+                                              <button type="button" class="btn btn-light">1</button>
+                                              <button type="button" class="btn btn-light">2</button>
+                                              <button type="button" class="btn btn-light">3</button>
+                                              <button type="button" class="btn btn-light">4</button>
+                                              <button type="button" class="btn btn-light">all</button>
+                                            </div>
+                                          </div>
+                                        </form>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="recommend-box cell-style align-middle">
+                                        <div height="100%">
+                                            <div id="recommend-blue-loader" class="spinner-grow spinner-grow-sm align-middle text-primary" role="status"></div>
+                                            <font color="#77AAFF"><div id="recommend-blue"></div></font>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="recommend-box cell-style align-middle">
+                                        <div height="100%">
+                                            <div id="recommend-red-loader" class="spinner-grow spinner-grow-sm align-middle text-danger" role="status"></div>
+                                            <font color="#FF8888"><div id="recommend-red"></div></font>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </table >
+                        </div>
+                    </div>
                 </div>
                 <div class="col" id="game"></div>
             </div>
@@ -323,7 +349,7 @@
             }
 
             function recommend_needed() {
-                return !game.error && game.allrevealed && game.show_recommend && get_lang() == 'en';
+                return !game.error && game.show_recommend && get_lang() == 'en';
             }
 
             function hash(str) {
@@ -382,15 +408,15 @@
             }
 
             var current_hash = {blue: null, red: null}
-            function recommend_thread(color) {
+            function cluemaster_recommend_thread(color) {
                 var loader = $('#recommend-' + color + '-loader');
                 var text = $('#recommend-' + color);
                 var wait_delay = 250;
 
-                function invoke_self() {recommend_thread(color);}
+                function invoke_self() {cluemaster_recommend_thread(color);}
 
 
-                if (recommend_needed()) {
+                if (recommend_needed() && game.allrevealed) {
                     if (model === null) {
                         loader.show();
                         load_model(invoke_self);
@@ -437,10 +463,10 @@
                     game_ui.append(p);
                     recommend.collapse('hide');
                 } else {
-                    table = $('<table class="table-style" />');
-                    $('#spymaster-li').removeClass();
+                    table = $('<table class="table-style"/>');
+                    $('#cluemaster-li').removeClass();
                     if (game.allrevealed) {
-                        $('#spymaster-li').addClass("active");
+                        $('#cluemaster-li').addClass("active");
                     }
                     if (game.show_recommend) {
                         $('#intro-recommend').hide();
@@ -454,7 +480,8 @@
                         for (var j=0; j < game.num_cols; j+=1) {
                             var idx = i * game.num_cols + j;
                             var cell = $("<td>")
-                            cell.addClass("cell");
+                            cell.addClass("cell-style");
+                            cell.addClass("word");
                             if (game.revealed[idx] || game.allrevealed) {
                                 cell.addClass("cell-revealed");
                                 if (game.type[idx] === "r") {
@@ -509,7 +536,7 @@
                 render();
             }
 
-            function toggle_spymaster() {
+            function toggle_cluemaster() {
                 game.allrevealed = !game.allrevealed;
                 render();
             }
@@ -622,12 +649,12 @@
                 if (!('ontouchstart' in document.documentElement)) {
                      $('[data-toggle="tooltip"]').tooltip();
                 }
-                $("#spymaster").click(toggle_spymaster);
+                $("#cluemaster").click(toggle_cluemaster);
                 $('#enable-recommend').click(enable_recommend);
                 $('#disable-recommend').click(disable_recommend);
                 $(".reset-button").click(reset);
 
-                $("#about, #spymaster, .reset-button").click(function() { $('#menu').collapse('hide') });
+                $("#about, #cluemaster, .reset-button").click(function() { $('#menu').collapse('hide') });
 
                 $("#seed").val(seed);
                 $("#seed").keyup(set_from_seed);
@@ -642,8 +669,8 @@
                 } else {
                     reset();
                 }
-                recommend_thread('red');
-                recommend_thread('blue');
+                cluemaster_recommend_thread('red');
+                cluemaster_recommend_thread('blue');
             });
         </script>
         <script>

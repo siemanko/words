@@ -122,12 +122,12 @@
                         data-toggle="tooltip"
                         data-placement="bottom"
                         title="Display the colors of all tiles.">
-                        <a class="nav-link" href="#" id="cluemaster"><img src="icons/detective.svg" style="height:2rem" />&nbsp;cluemaster</a>
+                        <a class="nav-link" href="#" id="cluemaster"><img src="icons/detective.svg" style="height:2rem" />&nbsp;Clue Master</a>
                     </li>
                     <!-- spy assistant  -->
                     <li class="nav-item dropdown">
                         <a class="nav-link" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                          <img src="icons/ai.svg" style="height:2rem" />&nbsp;Spy Assistant
+                          <img src="icons/ai.svg" style="height:2rem" />&nbsp;Clue Assistant
                         </a>
                         <div class="dropdown-menu text-muted wide-non-mobile">
                             <div class="form-group" id="recommend-lang-warning">
@@ -263,7 +263,7 @@
                     <div class="row h-100">
                         <div class="col" >
                             <table class="table-style" style="border-spacing: 0rem 1rem;">
-                                <tr>
+                                <tr id="auto-cluemaster-control">
                                     <td class="cell-style align-middle cluemaster-control">
                                         <form>
                                           <div class="form-group">
@@ -280,19 +280,13 @@
                                     </td>
                                 </tr>
                                 <tr>
-                                    <td class="recommend-box cell-style align-middle">
-                                        <div height="100%">
-                                            <div id="recommend-blue-loader" class="spinner-grow spinner-grow-sm align-middle text-primary" role="status"></div>
-                                            <font color="#77AAFF"><div id="recommend-blue"></div></font>
-                                        </div>
+                                    <td class="recommend-box cell-style align-middle" id="recommend-box-red">
+
                                     </td>
                                 </tr>
                                 <tr>
-                                    <td class="recommend-box cell-style align-middle">
-                                        <div height="100%">
-                                            <div id="recommend-red-loader" class="spinner-grow spinner-grow-sm align-middle text-danger" role="status"></div>
-                                            <font color="#FF8888"><div id="recommend-red"></div></font>
-                                        </div>
+                                    <td class="recommend-box cell-style align-middle" id="recommend-box-blue">
+
                                     </td>
                                 </tr>
                             </table >
@@ -323,6 +317,10 @@
             game.show_recommend = false;
             game.risk = "0";
             game.num_guesses = "3";
+
+            recommended_words = {}
+            recommended_words.blue = null;
+            recommended_words.red = null;
 
             var polish_words = ["afryka", "amazonka", "ambasada", "ambulans", "ameryka", "anglia", "anioł", "antarktyka", "atlantyda", "australia", "awaria", "aztek", "babka", "bal", "bank", "bar", "basen", "bawełna", "bałwan", "beczka", "belka", "berlin", "bermudy", "bicz", "blok", "bomba", "budowa", "but", "butelka", "bąk", "cebula", "centaur", "centrum", "chiny", "chochlik", "choroba", "ciało", "cień", "czapa", "czar", "czas", "czekolada", "czujka", "dania", "diament", "dinozaur", "dno", "doktor", "donice", "drzewo", "duch", "dusza", "dwór", "dywan", "dzień", "dziobak", "dziura", "dzięcioł", "dzwon", "egipt", "ekran", "europa", "fala", "fartuch", "feniks", "figura", "film", "flet", "foka", "francja", "francuz", "funt", "gaz", "geniusz", "gigant", "gnat", "gniazdko", "golf", "gotyk", "gołąb", "gra", "grabarz", "gracja", "grecja", "groszek", "grzmot", "grzyb", "guma", "guzik", "gwiazda", "góra", "gładki", "głowa", "hak", "helikopter", "himalaje", "holender", "hollywood", "hotel", "humor", "igła", "jabłko", "jagoda", "jaja", "jatka", "jednorożec", "jowisz", "język", "kaczor", "kalosz", "kamień", "kangur", "kaptur", "karawan", "kasa", "kasyno", "kciuk", "keczup", "kiwi", "klamka", "klatka", "klawisz", "klucz", "kod", "kolec", "komórka", "konar", "koncert", "kontakt", "kontrakt", "korona", "korzenie", "kostium", "kot", "kozioł", "koło", "koń", "kościół", "kość", "kraków", "krasnal", "krata", "kret", "kropka", "krzesło", "krzyż", "król", "królik", "królowa", "krówka", "kręgi", "księżniczka", "księżyc", "kucharz", "kwadrat", "lakier", "las", "laser", "laska", "lew", "limuzyna", "lina", "lina", "lis", "loch ness", "lody", "londyn", "lot", "lud", "maj", "maks", "mamut", "marchew", "masa", "materiał", "meksyk", "merkury", "miedź", "mikroskop", "milioner", "mistrz", "miód", "model", "moskwa", "most", "mucha", "mur", "muszla", "mysz", "napad", "nauczyciel", "naukowiec", "nektar", "niebo", "niedźwiedź", "niemcy", "ninja", "nić", "noc", "noga", "nora", "nos", "nowy jork", "nurek", "nóż", "obcy", "obsada", "ogier", "ogień", "ogon", "oko", "olej", "olimp", "oliwa", "opera", "opoka", "organy", "orzech", "orzeł", "ośmiornica", "pająk", "paleta", "paluszki", "pan", "papier", "pas", "pasta", "pazur", "pekin", "perła", "pielęgniarka", "pierścień", "pies", "pilot", "pingwin", "piramida", "pirat", "pistolet", "placek", "plastik", "plaża", "plik", "pochodnia", "pociecha", "pociąg", "poczta", "podkowa", "podkład", "pojazd", "pokrywka", "pole", "policja", "polska", "port", "powietrze", "połączenie", "praca", "prawnik", "prawo", "promień", "przewodnik", "pudło", "punkt", "pupil", "pustka", "północ", "płot", "płyta", "rak", "rakieta", "rama", "rekin", "rewolucja", "robak", "robot", "ruda", "rura", "ryba", "rycerz", "rzut", "rzym", "rząd", "rzęsa", "róg", "róża", "ręka", "rękawica", "samochód", "samolot", "satelita", "saturn", "serce", "siano", "siekacz", "sieć", "silnik", "siła", "skorpion", "skorupa", "smok", "soczewka", "sokół", "spadek", "spadochron", "splot", "stadion", "stan", "statek", "stopa", "stopień", "stołek", "strona", "strumień", "strzał", "stół", "sukienka", "superbohater", "szafa", "szczyt", "szczęście", "szekspir", "szkocja", "szkoła", "szkło", "szmugiel", "sznur", "szpieg", "szpilka", "szpital", "sztuka", "słup", "tablica", "talerz", "talia", "taniec", "tchórz", "teatr", "teleskop", "toaleta", "tokio", "torebka", "trawa", "trucizna", "truteń", "trójkąt", "trąba", "tuba", "tusz", "tusza", "ucho", "usta", "wachlarz", "waga", "waszyngton", "wiatr", "widelec", "wiedźma", "wieloryb", "wieża", "wieżowiec", "wiosna", "wkład", "woda", "wojna", "wstęp", "wybuch", "wydech", "wąż", "zamek", "zebra", "zespół", "zieleń", "ziemia", "zmiana", "zmywacz", "znak", "zwoje", "ząb", "złodziej", "złoto", "ława", "łożysko", "łuk", "łódź", "ślimak", "śmierć", "śnieg", "świerszcz", "świnia", "żabka", "żebro", "żelazo", "żołnierz", "żubr", "żuk", "żuraw", "życie"];
             var english_words = ["africa", "agent", "air", "alien", "alps", "amazon", "ambulance", "america", "angel", "antarctica", "apple", "arm", "atlantis", "australia", "aztec", "back", "ball", "band", "bank", "bar", "bark", "bat", "battery", "beach", "bear", "beat", "bed", "beijing", "bell", "belt", "berlin", "bermuda", "berry", "bill", "block", "board", "bolt", "bomb", "bond", "boom", "boot", "bottle", "bow", "box", "bridge", "brush", "buck", "buffalo", "bug", "bugle", "button", "calf", "canada", "cap", "capital", "car", "card", "carrot", "casino", "cast", "cat", "cell", "centaur", "center", "chair", "change", "charge", "check", "chest", "chick", "china", "chocolate", "church", "circle", "cliff", "cloak", "club", "code", "cold", "comic", "compound", "concert", "conductor", "contract", "cook", "copper", "cotton", "court", "cover", "crane", "crash", "cricket", "cross", "crown", "cycle", "czech", "dance", "date", "day", "death", "deck", "degree", "diamond", "dice", "dinosaur", "disease", "doctor", "dog", "draft", "dragon", "dress", "drill", "drop", "duck", "dwarf", "eagle", "egypt", "embassy", "engine", "england", "europe", "eye", "face", "fair", "fall", "fan", "fence", "field", "fighter", "figure", "file", "film", "fire", "fish", "flute", "fly", "foot", "force", "forest", "fork", "france", "game", "gas", "genius", "germany", "ghost", "giant", "glass", "glove", "gold", "grace", "grass", "greece", "green", "ground", "ham", "hand", "hawk", "head", "heart", "helicopter", "himalayas", "hole", "hollywood", "honey", "hood", "hook", "horn", "horse", "horseshoe", "hospital", "hotel", "ice", "icecream", "india", "iron", "ivory", "jack", "jam", "jet", "jupiter", "kangaroo", "ketchup", "key", "kid", "king", "kiwi", "knife", "knight", "lab", "lap", "laser", "lawyer", "lead", "lemon", "leprechaun", "life", "light", "limousine", "line", "link", "lion", "litter", "loch ness", "lock", "log", "london", "luck", "mail", "mammoth", "maple", "marble", "march", "mass", "match", "mercury", "mexico", "microscope", "millionaire", "mine", "mint", "missile", "model", "mole", "moon", "moscow", "mount", "mouse", "mouth", "mug", "nail", "needle", "net", "new york", "night", "ninja", "note", "novel", "nurse", "nut", "octopus", "oil", "olive", "olympus", "opera", "orange", "organ", "palm", "pan", "pants", "paper", "parachute", "park", "part", "pass", "paste", "penguin", "phoenix", "piano", "pie", "pilot", "pin", "pipe", "pirate", "pistol", "pit", "pitch", "plane", "plastic", "plate", "platypus", "play", "plot", "point", "poison", "pole", "police", "pool", "port", "post", "pound", "press", "princess", "pumpkin", "pupil", "pyramid", "queen", "rabbit", "racket", "ray", "revolution", "ring", "robin", "robot", "rock", "rome", "root", "rose", "roulette", "round", "row", "ruler", "satellite", "saturn", "scale", "school", "scientist", "scorpion", "screen", "scuba diver", "seal", "server", "shadow", "shakespeare", "shark", "ship", "shoe", "shop", "shot", "sink", "skyscraper", "slip", "slug", "smuggler", "snow", "snowman", "sock", "soldier", "soul", "sound", "space", "spell", "spider", "spike", "spine", "spot", "spring", "spy", "square", "stadium", "staff", "star", "state", "stick", "stock", "straw", "stream", "strike", "string", "sub", "suit", "superhero", "swing", "switch", "table", "tablet", "tag", "tail", "tap", "teacher", "telescope", "temple", "theater", "thief", "thumb", "tick", "tie", "time", "tokyo", "tooth", "torch", "tower", "track", "train", "triangle", "trip", "trunk", "tube", "turkey", "undertaker", "unicorn", "vacuum", "van", "vet", "wake", "wall", "war", "washer", "washington", "watch", "water", "wave", "web", "well", "whale", "whip", "wind", "witch", "worm", "yard"];
@@ -409,8 +407,6 @@
 
             var current_hash = {blue: null, red: null}
             function cluemaster_recommend_thread(color) {
-                var loader = $('#recommend-' + color + '-loader');
-                var text = $('#recommend-' + color);
                 var wait_delay = 250;
 
                 function invoke_self() {cluemaster_recommend_thread(color);}
@@ -418,7 +414,6 @@
 
                 if (recommend_needed() && game.allrevealed) {
                     if (model === null) {
-                        loader.show();
                         load_model(invoke_self);
                         return;
                     }
@@ -435,13 +430,12 @@
                         setTimeout(invoke_self, wait_delay);
                         return
                     }
-                    text.text('');
-                    loader.show();
+                    recommended_words[color] = null;
                     setTimeout(function() {
                         query().then(function(value) {
-                            loader.hide();
-                            text.html(value.slice(0, 8).join('<br>'))
+                            recommended_words[color] = value;
                             current_hash[color] = query_hash;
+                            render();
                             setTimeout(invoke_self, 0);
                         });
                     }, 10);
@@ -517,6 +511,23 @@
                         recommend.addClass('d-none');
                         recommend.addClass('d-sm-block');
                         recommend.collapse('show');
+                        if (game.allrevealed) {
+                            $('#auto-cluemaster-control').hide();
+                            for (var color of ['red', 'blue']) {
+                                var box = $('#recommend-box-' + color);
+                                box.html('');
+                                var flavor = (color == 'red') ? 'danger' : 'primary';
+                                if (recommended_words[color] === null) {
+                                    box.append('<div class="spinner-grow spinner-grow-sm align-middle text-' + flavor + '" role="status"/>')
+                                } else {
+                                    word_list = $('<span class="text-' + flavor + '"/>')
+                                    word_list.html(recommended_words[color].slice(0, 8).join('<br>'));
+                                    box.append(word_list)
+                                }
+                            }
+                        } else {
+                            $('#auto-cluemaster-control').show();
+                        }
                     } else {
                         recommend.collapse('hide');
                         recommend.removeClass('d-none');

@@ -12,7 +12,6 @@
                 touch-action: none;
             }
             .table-style {
-                vertical-align: middle;
                 width: 100%;
                 border-collapse: separate;
                 height: 100%;
@@ -33,6 +32,10 @@
                 font-size: 1.4vw;
             }
 
+            .recommend-box {
+                padding-top:2rem;
+                vertical-align: top;
+            }
 
             .cell-inrevealed {
                 border: 2px dotted black;
@@ -84,6 +87,7 @@
 
             @media (max-width: 768px) {
                 .recommend-box {
+                    padding-top:1rem;
                     font-size: 0.7rem;
                 }
 
@@ -178,7 +182,7 @@
                                             <option value="2">two words</option>
                                             <option value="3">three words</option>
                                             <option value="4">four words</option>
-                                            <option value="5">five words</option>
+                                            <option value="all">all</option>
                                         </select>
                                     </div>
                                     <div class="form-group text-center">
@@ -267,25 +271,25 @@
                                     <td class="cell-style align-middle cluemaster-control">
                                         <form>
                                           <div class="form-group">
-                                            <label for="auto-cluemaster">Example label</label>
+                                            <label for="auto-cluemaster" style="margin-left: 0.5rem; margin-right: 0.5rem">Select the number of words to guess for <span id='auto-cluemaster-next-player'></span>.</label>
                                             <div class="btn-group w-100" role="group" id="auto-cluemaster">
-                                              <button type="button" class="btn btn-light">1</button>
-                                              <button type="button" class="btn btn-light">2</button>
-                                              <button type="button" class="btn btn-light">3</button>
-                                              <button type="button" class="btn btn-light">4</button>
-                                              <button type="button" class="btn btn-light">all</button>
+                                              <button type="button" class="btn btn-light" data-value="1">1</button>
+                                              <button type="button" class="btn btn-light" data-value="2">2</button>
+                                              <button type="button" class="btn btn-light" data-value="3">3</button>
+                                              <button type="button" class="btn btn-light" data-value="4">4</button>
+                                              <button type="button" class="btn btn-light" data-value="all">∞</button>
                                             </div>
                                           </div>
                                         </form>
                                     </td>
                                 </tr>
                                 <tr>
-                                    <td class="recommend-box cell-style align-middle" id="recommend-box-red">
+                                    <td class="recommend-box cell-style" id="recommend-box-red">
 
                                     </td>
                                 </tr>
                                 <tr>
-                                    <td class="recommend-box cell-style align-middle" id="recommend-box-blue">
+                                    <td class="recommend-box cell-style" id="recommend-box-blue">
 
                                     </td>
                                 </tr>
@@ -317,6 +321,10 @@
             game.show_recommend = false;
             game.risk = "0";
             game.num_guesses = "3";
+            game.auto_clues = {
+                red: [],
+                blue: [],
+            }
 
             recommended_words = {}
             recommended_words.blue = null;
@@ -385,8 +393,11 @@
                 if (good.length == 0) {
                     return [null, null];
                 }
-
-                var num_guesses = Math.min(good.length, parseInt(game.num_guesses));
+                if (game.num_guesses == 'all') {
+                    var num_guesses = good.length;
+                } else {
+                    var num_guesses = Math.min(good.length, parseInt(game.num_guesses));
+                }
                 if (game.risk == 'allbutblack') {
                     bad = [];
                     var risk = 0;
@@ -444,9 +455,54 @@
                 }
             }
 
+            function render_recommend() {
+                var recommend = $('#recommend');
+                if (recommend_needed()) {
+                    recommend.addClass('d-none');
+                    recommend.addClass('d-sm-block');
+                    recommend.collapse('show');
+                    if (game.allrevealed) {
+                        $('#auto-cluemaster-control').hide();
+                        for (var color of ['red', 'blue']) {
+                            var box = $('#recommend-box-' + color);
+                            box.html('');
+                            var flavor = (color == 'red') ? 'danger' : 'primary';
+                            if (recommended_words[color] === null) {
+                                box.append('<div class="spinner-grow spinner-grow-sm align-middle text-' + flavor + '" role="status"/>')
+                            } else {
+                                word_list = $('<span class="text-' + flavor + '"/>')
+                                word_list.html(recommended_words[color].slice(0, 8).join('<br>'));
+                                box.append(word_list)
+                            }
+                        }
+                    } else {
+                        $('#auto-cluemaster-control').show();
+                        var np = $('#auto-cluemaster-next-player')
+                        np.removeClass();
+                        np.addClass('text-' + (next_player() == 'red' ? 'danger' : 'primary'));
+                        np.text(next_player());
+                        for (var color of ['red', 'blue']) {
+                            var box = $('#recommend-box-' + color);
+                            box.html('');
+                            var flavor = (color == 'red') ? 'danger' : 'primary';
+
+                            if (game.auto_clues[color].length == 0) {
+                                box.append('<span class="text-' + flavor + '"> No clues.</span>')
+                            } else {
+                                word_list = $('<span class="text-' + flavor + '"/>')
+                                word_list.html(game.auto_clues[color].join('<br>'));
+                                box.append(word_list)
+                            }
+                        }
+                    }
+                } else {
+                    recommend.collapse('hide');
+                    recommend.removeClass('d-none');
+                    recommend.removeClass('d-sm-block');
+                }
+            }
 
             function render() {
-                var recommend = $('#recommend');
                 var game_ui = $("#game");
                 game_ui.html("");
                 $('#risk').val(game.risk);
@@ -455,7 +511,7 @@
                     var p = $('<p class="lead" \>');
                     p.html(game.error);
                     game_ui.append(p);
-                    recommend.collapse('hide');
+                    $('#recommend').collapse('hide');
                 } else {
                     table = $('<table class="table-style"/>');
                     $('#cluemaster-li').removeClass();
@@ -498,7 +554,7 @@
                             var word = $("<span>");
 
                             word.text(game.words[idx])
-                            word.addClass("cell-text")
+                            word.addClass("cell-text");
                             cell.append(word);
                             row.append(cell);
                         }
@@ -507,32 +563,7 @@
                     game_ui.append(table);
                     $('#red-left').text(getRemaining("r"));
                     $('#blue-left').text(getRemaining("b"));
-                    if (recommend_needed()) {
-                        recommend.addClass('d-none');
-                        recommend.addClass('d-sm-block');
-                        recommend.collapse('show');
-                        if (game.allrevealed) {
-                            $('#auto-cluemaster-control').hide();
-                            for (var color of ['red', 'blue']) {
-                                var box = $('#recommend-box-' + color);
-                                box.html('');
-                                var flavor = (color == 'red') ? 'danger' : 'primary';
-                                if (recommended_words[color] === null) {
-                                    box.append('<div class="spinner-grow spinner-grow-sm align-middle text-' + flavor + '" role="status"/>')
-                                } else {
-                                    word_list = $('<span class="text-' + flavor + '"/>')
-                                    word_list.html(recommended_words[color].slice(0, 8).join('<br>'));
-                                    box.append(word_list)
-                                }
-                            }
-                        } else {
-                            $('#auto-cluemaster-control').show();
-                        }
-                    } else {
-                        recommend.collapse('hide');
-                        recommend.removeClass('d-none');
-                        recommend.removeClass('d-sm-block');
-                    }
+                    render_recommend();
                     if (get_lang() == 'en') {
                         $('#recommend-lang-warning').hide();
                     } else {
@@ -544,6 +575,8 @@
 
             function toggle_reveal(idx) {
                 game.revealed[idx] = !game.revealed[idx];
+                recommended_words.blue = null;
+                recommended_words.red = null;
                 render();
             }
 
@@ -605,6 +638,8 @@
                 game.revealed = [];
                 for (var idx = 0; idx < game.num_rows * game.num_cols; idx += 1) { game.revealed.push(0); }
                 game.words = seeded_shuffle.shuffle(allwords, seed, true).slice(0, total);
+                game.auto_clues.red = [];
+                game.auto_clues.blue = [];
                 render();
             }
 
@@ -641,7 +676,37 @@
                 render();
             }
 
-            var current_version = 2;
+            function next_player() {
+                var num_red = game.type.filter(x => x == 'r').length;
+                var num_blue = game.type.filter(x => x == 'b').length;
+                var turns_so_far = game.auto_clues.red.length + game.auto_clues.blue.length;
+                if (num_red > num_blue) {
+                    var order = ['red', 'blue'];
+                } else {
+                    var order = ['blue', 'red'];
+                }
+                return order[turns_so_far % 2];
+            }
+
+            function next_clue(event) {
+                if (model === null) {
+                    load_model(function() {next_clue(event);});
+                    return;
+                }
+                game.num_guesses = $(event.target).attr('data-value');
+                var color = next_player();
+                game.auto_clues[color].push(null);
+                var idx = game.auto_clues[color].length - 1
+                render();
+                get_query_and_hash(color)[0]().then(function(value) {
+                    // TODO: blacklist
+                    var ng = (game.num_guesses == 'all' ? '∞' : game.num_guesses);
+                    game.auto_clues[color][idx] = value[0] + ' ' + ng;
+                    render();
+                });
+            }
+
+            var current_version = 3;
 
             function verify_storage() {
                 var stored_version = sessionStorage.getItem('storage_version')
@@ -671,6 +736,7 @@
                 $("#seed").keyup(set_from_seed);
                 $("#risk").change(update_risk);
                 $("#num-guesses").change(update_num_guesses);
+                $('#auto-cluemaster button').click(next_clue);
 
                 if (sessionStorage.getItem("game")) {
                     seed = JSON.parse(sessionStorage.getItem("seed"));

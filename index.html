@@ -107,7 +107,7 @@
             <div class="collapse navbar-collapse" id="menu">
                 <!-- navigation buttons -->
                 <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
-                    <li class="nav-item"><a href='#' class="nav-link" data-toggle="modal" data-target="#about-modal">
+                    <li class="nav-item"><a href='#' id="about" class="nav-link" data-toggle="modal" data-target="#about-modal">
                         <img src="icons/info.svg" style="height:2rem" />&nbsp;About
                     </a></li>
                     <li id="spymaster-li"
@@ -626,6 +626,9 @@
                 $('#enable-recommend').click(enable_recommend);
                 $('#disable-recommend').click(disable_recommend);
                 $(".reset-button").click(reset);
+
+                $("#about, #spymaster, .reset-button").click(function() { $('#menu').collapse('hide') });
+
                 $("#seed").val(seed);
                 $("#seed").keyup(set_from_seed);
                 $("#risk").change(update_risk);

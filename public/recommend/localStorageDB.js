@@ -10,7 +10,7 @@
       k: '',
       v: ''
     },
-    request = indexedDB.open('d2', 1);
+    request = indexedDB.open('d3', 1);
   request.onsuccess = function(evt) {
     db = this.result;
   };
@@ -31,6 +31,7 @@
   };
 
   function getValue(key, callback) {
+    console.log("getvalue", key)
     if(!db) {
       setTimeout(function () {
         getValue(key, callback);

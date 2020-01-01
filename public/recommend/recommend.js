@@ -27,6 +27,7 @@ function load_model(callback) {
     }
 
     function on_ldb_ready(value) {
+        console.log("on ldb ready")
         if (value === null) {
             console.log("fetching model for the first time.");
 

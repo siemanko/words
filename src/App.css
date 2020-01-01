@@ -1,0 +1,107 @@
+html {
+    height: 100%;
+}
+
+body {
+    padding-top: 80px;
+    touch-action: none;
+    height: 100%;
+}
+
+.table-style {
+    vertical-align: middle;
+    width: 100%;
+    border-spacing: 10px;
+    border-collapse: separate;
+    height: 100%;
+}
+
+.container {
+    height: 100%;
+}
+
+.cell {
+    border-radius: 10px;
+    text-align: center;
+    font-weight: bold;
+    font-size: 1.4vw;
+    display: table-cell;
+    max-width: 0px;
+    max-height: 0px;
+}
+
+.cell-inrevealed {
+    border: 2px dotted black;
+}
+
+.cell-inrevealed:hover {
+    border: 2px solid black;
+    cursor: pointer;
+}
+
+.cell-revealed {
+    border: 2px solid black;
+    cursor: auto;
+}
+
+.cell-red {
+    background: #FFCCCC;
+}
+
+.cell-blue {
+    background: #99CCFF;
+}
+
+.cell-neutral {
+    background: #eeeeee;
+}
+
+.cell-end {
+    background: black;
+    color: white;
+}
+
+.red-stats {
+    color: red;
+}
+
+.blue-stats {
+    color: blue;
+}
+
+.cell-strike {
+    opacity: 0.2;
+}
+
+.recommend-box {
+    display: table-cell;
+    max-height: 0px;
+    max-width: 0px;
+    min-width: 100%;
+    overflow-y: scroll;
+    text-align: center;
+    border: 2px solid black;
+    border-radius: 10px;
+    line-height: 1.2;
+    font-size: 1rem;
+}
+
+@media (max-width: 768px) {
+    .recommend-box {
+        font-size: 0.7rem;
+    }
+}
+
+@media (max-width: 992px) {
+    /* this fix from 2017 still works! */
+    nav.navbar.fixed-top {
+        max-height: 100%;
+        overflow-y: auto;
+    }
+}
+
+@media (min-width: 768px) {
+    .wide-non-mobile {
+        min-width: 25rem;
+    }
+}

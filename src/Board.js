@@ -34,19 +34,21 @@ class Board extends React.Component {
         const game = this.state.gameState;
         if (game) {
             var show_all_colors = game.allrevealed
-            if (get_remaining(game, 'b') == 0 || get_remaining(game, 'r') == 0) {
+            if (get_remaining(game, 'b') == 0 || get_remaining(game, 'r') == 0 || get_remaining(game, 'e') == 0) {
                 show_all_colors = true;
             }
             // when not in spymaster mode and the game is won show who has won.
             var winner_box = null;
             if (!game.allrevealed && show_all_colors) {
                 if (get_remaining(game, 'b') == 0) {
-                    var winner = (<span className="text-primary">blue</span>);
-                } else {
-                    var winner = (<span className="text-danger">red</span>);
+                    var winner = (<div><span className="text-primary">blue</span> has won the game.</div>);
+                } else if (get_remaining(game, 'r') == 0) {
+                    var winner = (<div><span className="text-danger">red</span> has won the game.</div>);
+                } else if (get_remaining(game, 'e') == 0) {
+                    var winner = (<div>black word was releaved.</div>);
                 }
                 winner_box = (<div className="alert alert-info" role="alert">
-                    {winner} has won the game.
+                    {winner} 
                 </div>);
             } 
             if (game && !game.error) {

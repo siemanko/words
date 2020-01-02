@@ -98,7 +98,7 @@ function recommend(query) {
             var fail_and_bad_score = null;
             if (query.fail.length > 0) {
                 var fail_dist = distances_to_words(query.fail)
-                fail_and_bad_score = fail_dist.min(-1);
+                fail_and_bad_score = fail_dist.min(-1).mul(0.5);
             }
             if (query.bad.length > 0) {
                 var bad_dist = distances_to_words(query.bad);
@@ -142,7 +142,11 @@ function recommend(query) {
                 }
                 if (query.use_common_words && !model.common_words.has(word.stem())) {
                     continue
-                } 
+                }
+                if (word.length <= 2) {
+                    // short 2 letter clues are generally bad.
+                    continue;
+                }
                 res.push(word);
                 forbid_word(word)
             }

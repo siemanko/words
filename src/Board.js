@@ -28,7 +28,6 @@ class Board extends React.Component {
     }
 
     render() {
-        console.log(this.state.gameState)
         let board;
 
         const game = this.state.gameState;

@@ -340,7 +340,7 @@
                 return Math.floor(Math.random() * (max - min)) + min; //The maximum is exclusive and the minimum is inclusive
             }
 
-            function getRemaining(c) {
+            function get_remaining(c) {
                 var res = 0;
                 for (var idx = 0; idx < game.num_rows * game.num_cols; idx += 1) {
                     if (!game.revealed[idx] && game.type[idx] == c) {
@@ -481,17 +481,32 @@
                         np.removeClass();
                         np.addClass('text-' + (next_player() == 'red' ? 'danger' : 'primary'));
                         np.text(next_player());
+
+                        $('#auto-cluemaster button').prop('disabled', get_remaining('b') == 0 || get_remaining('r') == 0);
+
                         for (var color of ['red', 'blue']) {
                             var box = $('#recommend-box-' + color);
                             box.html('');
                             var flavor = (color == 'red') ? 'danger' : 'primary';
 
                             if (game.auto_clues[color].length == 0) {
-                                box.append('<span class="text-' + flavor + '"> No clues.</span>')
+                                box.append('<span class="text-' + flavor + '"> No clues.</span>');
                             } else {
-                                word_list = $('<span class="text-' + flavor + '"/>')
-                                word_list.html(game.auto_clues[color].join('<br>'));
-                                box.append(word_list)
+                                var clues = game.auto_clues[color];
+                                for (var i = 0; i < clues.length; i++) {
+                                    var opacity = 0.4;
+                                    if (i + 1 == clues.length && color != next_player()) {
+                                        opacity = 1.0;
+                                    }
+                                    if (clues[i] === null) {
+                                        box.append('<div class="spinner-grow spinner-grow-sm align-middle text-' + flavor + '" role="status"/>')
+                                    } else {
+                                        box.append($('<span style="opacity: ' + opacity + '" class="text-' + flavor + '">' + clues[i] + '</span>'));
+                                    }
+                                    if (i + 1 < clues.length) {
+                                        box.append($('<br />'));
+                                    }
+                                }
                             }
                         }
                     }
@@ -561,8 +576,8 @@
                         table.append(row);
                     }
                     game_ui.append(table);
-                    $('#red-left').text(getRemaining("r"));
-                    $('#blue-left').text(getRemaining("b"));
+                    $('#red-left').text(get_remaining("r"));
+                    $('#blue-left').text(get_remaining("b"));
                     render_recommend();
                     if (get_lang() == 'en') {
                         $('#recommend-lang-warning').hide();
@@ -698,12 +713,14 @@
                 game.auto_clues[color].push(null);
                 var idx = game.auto_clues[color].length - 1
                 render();
-                get_query_and_hash(color)[0]().then(function(value) {
-                    // TODO: blacklist
-                    var ng = (game.num_guesses == 'all' ? '∞' : game.num_guesses);
-                    game.auto_clues[color][idx] = value[0] + ' ' + ng;
-                    render();
-                });
+                setTimeout(function() {
+                    get_query_and_hash(color)[0]().then(function(value) {
+                        // TODO: blacklist
+                        var ng = (game.num_guesses == 'all' ? '∞' : game.num_guesses);
+                        game.auto_clues[color][idx] = value[0] + ' ' + ng;
+                        render();
+                    });
+                }, 0)
             }
 
             var current_version = 3;

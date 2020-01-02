@@ -63,7 +63,7 @@
             }
 
             function human_cluemaster_hints_needed() {
-                return !game.error && game.allrevealed && game.human_cluemaster_hints && get_lang() == 'en';
+                return !game.error && game.allrevealed && game.human_cluemaster_hints;
             }
 
             function hash(str) {
@@ -131,7 +131,7 @@
                 function invoke_self() {cluemaster_recommend_thread(color);}
 
 
-                if (human_cluemaster_hints_needed()) {
+                if (human_cluemaster_hints_needed() && get_lang() == 'en') {
                     if (model === null) {
                         load_model(invoke_self);
                         return;
@@ -219,7 +219,19 @@
                 var recommend = $('#recommend');
                 var cluemaster_hints_needed = human_cluemaster_hints_needed();
                 var auto_clues_needed = !game.allrevealed && game.enable_auto_clues;
+                $('#recommend-lang-warning').toggle(
+                    (auto_clues_needed || cluemaster_hints_needed) && get_lang() != 'en'
+                );
+                // css controls the rest
                 if (auto_clues_needed || cluemaster_hints_needed) {
+                    $('#ai-clues-phone-warning').show()
+                    $('#ai-clues-phone-warning').addClass('d-block');
+                } else {
+                    $('#ai-clues-phone-warning').hide();
+                    $('#ai-clues-phone-warning').removeClass('d-block');
+                }
+
+                if (get_lang() == 'en' && (auto_clues_needed || cluemaster_hints_needed)) {
                     recommend.addClass('d-none');
                     recommend.addClass('d-sm-block');
                     recommend.collapse('show');
@@ -266,11 +278,6 @@
                     $('#red-left').text(get_remaining(game, "r"));
                     $('#blue-left').text(get_remaining(game, "b"));
                     render_recommend();
-                    if (get_lang() == 'en') {
-                        $('#recommend-lang-warning').hide();
-                    } else {
-                        $('#recommend-lang-warning').show();
-                    }
                 }
                 sessionStorage.setItem("game", JSON.stringify(game));
             }

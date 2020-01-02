@@ -131,7 +131,7 @@ function MainPanel() {
         </div>
       </div>
       {/* hide this when not in AI mode */}
-      <div className="form-group d-block d-sm-none" id="ai-cluemaster-phone-warning">
+      <div className="form-group d-block d-sm-none" id="ai-clues-phone-warning">
         <div className="alert alert-warning" role="alert">
            Auto clues are not currently support in portrait mode. Flip your phone.
         </div>

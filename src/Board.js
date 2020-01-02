@@ -33,7 +33,7 @@ class Board extends React.Component {
                         const colorStyleDict = {
                             r: "cell-red",
                             b: "cell-blue",
-                            g: "cell-neutral",
+                            n: "cell-neutral",
                             e: "cell-end",
                         }
                         let colorStyle = '';

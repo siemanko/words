@@ -13,7 +13,7 @@ function App() {
 }
 
 function AboutModal() {
-  return (<div className="modal fade" id="about-modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  return (<div className="modal fade" id="about-modal" tabIndex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div className="modal-dialog" role="document">
       <div className="modal-content">
         <div className="modal-header">
@@ -52,7 +52,7 @@ function MainPanel() {
                     <td className="cell-style align-middle cluemaster-control">
                       <form>
                         <div className="form-group">
-                          <label for="auto-cluemaster" style={{ marginLeft: '0.5rem', marginRight: '0.5rem' }}>Select the number of words to guess for <span id='auto-cluemaster-next-player'></span>.</label>
+                          <label htmlFor="auto-cluemaster" style={{ marginLeft: '0.5rem', marginRight: '0.5rem' }}>Select the number of words to guess for <span id='auto-cluemaster-next-player'></span>.</label>
                           <div className="btn-group w-100" role="group" id="auto-cluemaster">
                             <button type="button" className="btn btn-light" data-value="1">1</button>
                             <button type="button" className="btn btn-light" data-value="2">2</button>
@@ -136,7 +136,7 @@ function NavBar() {
 
                 <form className="px-4 py-3">
                   <div className="form-group">
-                    <label for="risk">
+                    <label htmlFor="risk">
                       Risk tolerance<br />
                       <small>The number of bad words that are ignored when coming up with clues. Zeros words is the safest option, but might result in more awkward clues.</small>
                     </label>
@@ -150,7 +150,7 @@ function NavBar() {
                     </select>
                   </div>
                   <div className="form-group">
-                    <label for="num-guesses">
+                    <label htmlFor="num-guesses">
                       Target Words<br />
                       <small>Number of words that the assistant will try to hint at. The larger the number the harder is it to come up with a sensible clue.</small>
                     </label>

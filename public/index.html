@@ -29,13 +29,14 @@
             game.allrevealed = false;
             game.type  = []
             game.error = null;
-            game.show_recommend = false;
+            game.enable_auto_clues = false;
             game.risk = "0";
             game.num_guesses = "3";
             game.auto_clues = {
                 red: [],
                 blue: [],
             }
+            game.human_cluemaster_hints = false;
 
             recommended_words = {}
             recommended_words.blue = null;
@@ -62,8 +63,8 @@
                 return $('#seed').val().split('-', 2)[0]
             }
 
-            function recommend_needed() {
-                return !game.error && game.show_recommend && get_lang() == 'en';
+            function human_cluemaster_hints_needed() {
+                return !game.error && game.allrevealed && game.human_cluemaster_hints && get_lang() == 'en';
             }
 
             function hash(str) {
@@ -131,7 +132,7 @@
                 function invoke_self() {cluemaster_recommend_thread(color);}
 
 
-                if (recommend_needed() && game.allrevealed) {
+                if (human_cluemaster_hints_needed()) {
                     if (model === null) {
                         load_model(invoke_self);
                         return;
@@ -149,6 +150,7 @@
                         return
                     }
                     recommended_words[color] = null;
+                    render();
                     setTimeout(function() {
                         query().then(function(value) {
                             recommended_words[color] = value;
@@ -162,60 +164,70 @@
                 }
             }
 
+            function render_cluemaster_hints() {
+                $('#auto-cluemaster-control').hide();
+                for (var color of ['red', 'blue']) {
+                    var box = $('#recommend-box-' + color);
+                    box.html('');
+                    var flavor = (color == 'red') ? 'danger' : 'primary';
+                    if (recommended_words[color] === null) {
+                        box.append('<div class="spinner-grow spinner-grow-sm align-middle text-' + flavor + '" role="status"/>')
+                    } else {
+                        word_list = $('<span class="text-' + flavor + '"/>')
+                        word_list.html(recommended_words[color].slice(0, 8).join('<br>'));
+                        box.append(word_list)
+                    }
+                }
+            }
+
+            function render_auto_clues() {
+                $('#auto-cluemaster-control').show();
+                var np = $('#auto-cluemaster-next-player')
+                np.removeClass();
+                np.addClass('text-' + (next_player() == 'red' ? 'danger' : 'primary'));
+                np.text(next_player());
+
+                $('#auto-cluemaster button').prop('disabled', get_remaining(game, 'b') == 0 || get_remaining(game, 'r') == 0);
+
+                for (var color of ['red', 'blue']) {
+                    var box = $('#recommend-box-' + color);
+                    box.html('');
+                    var flavor = (color == 'red') ? 'danger' : 'primary';
+
+                    if (game.auto_clues[color].length == 0) {
+                        box.append('<span class="text-' + flavor + '"> No clues.</span>');
+                    } else {
+                        var clues = game.auto_clues[color];
+                        for (var i = 0; i < clues.length; i++) {
+                            var opacity = 0.4;
+                            if (i + 1 == clues.length && color != next_player()) {
+                                opacity = 1.0;
+                            }
+                            if (clues[i] === null) {
+                                box.append('<div class="spinner-grow spinner-grow-sm align-middle text-' + flavor + '" role="status"/>')
+                            } else {
+                                box.append($('<span style="opacity: ' + opacity + '" class="text-' + flavor + '">' + clues[i].join(' ') + '</span>'));
+                            }
+                            if (i + 1 < clues.length) {
+                                box.append($('<br />'));
+                            }
+                        }
+                    }
+                }
+            }
+
             function render_recommend() {
                 var recommend = $('#recommend');
-                if (recommend_needed()) {
+                var cluemaster_hints_needed = human_cluemaster_hints_needed();
+                var auto_clues_needed = !game.allrevealed && game.enable_auto_clues;
+                if (auto_clues_needed || cluemaster_hints_needed) {
                     recommend.addClass('d-none');
                     recommend.addClass('d-sm-block');
                     recommend.collapse('show');
-                    if (game.allrevealed) {
-                        $('#auto-cluemaster-control').hide();
-                        for (var color of ['red', 'blue']) {
-                            var box = $('#recommend-box-' + color);
-                            box.html('');
-                            var flavor = (color == 'red') ? 'danger' : 'primary';
-                            if (recommended_words[color] === null) {
-                                box.append('<div class="spinner-grow spinner-grow-sm align-middle text-' + flavor + '" role="status"/>')
-                            } else {
-                                word_list = $('<span class="text-' + flavor + '"/>')
-                                word_list.html(recommended_words[color].slice(0, 8).join('<br>'));
-                                box.append(word_list)
-                            }
-                        }
+                    if (cluemaster_hints_needed) {
+                        render_cluemaster_hints();
                     } else {
-                        $('#auto-cluemaster-control').show();
-                        var np = $('#auto-cluemaster-next-player')
-                        np.removeClass();
-                        np.addClass('text-' + (next_player() == 'red' ? 'danger' : 'primary'));
-                        np.text(next_player());
-
-                        $('#auto-cluemaster button').prop('disabled', get_remaining(game, 'b') == 0 || get_remaining(game, 'r') == 0);
-
-                        for (var color of ['red', 'blue']) {
-                            var box = $('#recommend-box-' + color);
-                            box.html('');
-                            var flavor = (color == 'red') ? 'danger' : 'primary';
-
-                            if (game.auto_clues[color].length == 0) {
-                                box.append('<span class="text-' + flavor + '"> No clues.</span>');
-                            } else {
-                                var clues = game.auto_clues[color];
-                                for (var i = 0; i < clues.length; i++) {
-                                    var opacity = 0.4;
-                                    if (i + 1 == clues.length && color != next_player()) {
-                                        opacity = 1.0;
-                                    }
-                                    if (clues[i] === null) {
-                                        box.append('<div class="spinner-grow spinner-grow-sm align-middle text-' + flavor + '" role="status"/>')
-                                    } else {
-                                        box.append($('<span style="opacity: ' + opacity + '" class="text-' + flavor + '">' + clues[i].join(' ') + '</span>'));
-                                    }
-                                    if (i + 1 < clues.length) {
-                                        box.append($('<br />'));
-                                    }
-                                }
-                            }
-                        }
+                        render_auto_clues();
                     }
                 } else {
                     recommend.collapse('hide');
@@ -227,8 +239,11 @@
             function render() {
                 var game_ui = $("#game");
                 game_ui.html("");
+                // settings
                 $('#risk').val(game.risk);
                 $('#num-guesses').val(game.num_guesses);
+                $('#human-cluemaster-hints').prop('checked', game.human_cluemaster_hints);
+
                 if (window.boardComponent) {
                     window.boardComponent.setState({gameState: game});
                 }
@@ -242,7 +257,7 @@
                     if (game.allrevealed) {
                         $('#cluemaster-li').addClass("active");
                     } else {
-                        if (game.show_recommend) {
+                        if (game.enable_auto_clues) {
                             $('#ai-cluemaster-li').addClass("active");
                         } else {
                             $('#guess-li').addClass("active");
@@ -263,18 +278,18 @@
 
             function enable_cluemaster() {
                 game.allrevealed = true;
-                game.show_recommend = false;
+                game.enable_auto_clues = false;
                 render();
             }
 
             function enable_ai_cluemaster() {
-                game.show_recommend = true;
+                game.enable_auto_clues = true;
                 game.allrevealed = false;
                 render();
             }
 
             function enable_guess() {
-                game.show_recommend = false;
+                game.enable_auto_clues = false;
                 game.allrevealed = false;
                 render();
             }
@@ -357,6 +372,11 @@
                 render();
             }
 
+            function update_human_cluemaster_hints() {
+                game.human_cluemaster_hints = $(event.target).prop('checked');
+                render();
+            }
+
             function next_player() {
                 var num_red = game.type.filter(x => x == 'r').length;
                 var num_blue = game.type.filter(x => x == 'b').length;
@@ -422,6 +442,8 @@
                 $("#risk").change(update_risk);
                 $("#num-guesses").change(update_num_guesses);
                 $('#auto-cluemaster button').click(next_clue);
+
+                $('#human-cluemaster-hints').click(update_human_cluemaster_hints);
 
                 if (sessionStorage.getItem("game")) {
                     seed = JSON.parse(sessionStorage.getItem("seed"));

@@ -195,12 +195,12 @@ function NavBar() {
           </li>
           <li id="cluemaster-li" className="nav-item">
             <a className="nav-link" href="#" id="cluemaster">
-              <img src="icons/detective.svg" style={{ height: '2rem' }} />&nbsp;Give Clues
+              <img src="icons/detective.svg" style={{ height: '2rem' }} />&nbsp;Give&nbsp;Clues
             </a>
           </li>
           <li id="ai-cluemaster-li" className="nav-item">
             <a className="nav-link" href="#" id="ai-cluemaster">
-              <img src="icons/ai.svg" style={{ height: '2rem' }} />&nbsp;AI Clues
+              <img src="icons/ai.svg" style={{ height: '2rem' }} />&nbsp;AI&nbsp;Clues
             </a>
           </li>
           {/* settings */}
@@ -217,7 +217,7 @@ function NavBar() {
           <li className="nav-item dropdown">
             <a className="nav-link" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
               <img src="icons/reset.svg" style={{ height: '2rem' }} />&nbsp;Reset
-                </a>
+            </a>
             <div className="dropdown-menu">
               <a className="dropdown-item reset-button" href="#" data-language="en">English</a>
               <a className="dropdown-item reset-button" href="#" data-language="pl">Polish</a>
@@ -231,16 +231,16 @@ function NavBar() {
             data-toggle="tooltip"
             data-placement="bottom"
             title="Number of red tiles that weren't discovered yet.">
-            Red left: <span id="red-left"></span>
+            Red:&nbsp;<span id="red-left"></span>
           </span>
-          &nbsp;
+          &nbsp;&nbsp;
             <span
             style={{ color: 'blue' }}
             data-toggle="tooltip"
             data-placement="bottom"
             align="right"
             title="Number of blue tiles that weren't discovered yet.">
-            Blue left: <span id="blue-left"></span>
+            Blue:&nbsp;<span id="blue-left"></span>
           </span>
           &nbsp;
           &nbsp;

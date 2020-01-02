@@ -231,13 +231,15 @@
                 game_ui.html("");
                 $('#risk').val(game.risk);
                 $('#num-guesses').val(game.num_guesses);
+                if (window.boardComponent) {
+                    window.boardComponent.setState({gameState: game});
+                }
                 if (game.error) {
                     var p = $('<p class="lead" \>');
                     p.html(game.error);
                     game_ui.append(p);
                     $('#recommend').collapse('hide');
                 } else {
-                    table = $('<table class="table-style"/>');
                     $('#cluemaster-li').removeClass();
                     if (game.allrevealed) {
                         $('#cluemaster-li').addClass("active");
@@ -249,42 +251,6 @@
                         $('#intro-recommend').show();
                         $('#recommend-settings').hide()
                     }
-                    for (var i=0; i < game.num_rows; i+=1) {
-                        var row = $("<tr>")
-                        for (var j=0; j < game.num_cols; j+=1) {
-                            var idx = i * game.num_cols + j;
-                            var cell = $("<td>")
-                            cell.addClass("cell-style");
-                            cell.addClass("word");
-                            if (game.revealed[idx] || game.allrevealed) {
-                                cell.addClass("cell-revealed");
-                                if (game.type[idx] === "r") {
-                                    cell.addClass("cell-red");
-                                } else if (game.type[idx] === "b") {
-                                    cell.addClass("cell-blue");
-                                } else if (game.type[idx] === "n") {
-                                    cell.addClass("cell-neutral");
-                                } else if (game.type[idx] === "e") {
-                                    cell.addClass("cell-end");
-                                }
-                                if (game.revealed[idx] && game.allrevealed) {
-                                    cell.addClass("cell-strike");
-                                }
-                            } else {
-                                cell.addClass("cell-inrevealed");
-                            }
-                            cell.dblclick(function(inner) { return function() { toggle_reveal(inner); }}(idx));
-                            cell.on('touchend', function(inner) { return function() { toggle_reveal(inner); }}(idx));
-                            var word = $("<span>");
-
-                            word.text(game.words[idx])
-                            word.addClass("cell-text");
-                            cell.append(word);
-                            row.append(cell);
-                        }
-                        table.append(row);
-                    }
-                    game_ui.append(table);
                     $('#red-left').text(get_remaining("r"));
                     $('#blue-left').text(get_remaining("b"));
                     render_recommend();
@@ -295,13 +261,6 @@
                     }
                 }
                 sessionStorage.setItem("game", JSON.stringify(game));
-            }
-
-            function toggle_reveal(idx) {
-                game.revealed[idx] = !game.revealed[idx];
-                recommended_words.blue = null;
-                recommended_words.red = null;
-                render();
             }
 
             function toggle_cluemaster() {

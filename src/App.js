@@ -78,7 +78,7 @@ function MainPanel() {
               </div>
             </div>
           </div>
-          <Board />
+          <Board ref={(boardComponent) => {window.boardComponent = boardComponent}} />
         </div>
       </div>
     </div>

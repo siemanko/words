@@ -85,7 +85,7 @@ function distances_to_words(word_list) {
     return tf.concat(res, -1);
 }
 
-function recommend(good, bad, fail, risk, num_guesses) {
+function recommend(good, bad, fail, risk, num_guesses, blacklist) {
     console.log("query", good, bad, fail, risk, num_guesses);
     return new Promise(function(resolve, reject) {
         const res = tf.tidy(function() {
@@ -125,7 +125,9 @@ function recommend(good, bad, fail, risk, num_guesses) {
                 forbidden_words.add(word + 'ed');
             }
 
-            for (var word of [...good, ...bad, ...fail]) {
+
+
+            for (var word of [...good, ...bad, ...fail, ...(blacklist || [])]) {
                 forbid_word(word)
             }
             var res = []

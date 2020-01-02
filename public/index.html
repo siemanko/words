@@ -117,7 +117,7 @@
                     var risk = Math.min(parseInt(game.risk), bad.length);
                 }
 
-                function query() { return recommend(good, bad, fail, risk, num_guesses)};
+                function query(blacklist) { return recommend(good, bad, fail, risk, num_guesses, blacklist)};
                 var query_hash = 'good:' + good.join(',') + ' bad:' + bad.join(',') +' fail:' + fail.join(',') +
                                  ' risk:' + risk + ' num_guesses:' + num_guesses;
                 query_hash = hash(query_hash);
@@ -208,7 +208,7 @@
                                     if (clues[i] === null) {
                                         box.append('<div class="spinner-grow spinner-grow-sm align-middle text-' + flavor + '" role="status"/>')
                                     } else {
-                                        box.append($('<span style="opacity: ' + opacity + '" class="text-' + flavor + '">' + clues[i] + '</span>'));
+                                        box.append($('<span style="opacity: ' + opacity + '" class="text-' + flavor + '">' + clues[i].join(' ') + '</span>'));
                                     }
                                     if (i + 1 < clues.length) {
                                         box.append($('<br />'));
@@ -378,12 +378,13 @@
                 var color = next_player();
                 game.auto_clues[color].push(null);
                 var idx = game.auto_clues[color].length - 1
+                var blacklist = game.auto_clues[color].filter(clue => clue !== null).map(clue => clue[0]);
                 render();
                 setTimeout(function() {
-                    get_query_and_hash(color)[0]().then(function(value) {
+                    get_query_and_hash(color)[0](blacklist).then(function(value) {
                         // TODO: blacklist
                         var ng = (game.num_guesses == 'all' ? '∞' : game.num_guesses);
-                        game.auto_clues[color][idx] = value[0] + ' ' + ng;
+                        game.auto_clues[color][idx] = [value[0], ng];
                         render();
                     });
                 }, 0)

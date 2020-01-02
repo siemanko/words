@@ -10,7 +10,7 @@
       k: '',
       v: ''
     },
-    request = indexedDB.open('d3', 1);
+    request = indexedDB.open('d2', 1);
   request.onsuccess = function(evt) {
     db = this.result;
   };

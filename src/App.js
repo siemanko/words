@@ -77,9 +77,9 @@ function SettingsModal() {
                   If this is too much for you consider the option below. </small>
               </label>
               <div className="form-check">
-                <input className="form-check-input" type="checkbox" value="" id="simple-dictionary" disabled/>
-                <label className="form-check-label" for="simple-dictionary">
-                  Keep it simple <i>(coming soon!)</i>
+                <input className="form-check-input" type="checkbox" value="" id="use-common-words" />
+                <label className="form-check-label" for="use-common-words">
+                  Keep it simple
                 </label>
               </div>
             </div>

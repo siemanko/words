@@ -9,6 +9,7 @@ function load_model(callback) {
     // ensure there's enough storage to store the model
     var vec = null;
     var word = null;
+    var common_words = null;
 
     function process_data() {
         word_to_idx = {}
@@ -19,6 +20,7 @@ function load_model(callback) {
             vec: tf.tensor(vec).reshape(vec_shape),
             word: word,
             word_to_idx: word_to_idx,
+            common_words: new Set(common_words.map(word => word.stem())),
         };
         console.log('model loaded');
         if (callback) {
@@ -44,7 +46,8 @@ function load_model(callback) {
             var word_promise = new Promise(function(resolve, reject) {
                 var oReq = new XMLHttpRequest();
                 oReq.addEventListener("load", function() {
-                    word = event.target.response;
+                    word = event.target.response['word'];
+                    common_words = event.target.response['common_words'];
                     resolve();
                 });
                 oReq.open("GET", "recommend/word.json");
@@ -53,13 +56,14 @@ function load_model(callback) {
             })
 
             Promise.all([vec_promise, word_promise]).then(function() {
-                ldb.set(storage_key, [vec, word])
+                ldb.set(storage_key, [vec, word, common_words])
                 process_data();
             })
         } else {
             console.log("loading model from local storage.");
             vec = value[0];
             word = value[1];
+            common_words = value[2];
             process_data();
         }
     }
@@ -85,19 +89,20 @@ function distances_to_words(word_list) {
     return tf.concat(res, -1);
 }
 
-function recommend(good, bad, fail, risk, num_guesses, blacklist) {
-    console.log("query", good, bad, fail, risk, num_guesses);
+function recommend(query) {
+    console.log("query", query);
+
     return new Promise(function(resolve, reject) {
         const res = tf.tidy(function() {
             // this is tiny big hacky - I use tensor.mul(-1).topk to emulate sort.
             var fail_and_bad_score = null;
-            if (fail.length > 0) {
-                var fail_dist = distances_to_words(fail)
+            if (query.fail.length > 0) {
+                var fail_dist = distances_to_words(query.fail)
                 fail_and_bad_score = fail_dist.min(-1);
             }
-            if (bad.length > 0) {
-                var bad_dist = distances_to_words(bad);
-                var bad_score = bad_dist.mul(-1).topk(bad_dist.shape[1], true).values.slice([0, risk], [-1, 1]).mul(-1).squeeze();
+            if (query.bad.length > 0) {
+                var bad_dist = distances_to_words(query.bad);
+                var bad_score = bad_dist.mul(-1).topk(bad_dist.shape[1], true).values.slice([0, query.risk], [-1, 1]).mul(-1).squeeze();
                 if (fail_and_bad_score === null) {
                     fail_and_bad_score = bad_score;
                 } else {
@@ -105,14 +110,14 @@ function recommend(good, bad, fail, risk, num_guesses, blacklist) {
                 }
             }
 
-            var good_dist = distances_to_words(good);
-            var good_score = good_dist.mul(-1).topk(good_dist.shape[1], true).values.slice([0, num_guesses - 1], [-1, 1]).squeeze();
+            var good_dist = distances_to_words(query.good);
+            var good_score = good_dist.mul(-1).topk(good_dist.shape[1], true).values.slice([0, query.num_guesses - 1], [-1, 1]).squeeze();
 
             var score = good_score;
             if (fail_and_bad_score !== null) {
                 score = score.add(fail_and_bad_score);
             }
-            var best_scores = score.topk(100);
+            var best_scores = score.topk(300);
             var best_candidates = best_scores.indices.arraySync()
 
             var forbidden_words = new Set()
@@ -126,16 +131,23 @@ function recommend(good, bad, fail, risk, num_guesses, blacklist) {
                 forbidden_words.add(word.stem());
             }
 
-            for (var word of [...good, ...bad, ...fail, ...(blacklist || [])]) {
+            for (var word of [...query.good, ...query.bad, ...query.fail, ...(query.blacklist || [])]) {
                 forbid_word(word)
             }
             var res = []
             for (var candidate_idx of best_candidates) {
                 word = model.word[candidate_idx];
-                if (!forbidden_words.has(word) && !forbidden_words.has(word.stem())) {
-                    res.push(word);
-                    forbid_word(word)
+                if (forbidden_words.has(word) || forbidden_words.has(word.stem())) {
+                    continue;
                 }
+                if (query.use_common_words && !model.common_words.has(word.stem())) {
+                    console.log("not common" + word);
+                    continue
+                } else {
+                    console.log("common" + word);
+                }
+                res.push(word);
+                forbid_word(word)
             }
             return res
         });

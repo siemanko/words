@@ -37,6 +37,7 @@
                 blue: [],
             }
             game.human_cluemaster_hints = false;
+            game.use_common_words = false
 
             recommended_words = {}
             recommended_words.blue = null;
@@ -117,9 +118,9 @@
                     var risk = Math.min(parseInt(game.risk), bad.length);
                 }
 
-                function query(blacklist) { return recommend(good, bad, fail, risk, num_guesses, blacklist)};
+                query = {good: good, bad: bad, fail: fail, risk: risk, num_guesses: num_guesses, use_common_words: game.use_common_words};
                 var query_hash = 'good:' + good.join(',') + ' bad:' + bad.join(',') +' fail:' + fail.join(',') +
-                                 ' risk:' + risk + ' num_guesses:' + num_guesses;
+                                 ' risk:' + risk + ' num_guesses:' + num_guesses + ' common_words:' + game.use_common_words;
                 query_hash = hash(query_hash);
                 return [query, query_hash];
             }
@@ -151,7 +152,7 @@
                     recommended_words[color] = null;
                     render();
                     setTimeout(function() {
-                        query().then(function(value) {
+                        recommend(query).then(function(value) {
                             recommended_words[color] = value;
                             current_hash[color] = query_hash;
                             render();
@@ -254,6 +255,7 @@
                 $('#risk').val(game.risk);
                 $('#num-guesses').val(game.num_guesses);
                 $('#human-cluemaster-hints').prop('checked', game.human_cluemaster_hints);
+                $('#use-common-words').prop('checked', game.use_common_words);
 
                 if (window.boardComponent) {
                     window.boardComponent.setState({gameState: game});
@@ -383,6 +385,11 @@
                 render();
             }
 
+            function update_use_common_words() {
+                game.use_common_words = $(event.target).prop('checked');
+                render();
+            }
+
             function next_player() {
                 var num_red = game.type.filter(x => x == 'r').length;
                 var num_blue = game.type.filter(x => x == 'b').length;
@@ -407,7 +414,9 @@
                 var blacklist = game.auto_clues[color].filter(clue => clue !== null).map(clue => clue[0]);
                 render();
                 setTimeout(function() {
-                    get_query_and_hash(color)[0](blacklist).then(function(value) {
+                    var query = get_query_and_hash(color)[0]
+                    query.blacklist = blacklist
+                    recommend(query).then(function(value) {
                         // TODO: blacklist
                         var ng = (game.num_guesses == 'all' ? '∞' : game.num_guesses);
                         game.auto_clues[color][idx] = [value[0], ng];
@@ -416,7 +425,7 @@
                 }, 0)
             }
 
-            var current_version = 3;
+            var current_version = 8;
 
             function verify_storage() {
                 var stored_version = sessionStorage.getItem('storage_version')
@@ -450,6 +459,7 @@
                 $('#auto-cluemaster button').click(next_clue);
 
                 $('#human-cluemaster-hints').click(update_human_cluemaster_hints);
+                $('#use-common-words').click(update_use_common_words);
 
                 if (sessionStorage.getItem("game")) {
                     seed = JSON.parse(sessionStorage.getItem("seed"));

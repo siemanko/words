@@ -7,17 +7,18 @@ function App() {
     <div>
       <NavBar />
       <AboutModal />
+      <SettingsModal />
       <MainPanel />
     </div>
   );
 }
 
 function AboutModal() {
-  return (<div className="modal fade" id="about-modal" tabIndex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  return (<div className="modal fade" id="about-modal" tabIndex="-1" role="dialog" aria-labelledby="about-modal-label" aria-hidden="true">
     <div className="modal-dialog" role="document">
       <div className="modal-content">
         <div className="modal-header">
-          <h5 className="modal-title" id="exampleModalLabel">About Words</h5>
+          <h5 className="modal-title" id="about-modal-label">About Words</h5>
           <button type="button" className="close" data-dismiss="modal" aria-label="Close">
             <span aria-hidden="true">&times;</span>
           </button>
@@ -33,6 +34,84 @@ function AboutModal() {
           <a className="btn btn-info" href="https://en.wikipedia.org/wiki/Codenames_(board_game)">Rules</a>
           <a className="btn btn-info" href="https://github.com/siemanko/words/">Source</a>
         </div>
+      </div>
+    </div>
+  </div>
+  );
+}
+
+function SettingsModal() {
+  return (<div className="modal fade" id="settings-modal" tabIndex="-1" role="dialog" aria-labelledby="settings-modal-label" aria-hidden="true">
+    <div className="modal-dialog" role="document">
+      <div className="modal-content">
+        <div className="modal-header">
+          <h5 className="modal-title" id="about-modal-label">Settings</h5>
+          <button type="button" className="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div className="modal-body">
+          <form>
+            <div class="form-group">
+              <label class="text-justify">
+                Display AI hints<br />
+                <small>In <tt>Give clues</tt> view we will display a list of suggested clues for the player to chose from. It is still up to them whether to use the suggestion or not.</small>
+              </label>
+              <div class="form-check">
+                <input class="form-check-input" type="checkbox" value="" id="human-cluemaster-hints"/>
+                <label class="form-check-label" for="human-cluemaster-hints">
+                  help me come up with clues
+                </label>
+              </div>
+            </div>
+            <hr />
+            <div class="form-group">
+              <label class="text-justify">
+                Use only popular words<br />
+                <small>The model can produce clues based on pretty large dictionary of words - about 30k - this allows it to sometimes find an original and awesome hint 
+                  for a board where human might think that all hope is lost. However, this comes at a price - the clues can sometimes be unusual, offensive, hard to understrand or even google!
+                  If this is too much for you consider the option below. </small>
+              </label>
+              <div class="form-check">
+                <input class="form-check-input" type="checkbox" value="" id="simple-dictionary" disabled/>
+                <label class="form-check-label" for="simple-dictionary">
+                  Keep it simple <i>(coming soon!)</i>
+                </label>
+              </div>
+            </div>
+            <hr />
+
+            <div className="form-group">
+              <label htmlFor="risk" class="text-justify">
+                Risk tolerance<br />
+                <small>The number of bad words that are ignored when coming up with clues. Zeros words is the safest option, but might sometimes result in more awkward clues.</small>
+              </label>
+              <select className="form-control" id="risk">
+                <option value="0">zero words</option>
+                <option value="1">one word</option>
+                <option value="2">two words</option>
+                <option value="3">three words</option>
+                <option value="allbutblack">all words (no black)</option>
+                <option value="all">all words (including black)</option>
+              </select>
+            </div>
+            <hr />
+
+            <div class="form-group">
+              <label class="text-justify">
+                AI Model Statistics<br />
+                <small>Displays information about the automatic clue suggestion model, e.g. which words is the clue related to or what is its score.</small>
+              </label>
+              <div class="form-check">
+                <input class="form-check-input" type="checkbox" value="" id="debug-enable" disabled/>
+                <label class="form-check-label" for="debug-enable">
+                  I want to know everything! <i>(coming soon!)</i>
+                </label>
+              </div>
+            </div>
+          </form>
+        </div>
+       
       </div>
     </div>
   </div>
@@ -97,7 +176,8 @@ function NavBar() {
         <ul className="navbar-nav mr-auto mt-2 mt-lg-0">
           <li className="nav-item"><a href='#' id="about" className="nav-link" data-toggle="modal" data-target="#about-modal">
             <img src="icons/info.svg" style={{ height: "2rem" }} />&nbsp;About
-            </a></li>
+            </a>
+          </li>
           <li id="cluemaster-li"
             className="nav-item"
             data-toggle="tooltip"
@@ -170,6 +250,11 @@ function NavBar() {
             </div>
 
           </li>
+          <li className="nav-item"><a href='#' id="about" className="nav-link" data-toggle="modal" data-target="#settings-modal">
+            <img src="icons/settings.svg" style={{ height: "2rem" }} />&nbsp;Settings
+            </a>
+          </li>
+          
           {/* reset  */}
           <li className="nav-item dropdown">
             <a className="nav-link" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">

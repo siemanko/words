@@ -141,11 +141,8 @@ function recommend(query) {
                     continue;
                 }
                 if (query.use_common_words && !model.common_words.has(word.stem())) {
-                    console.log("not common" + word);
                     continue
-                } else {
-                    console.log("common" + word);
-                }
+                } 
                 res.push(word);
                 forbid_word(word)
             }

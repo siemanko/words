@@ -34,6 +34,7 @@
 
             .recommend-box {
                 padding-top:2rem;
+                padding-bottom:2rem;
                 vertical-align: top;
             }
 
@@ -88,6 +89,7 @@
             @media (max-width: 768px) {
                 .recommend-box {
                     padding-top:1rem;
+                    padding-bottom:1rem;
                     font-size: 0.7rem;
                 }
 
@@ -131,7 +133,7 @@
                     <!-- spy assistant  -->
                     <li class="nav-item dropdown">
                         <a class="nav-link" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                          <img src="icons/ai.svg" style="height:2rem" />&nbsp;Clue Assistant
+                          <img src="icons/ai.svg" style="height:2rem" />&nbsp;AI Clue Master
                         </a>
                         <div class="dropdown-menu text-muted wide-non-mobile">
                             <div class="form-group" id="recommend-lang-warning">
@@ -431,8 +433,7 @@
                     var [query, query_hash] = get_query_and_hash(color);
 
                     if (query_hash === null) {
-                        loader.hide();
-                        text.text('zero words left to guess.');
+                        recommended_words[color] = ['no words left to guess.']
                         current_hash[color] = null;
                         setTimeout(invoke_self, wait_delay);
                         return;

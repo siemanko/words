@@ -123,9 +123,8 @@ function recommend(good, bad, fail, risk, num_guesses, blacklist) {
                 forbidden_words.add(word + 'ing');
                 forbidden_words.add(word + 'ings');
                 forbidden_words.add(word + 'ed');
+                forbidden_words.add(word.stem());
             }
-
-
 
             for (var word of [...good, ...bad, ...fail, ...(blacklist || [])]) {
                 forbid_word(word)
@@ -133,7 +132,7 @@ function recommend(good, bad, fail, risk, num_guesses, blacklist) {
             var res = []
             for (var candidate_idx of best_candidates) {
                 word = model.word[candidate_idx];
-                if (!forbidden_words.has(word)) {
+                if (!forbidden_words.has(word) && !forbidden_words.has(word.stem())) {
                     res.push(word);
                     forbid_word(word)
                 }

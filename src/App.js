@@ -1,8 +1,12 @@
 import React from 'react';
-import Board from  './Board.js'
+import Board from  './Board.js';
 import './App.css';
+import natural from 'natural';
 
 function App() {
+  // needed for recommend.js
+  natural.LancasterStemmer.attach();
+
   return (
     <div>
       <NavBar />

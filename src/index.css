@@ -1,0 +1,110 @@
+body {
+  padding-top: 70px;
+  touch-action: none;
+}
+
+.table-style {
+  width: 100%;
+  border-collapse: separate;
+  height: 100%;
+  margin: 0px;
+  border-spacing: 1rem 1rem;
+}
+
+.cell-style {
+  border: 2px solid black;
+  max-width: 0px;
+  max-height: 0px;
+  text-align: center;
+}
+
+.word {
+  border-radius: 10px;
+  font-weight: bold;
+  font-size: 1.4vw;
+}
+
+.recommend-box {
+  padding-top: 2rem;
+  padding-bottom: 2rem;
+  vertical-align: top;
+}
+
+.cell-inrevealed {
+  border: 2px dotted black;
+}
+
+.cell-inrevealed:hover {
+  border: 2px solid black;
+  cursor: pointer;
+}
+
+.cell-revealed {
+  border: 2px solid black;
+  cursor: auto;
+}
+
+.cell-red {
+  background: #FFCCCC;
+}
+
+.cell-blue {
+  background: #99CCFF;
+}
+
+.cell-neutral {
+  background: #eeeeee;
+}
+
+.cell-end {
+  background: black;
+  color: white;
+}
+
+.red-stats {
+  color: red;
+}
+
+.blue-stats {
+  color: blue;
+}
+
+.cell-strike {
+  opacity: 0.2;
+}
+
+.cluemaster-control {
+  height: 1px;
+  padding: 0px;
+}
+
+.cluemaster-control .form-group {
+  margin-bottom: 0px;
+  padding-top: 0.5rem;
+}
+
+.cluemaster-control>form {
+  margin: 0px;
+}
+
+@media (max-width: 768px) {
+  .recommend-box {
+    padding-top: 1rem;
+    padding-bottom: 1rem;
+    font-size: 0.7rem;
+  }
+}
+
+@media (max-width: 992px) {
+  /* this fix from 2017 still works! */
+  nav.navbar.fixed-top {
+    max-height: 100%;
+    overflow-y: auto;
+  }
+}
+
+@media (min-width: 768px) {
+  .wide-non-mobile {
+    min-width: 25rem;
+  }
+}

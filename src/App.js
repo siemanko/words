@@ -1,4 +1,5 @@
 import React from 'react';
+import Board from  './Board.js'
 import './App.css';
 
 function App() {
@@ -77,7 +78,7 @@ function MainPanel() {
               </div>
             </div>
           </div>
-          <div className="col" id="game"></div>
+          <Board />
         </div>
       </div>
     </div>

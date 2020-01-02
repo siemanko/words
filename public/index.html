@@ -48,7 +48,7 @@
                 return Math.floor(Math.random() * (max - min)) + min; //The maximum is exclusive and the minimum is inclusive
             }
 
-            function get_remaining(c) {
+            function get_remaining(game, c) {
                 var res = 0;
                 for (var idx = 0; idx < game.num_rows * game.num_cols; idx += 1) {
                     if (!game.revealed[idx] && game.type[idx] == c) {
@@ -189,7 +189,7 @@
                         np.addClass('text-' + (next_player() == 'red' ? 'danger' : 'primary'));
                         np.text(next_player());
 
-                        $('#auto-cluemaster button').prop('disabled', get_remaining('b') == 0 || get_remaining('r') == 0);
+                        $('#auto-cluemaster button').prop('disabled', get_remaining(game, 'b') == 0 || get_remaining(game, 'r') == 0);
 
                         for (var color of ['red', 'blue']) {
                             var box = $('#recommend-box-' + color);
@@ -238,19 +238,19 @@
                     game_ui.append(p);
                     $('#recommend').collapse('hide');
                 } else {
-                    $('#cluemaster-li').removeClass();
+                    $('#cluemaster-li, #guess-li, #ai-cluemaster-li').removeClass('active');
                     if (game.allrevealed) {
                         $('#cluemaster-li').addClass("active");
-                    }
-                    if (game.show_recommend) {
-                        $('#intro-recommend').hide();
-                        $('#recommend-settings').show()
                     } else {
-                        $('#intro-recommend').show();
-                        $('#recommend-settings').hide()
+                        if (game.show_recommend) {
+                            $('#ai-cluemaster-li').addClass("active");
+                        } else {
+                            $('#guess-li').addClass("active");
+                        }
                     }
-                    $('#red-left').text(get_remaining("r"));
-                    $('#blue-left').text(get_remaining("b"));
+                    
+                    $('#red-left').text(get_remaining(game, "r"));
+                    $('#blue-left').text(get_remaining(game, "b"));
                     render_recommend();
                     if (get_lang() == 'en') {
                         $('#recommend-lang-warning').hide();
@@ -261,21 +261,21 @@
                 sessionStorage.setItem("game", JSON.stringify(game));
             }
 
-            function toggle_cluemaster() {
-                game.allrevealed = !game.allrevealed;
-                render();
-            }
-
-            function enable_recommend() {
-                game.show_recommend = true;
-                if (!game.allrevealed) {
-                    game.allrevealed = true;
-                }
-                render();
-            }
-
-            function disable_recommend() {
+            function enable_cluemaster() {
+                game.allrevealed = true;
                 game.show_recommend = false;
+                render();
+            }
+
+            function enable_ai_cluemaster() {
+                game.show_recommend = true;
+                game.allrevealed = false;
+                render();
+            }
+
+            function enable_guess() {
+                game.show_recommend = false;
+                game.allrevealed = false;
                 render();
             }
 
@@ -409,12 +409,13 @@
                 if (!('ontouchstart' in document.documentElement)) {
                      $('[data-toggle="tooltip"]').tooltip();
                 }
-                $("#cluemaster").click(toggle_cluemaster);
-                $('#enable-recommend').click(enable_recommend);
-                $('#disable-recommend').click(disable_recommend);
+                $("#cluemaster").click(enable_cluemaster);
+                $("#ai-cluemaster").click(enable_ai_cluemaster);
+                $("#guess").click(enable_guess);
+
                 $(".reset-button").click(reset);
 
-                $("#about, #cluemaster, .reset-button").click(function() { $('#menu').collapse('hide') });
+                $("#about, #guess, #ai-cluemaster, #cluemaster, #settings, .reset-button").click(function() { $('#menu').collapse('hide') });
 
                 $("#seed").val(seed);
                 $("#seed").keyup(set_from_seed);

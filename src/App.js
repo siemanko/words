@@ -52,29 +52,29 @@ function SettingsModal() {
         </div>
         <div className="modal-body">
           <form>
-            <div class="form-group">
-              <label class="text-justify">
+            <div className="form-group">
+              <label className="text-justify">
                 Display AI hints<br />
                 <small>In <tt>Give clues</tt> view we will display a list of suggested clues for the player to chose from. It is still up to them whether to use the suggestion or not.</small>
               </label>
-              <div class="form-check">
-                <input class="form-check-input" type="checkbox" value="" id="human-cluemaster-hints"/>
-                <label class="form-check-label" for="human-cluemaster-hints">
+              <div className="form-check">
+                <input className="form-check-input" type="checkbox" value="" id="human-cluemaster-hints"/>
+                <label className="form-check-label" for="human-cluemaster-hints">
                   help me come up with clues
                 </label>
               </div>
             </div>
             <hr />
-            <div class="form-group">
-              <label class="text-justify">
+            <div className="form-group">
+              <label className="text-justify">
                 Use only popular words<br />
                 <small>The model can produce clues based on pretty large dictionary of words - about 30k - this allows it to sometimes find an original and awesome hint 
                   for a board where human might think that all hope is lost. However, this comes at a price - the clues can sometimes be unusual, offensive, hard to understrand or even google!
                   If this is too much for you consider the option below. </small>
               </label>
-              <div class="form-check">
-                <input class="form-check-input" type="checkbox" value="" id="simple-dictionary" disabled/>
-                <label class="form-check-label" for="simple-dictionary">
+              <div className="form-check">
+                <input className="form-check-input" type="checkbox" value="" id="simple-dictionary" disabled/>
+                <label className="form-check-label" for="simple-dictionary">
                   Keep it simple <i>(coming soon!)</i>
                 </label>
               </div>
@@ -82,7 +82,7 @@ function SettingsModal() {
             <hr />
 
             <div className="form-group">
-              <label htmlFor="risk" class="text-justify">
+              <label htmlFor="risk" className="text-justify">
                 Risk tolerance<br />
                 <small>The number of bad words that are ignored when coming up with clues. Zeros words is the safest option, but might sometimes result in more awkward clues.</small>
               </label>
@@ -97,14 +97,14 @@ function SettingsModal() {
             </div>
             <hr />
 
-            <div class="form-group">
-              <label class="text-justify">
+            <div className="form-group">
+              <label className="text-justify">
                 AI Model Statistics<br />
                 <small>Displays information about the automatic clue suggestion model, e.g. which words is the clue related to or what is its score.</small>
               </label>
-              <div class="form-check">
-                <input class="form-check-input" type="checkbox" value="" id="debug-enable" disabled/>
-                <label class="form-check-label" for="debug-enable">
+              <div className="form-check">
+                <input className="form-check-input" type="checkbox" value="" id="debug-enable" disabled/>
+                <label className="form-check-label" for="debug-enable">
                   I want to know everything! <i>(coming soon!)</i>
                 </label>
               </div>
@@ -121,6 +121,17 @@ function SettingsModal() {
 function MainPanel() {
   return (
     <div>
+      <div id="recommend-lang-warning">
+        <div className="alert alert-warning" role="alert">
+          Auto clues currently only work in english.
+        </div>
+      </div>
+      {/* hide this when not in AI mode */}
+      <div className="form-group d-block d-sm-none" id="ai-cluemaster-phone-warning">
+        <div className="alert alert-warning" role="alert">
+           Auto clues are not currently support in portrait mode. Flip your phone.
+        </div>
+      </div>
       <div className="container-fluid h-100">
         <div className="row h-100">
           <div className="col-3 col-lg-2 collapse d-none d-sm-block" id="recommend">
@@ -157,6 +168,7 @@ function MainPanel() {
               </div>
             </div>
           </div>
+
           <Board ref={(boardComponent) => {window.boardComponent = boardComponent}} />
         </div>
       </div>
@@ -174,87 +186,33 @@ function NavBar() {
       <div className="collapse navbar-collapse" id="menu">
         {/* navigation buttons */}
         <ul className="navbar-nav mr-auto mt-2 mt-lg-0">
-          <li className="nav-item"><a href='#' id="about" className="nav-link" data-toggle="modal" data-target="#about-modal">
-            <img src="icons/info.svg" style={{ height: "2rem" }} />&nbsp;About
+          
+          {/* game modes  */}
+          <li id="guess-li" className="nav-item">
+            <a className="nav-link" href="#" id="guess">
+              <img src="icons/guess.svg" style={{ height: '2rem' }} />&nbsp;Guess
             </a>
           </li>
-          <li id="cluemaster-li"
-            className="nav-item"
-            data-toggle="tooltip"
-            data-placement="bottom"
-            title="Display the colors of all tiles.">
-            <a className="nav-link" href="#" id="cluemaster"><img src="icons/detective.svg" style={{ height: '2rem' }} />&nbsp;Clue Master</a>
+          <li id="cluemaster-li" className="nav-item">
+            <a className="nav-link" href="#" id="cluemaster">
+              <img src="icons/detective.svg" style={{ height: '2rem' }} />&nbsp;Give Clues
+            </a>
           </li>
-          {/* spy assistant  */}
-          <li className="nav-item dropdown">
-            <a className="nav-link" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-              <img src="icons/ai.svg" style={{ height: '2rem' }} />&nbsp;AI Clue Master
-                </a>
-            <div className="dropdown-menu text-muted wide-non-mobile">
-              <div className="form-group" id="recommend-lang-warning">
-                <div className="alert alert-warning" role="alert">
-                  Currently only works for english.
-                        </div>
-              </div>
-              <div className="form-group d-block d-sm-none" id="recommend-lang-warning">
-                <div className="alert alert-warning" role="alert">
-                  Currently does not work on portrait mode. Flip your phone.
-                        </div>
-              </div>
-              <div id="intro-recommend">
-                <form className="px-4 py-1">
-                  <div className="form-group text-justify">
-                    <small>Automated tool to recommend cluemaster clues. It works best towards endgame. It is based on the <a href="https://nlp.stanford.edu/projects/glove/">glove vectors</a>. This specific application was inspired by a <a href="https://jsomers.net/glove-codenames/">blog post</a> that I saw on hacker news.</small>
-                  </div>
-                  <div className="form-group text-center">
-                    <button className="btn btn-primary" id="enable-recommend">Enable</button>
-                  </div>
-                </form>
-              </div>
-              <div id="recommend-settings">
-                <h6 className="dropdown-header">Spy Assistant Settings</h6>
-
-                <form className="px-4 py-3">
-                  <div className="form-group">
-                    <label htmlFor="risk">
-                      Risk tolerance<br />
-                      <small>The number of bad words that are ignored when coming up with clues. Zeros words is the safest option, but might result in more awkward clues.</small>
-                    </label>
-                    <select className="form-control" id="risk">
-                      <option value="0">zero words</option>
-                      <option value="1">one word</option>
-                      <option value="2">two words</option>
-                      <option value="3">three words</option>
-                      <option value="allbutblack">all words (no black)</option>
-                      <option value="all">all words (including black)</option>
-                    </select>
-                  </div>
-                  <div className="form-group">
-                    <label htmlFor="num-guesses">
-                      Target Words<br />
-                      <small>Number of words that the assistant will try to hint at. The larger the number the harder is it to come up with a sensible clue.</small>
-                    </label>
-                    <select className="form-control" id="num-guesses">
-                      <option value="1">one word</option>
-                      <option value="2">two words</option>
-                      <option value="3">three words</option>
-                      <option value="4">four words</option>
-                      <option value="all">all</option>
-                    </select>
-                  </div>
-                  <div className="form-group text-center">
-                    <button className="btn btn-light" id="disable-recommend">Disable</button>
-                  </div>
-                </form>
-              </div>
-            </div>
-
+          <li id="ai-cluemaster-li" className="nav-item">
+            <a className="nav-link" href="#" id="ai-cluemaster">
+              <img src="icons/ai.svg" style={{ height: '2rem' }} />&nbsp;AI Clues
+            </a>
           </li>
+          {/* settings */}
           <li className="nav-item"><a href='#' id="about" className="nav-link" data-toggle="modal" data-target="#settings-modal">
             <img src="icons/settings.svg" style={{ height: "2rem" }} />&nbsp;Settings
             </a>
           </li>
-          
+          {/* about */}
+          <li className="nav-item"><a href='#' id="about" className="nav-link" data-toggle="modal" data-target="#about-modal">
+            <img src="icons/info.svg" style={{ height: "2rem" }} />&nbsp;About
+            </a>
+          </li>
           {/* reset  */}
           <li className="nav-item dropdown">
             <a className="nav-link" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">

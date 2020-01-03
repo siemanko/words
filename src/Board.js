@@ -85,7 +85,7 @@ export class Board extends React.Component {
         return (
             <div className="col">
                 {/* Non-react stuff binds here */}
-                <table className="table-style"><tbody>{boardRows}</tbody></table>;
+                <table className="table-style"><tbody>{boardRows}</tbody></table>
             </div>
         );
     }

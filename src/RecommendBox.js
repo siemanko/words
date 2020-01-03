@@ -1,70 +1,36 @@
 import React from 'react';
 import * as gu from './GameUtils.js';
 import {model, load_model, recommend} from './recommend.js';
-import { createPortal } from 'react-dom';
 
-
-
-/*
-function render_cluemaster_hints() {
-    $('#auto-cluemaster-control').hide();
-    for (var color of ['red', 'blue']) {
-        var box = $('#recommend-box-' + color);
-        box.html('');
-        var flavor = (color == 'red') ? 'danger' : 'primary';
-        if (recommended_words[color] === null) {
-            box.append('<div class="spinner-grow spinner-grow-sm align-middle text-' + flavor + '" role="status"/>')
-        } else {
-            word_list = $('<span class="text-' + flavor + '"/>')
-            word_list.html(recommended_words[color].slice(0, 8).join('<br>'));
-            box.append(word_list)
-        }
-    }
-}
-
- var current_hash = {blue: null, red: null}
-            function cluemaster_recommend_thread(color) {
-                var wait_delay = 250;
-
-                function invoke_self() {cluemaster_recommend_thread(color);}
-
-
-                if (gu.human_cluemaster_hints_needed(game) && gu.get_lang(game) == 'en') {
-                    if (model === null) {
-                        load_model(invoke_self);
-                        return;
-                    }
-                    var [query, query_hash] = get_query_and_hash(color);
-
-                    if (query_hash === null) {
-                        recommended_words[color] = ['no words left to guess.']
-                        current_hash[color] = null;
-                        setTimeout(invoke_self, wait_delay);
-                        return;
-                    }
-                    if (current_hash[color] == query_hash) {
-                        setTimeout(invoke_self, wait_delay);
-                        return
-                    }
-                    recommended_words[color] = null;
-                    render();
-                    setTimeout(function() {
-                        recommend(query).then(function(value) {
-                            recommended_words[color] = value;
-                            current_hash[color] = query_hash;
-                            render();
-                            setTimeout(invoke_self, 0);
-                        });
-                    }, 10);
-                } else {
-                    setTimeout(invoke_self, wait_delay);
-                }
-            }
-
-*/
 
 function color_to_flavor(color) {
     return (color == 'red') ? 'text-danger' : 'text-primary';
+}
+
+
+class CluemasterHintWordBox extends React.Component {
+
+    render() {
+        var flavor = color_to_flavor(this.props.color);
+        var clues = this.props.clues.slice(0, 8);
+        var word_list = [];
+
+        if (clues.length == 0) {
+            word_list.push(<div key="spinner" className={"spinner-grow spinner-grow-sm align-middle " + flavor} role="status"/>);
+        } else {
+            for (var i = 0; i < clues.length; i++) {
+                word_list.push(<span key={'clue-' + i} className={flavor}> {clues[i]} </span>);
+                if (i + 1 < clues.length) {
+                    word_list.push(<br key={'br-' + i} />);
+                }
+            }
+        }
+        return (<tr>
+            <td className="recommend-box cell-style">
+                {word_list}
+            </td>
+        </tr>);
+    }
 }
 
 class AutoCluesWordBox extends React.Component {
@@ -89,7 +55,7 @@ class AutoCluesWordBox extends React.Component {
                 if (clues[i] === null) {
                     word_list.push(<div key={'spinner-' + i} className={"spinner-grow spinner-grow-sm align-middle " + flavor} role="status" />)
                 } else {
-                    word_list.push(<span key={'clue-' + i} style={{opacity: opacity}} class={flavor}> {clues[i].join(' ')} </span>);
+                    word_list.push(<span key={'clue-' + i} style={{opacity: opacity}} className={flavor}> {clues[i].join(' ')} </span>);
                 }
                 if (i + 1 < clues.length) {
                     word_list.push(<br key={'br-' + i} />);
@@ -213,7 +179,62 @@ export class RecommendBoxNotifications extends React.Component {
     }
 }
 
+function throttled_execute(queue) {
+    if (queue.length == 0) {
+        setTimeout(() => throttled_execute(queue), 250);
+    } else {
+        var next_request = null;
+        while(queue.length > 0) {
+            next_request = queue.shift();
+        }
+        next_request(() => throttled_execute(queue));
+    }
+
+}
+
 export class RecommendBox extends React.Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            cluemaster_hints: {red: [], blue: []},
+            cluemaster_hints_hash: {red: null, blue: null},
+        };
+        this.cluemaster_hints_jobs = {red: [], blue: []};
+        setTimeout(() => throttled_execute(this.cluemaster_hints_jobs['red']), 0);
+        setTimeout(() => throttled_execute(this.cluemaster_hints_jobs['blue']), 0);
+    }
+
+    update_cluemaster_hints(color) {
+        var self = this;
+        if (model === null) {
+            load_model(() => self.update_cluemaster_hints(color));
+            return;
+        }
+        var [query, query_hash] = get_query_and_hash(this.props.game, color);
+        var current_hash = this.state.cluemaster_hints_hash;
+        var hints = this.state.cluemaster_hints;
+
+        if (query_hash === null) {
+            hints[color] = ['no words left to guess.']
+            current_hash[color] = null;
+            return;
+        }
+
+        if (current_hash[color] == query_hash) {
+            return;
+        }
+        hints[color] = [];
+
+        this.cluemaster_hints_jobs[color].push(callback => {
+            recommend(query).then(function(value) {
+                hints[color] = value;
+                current_hash[color] = query_hash;
+                self.forceUpdate(callback);
+            });
+        });
+
+    }
+
     autoclues_control(game, color) {
         var self = this;
         const buttons = [1, 2, 3, 4, "all"].map(function(val) {
@@ -252,14 +273,22 @@ export class RecommendBox extends React.Component {
         if (gu.get_lang(game) == 'en' && (auto_clues_needed || cluemaster_hints_needed)) {
             var controls = null;
 
+            if (cluemaster_hints_needed) {
+                ['red', 'blue'].map(color => this.update_cluemaster_hints(color));
+            }
+
             if (auto_clues_needed) {
                 controls = this.autoclues_control(game, gu.next_player(game));
             }
 
-            
+            const state = this.state;
             var boxes = ['red', 'blue'].map(function(color) {
                 var highlight = (color != gu.next_player(game));
-                return <AutoCluesWordBox key={color} color={color} clues={game.auto_clues[color]} highlight_last={highlight} />;
+                if (auto_clues_needed) {
+                    return <AutoCluesWordBox key={color} color={color} clues={game.auto_clues[color]} highlight_last={highlight} />;
+                } else if (cluemaster_hints_needed) {
+                    return <CluemasterHintWordBox key={color} color={color} clues={state.cluemaster_hints[color]} />
+                }
             })
                 
             return (<div className="col-3 col-lg-2 collapse d-none d-sm-block" id="recommend">

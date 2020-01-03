@@ -183,7 +183,11 @@
 
             function update_human_cluemaster_hints() {
                 game.human_cluemaster_hints = $(event.target).prop('checked');
-                render();
+                if (game.human_cluemaster_hints) {
+                    enable_cluemaster();
+                } else {
+                    render();
+                }
             }
 
             function update_use_common_words() {

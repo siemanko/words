@@ -24,7 +24,8 @@ export function load_model(callback) {
             vec: tf.tensor(vec).reshape(vec_shape),
             word: word,
             word_to_idx: word_to_idx,
-            common_words: new Set(common_words.map(word => word.stem())),
+            common_words: common_words,
+            common_words_stems_set: new Set(common_words.map(word => word.stem()))
         };
         console.log('model loaded');
         if (callback) {
@@ -135,7 +136,8 @@ export function recommend(query) {
                 forbidden_words.add(word.stem());
             }
 
-            for (var word of [...query.good, ...query.bad, ...query.fail, ...(query.blacklist || [])]) {
+            var most_common_words = model.common_words.slice(0, 100);
+            for (var word of [...query.good, ...query.bad, ...query.fail, ...(query.blacklist || []), ...most_common_words]) {
                 forbid_word(word)
             }
             var res = []
@@ -144,7 +146,7 @@ export function recommend(query) {
                 if (forbidden_words.has(word) || forbidden_words.has(word.stem())) {
                     continue;
                 }
-                if (query.use_common_words && !model.common_words.has(word.stem())) {
+                if (query.use_common_words && !model.common_words_stems_set.has(word.stem())) {
                     continue
                 }
                 if (word.length <= 2) {

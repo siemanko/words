@@ -240,8 +240,9 @@
                 } else {
                     reset();
                 }
-                // cluemaster_recommend_thread('red');
-                // cluemaster_recommend_thread('blue');
+                $(window).on('unload', function() {
+                    sessionStorage.setItem("game", JSON.stringify(game));
+                });
             });
         </script>
         <script>

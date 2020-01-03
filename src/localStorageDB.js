@@ -8,7 +8,7 @@ var db,
     k: '',
     v: ''
   },
-  request = indexedDB.open('d2', 1);
+  request = indexedDB.open('d2');
 request.onsuccess = function(evt) {
   db = this.result;
 };

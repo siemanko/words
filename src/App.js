@@ -139,7 +139,7 @@ function MainPanel() {
       </div>
       <div className="container-fluid h-100">
         <div className="row h-100">
-          <RecommendBox ref={(boardComponent) => {window.boardComponent = boardComponent}} />
+          <RecommendBox ref={(recommendboxComponent) => {window.recommendboxComponent = recommendboxComponent}} />
           <Board ref={(boardComponent) => {window.boardComponent = boardComponent}} />
         </div>
       </div>

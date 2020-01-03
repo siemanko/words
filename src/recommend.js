@@ -1,18 +1,22 @@
+import * as tf from '@tensorflow/tfjs';
+import ldb from  './localStorageDB.js';
+
+
 var storage_key = "recommendation";
 var vec_shape = [-1, 300]
 
 var query_cache = {}
-var model = null;
+export var model = null;
 
 
-function load_model(callback) {
+export function load_model(callback) {
     // ensure there's enough storage to store the model
     var vec = null;
     var word = null;
     var common_words = null;
 
     function process_data() {
-        word_to_idx = {}
+        var word_to_idx = {}
         for (var i = 0; i < word.length; i++) {
             word_to_idx[word[i]] = i;
         }
@@ -45,7 +49,7 @@ function load_model(callback) {
 
             var word_promise = new Promise(function(resolve, reject) {
                 var oReq = new XMLHttpRequest();
-                oReq.addEventListener("load", function() {
+                oReq.addEventListener("load", function(event) {
                     word = event.target.response['word'];
                     common_words = event.target.response['common_words'];
                     resolve();
@@ -89,7 +93,7 @@ function distances_to_words(word_list) {
     return tf.concat(res, -1);
 }
 
-function recommend(query) {
+export function recommend(query) {
     console.log("query", query);
 
     return new Promise(function(resolve, reject) {
@@ -156,7 +160,7 @@ function recommend(query) {
     });
 }
 
-function demo_recommend() {
+export function demo_recommend() {
     load_model(function() {
         var promise = recommend(["church", "cat", "atlantis"], ["eye", "aztec", "buck", "pin", "hospital"], ["fair"], 1, 3);
         promise.then(function(value) { console.log(value.slice(0, 5)); });

@@ -1,5 +1,8 @@
 import React from 'react';
 
+import * as gu from './GameUtils.js';
+
+
 function toggle_reveal(idx) {
     /* This function needs to write to window state
     because some js is not ported to react yet */
@@ -10,16 +13,6 @@ function toggle_reveal(idx) {
     window.render();
 }
 
-// TODO(mib): how do we share this with index.html?
-function get_remaining(game, c) {
-    var res = 0;
-    for (var idx = 0; idx < game.num_rows * game.num_cols; idx += 1) {
-        if (!game.revealed[idx] && game.type[idx] == c) {
-            res += 1;
-        }
-    }
-    return res;
-}
 
 class Board extends React.Component {
     constructor(props) {
@@ -32,25 +25,26 @@ class Board extends React.Component {
 
         const game = this.state.gameState;
         if (game) {
-            var show_all_colors = game.allrevealed
-            if (get_remaining(game, 'b') == 0 || get_remaining(game, 'r') == 0 || get_remaining(game, 'e') == 0) {
-                show_all_colors = true;
-            }
-            // when not in spymaster mode and the game is won show who has won.
-            var winner_box = null;
-            if (!game.allrevealed && show_all_colors) {
-                if (get_remaining(game, 'b') == 0) {
-                    var winner = (<div><span className="text-primary">blue</span> has won the game.</div>);
-                } else if (get_remaining(game, 'r') == 0) {
-                    var winner = (<div><span className="text-danger">red</span> has won the game.</div>);
-                } else if (get_remaining(game, 'e') == 0) {
-                    var winner = (<div>black word was releaved.</div>);
-                }
-                winner_box = (<div className="alert alert-info" role="alert">
-                    {winner} 
-                </div>);
-            } 
             if (game && !game.error) {
+                var show_all_colors = game.allrevealed
+                if (gu.get_remaining(game, 'b') == 0 || gu.get_remaining(game, 'r') == 0 || gu.get_remaining(game, 'e') == 0) {
+                    show_all_colors = true;
+                }
+                // when not in spymaster mode and the game is won show who has won.
+                var winner_box = null;
+                if (!game.allrevealed && show_all_colors) {
+                    if (gu.get_remaining(game, 'b') == 0) {
+                        var winner = (<div><span className="text-primary">blue</span> has won the game.</div>);
+                    } else if (gu.get_remaining(game, 'r') == 0) {
+                        var winner = (<div><span className="text-danger">red</span> has won the game.</div>);
+                    } else if (gu.get_remaining(game, 'e') == 0) {
+                        var winner = (<div>black word was releaved.</div>);
+                    }
+                    winner_box = (<div className="alert alert-info" role="alert">
+                        {winner} 
+                    </div>);
+                } 
+
                 let boardRows = [];
                 for (let i = 0; i < game.num_rows; i += 1) {
                     let rowCells = [];

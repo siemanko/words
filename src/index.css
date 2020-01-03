@@ -80,18 +80,20 @@ body {
 
 .cluemaster-control .form-group {
   margin-bottom: 0px;
+}
+.cluemaster-control label {
+  padding-bottom: 0.5rem;
   padding-top: 0.5rem;
 }
-
 .cluemaster-control>form {
   margin: 0px;
 }
 
 @media (max-width: 768px) {
   .recommend-box {
-    padding-top: 1rem;
-    padding-bottom: 1rem;
-    font-size: 0.7rem;
+    padding-top: 0.1rem;
+    padding-bottom: 0.1rem;
+    font-size: 0.5rem;
   }
 }
 

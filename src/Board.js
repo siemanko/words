@@ -13,6 +13,15 @@ function toggle_reveal(idx) {
 
 
 export class BoardNotifications extends React.Component {
+    constructor(props) {
+        super(props);
+        this.state = {hidden: false}
+    }
+
+    hide() {
+        this.setState({hidden: true});
+    }
+
     render() {
         const game = this.props.game; 
         var revealed_color = gu.get_full_releaved_color(game)
@@ -20,17 +29,22 @@ export class BoardNotifications extends React.Component {
         // when not in spymaster mode and the game is won show who has won.
         var winner_box = null;
         if (!game.allrevealed && revealed_color !== null) {
-            var winner = null;
-            if (revealed_color == 'blue') {
-                winner = (<div><span className="text-primary">blue</span> has won the game.</div>);
-            } else if (revealed_color == 'red') {
-                winner = (<div><span className="text-danger">red</span> has won the game.</div>);
-            } else if (revealed_color == 'black') {
-                winner = (<div>black word was releaved.</div>);
-            }
-            winner_box = (<div className="alert alert-info" role="alert">
-                {winner} 
-            </div>);
+            if (!this.state.hidden) {
+                var exit = <a href="#" onClick={this.hide.bind(this)}><div class="float-right close" >&times;</div></a>
+                var winner = null;
+                if (revealed_color == 'blue') {
+                    winner = (<div><span className="text-primary">blue</span> has won the game.{exit}</div>);
+                } else if (revealed_color == 'red') {
+                    winner = (<div><span className="text-danger">red</span> has won the game.{exit}</div>);
+                } else if (revealed_color == 'black') {
+                    winner = (<div>black word was releaved.{exit}</div>);
+                }
+                winner_box = (<div className="alert alert-info" role="alert">
+                    {winner} 
+                </div>);
+            } 
+        } else {
+            this.state.hidden = false;
         }
         return winner_box
     }

@@ -264,6 +264,36 @@ export class RecommendBox extends React.Component {
         </tr>)
     }
 
+    cluemaster_hints_control(game) {
+        var self = this;
+
+        function set_num_guessed(val) {
+            game.num_guesses = val;
+            self.forceUpdate();
+        }
+
+        const buttons = [1, 2, 3, 4, "all"].map(function(val) {
+            return <button key={val} type="button" className={"btn btn-light " + (game.num_guesses == val ? 'active' : '')} 
+                            onClick={() => set_num_guessed(val)}>
+                {val.toString().replace('all', '∞')}
+            </button>;
+        })
+
+        return (<tr id="auto-cluemaster-control">
+            <td className="cell-style align-middle cluemaster-control">
+            <form>
+                <div className="form-group">
+                <label htmlFor="auto-cluemaster" style={{ marginLeft: '0.5rem', marginRight: '0.5rem' }}>
+                    Select the number of words to guess.</label>
+                <div className="btn-group w-100" role="group" id="auto-cluemaster">
+                    {buttons}
+                </div>
+                </div>
+            </form>
+            </td>
+        </tr>)
+    }
+
     render() {
         const game = this.props.game;
 
@@ -279,6 +309,8 @@ export class RecommendBox extends React.Component {
 
             if (auto_clues_needed) {
                 controls = this.autoclues_control(game, gu.next_player(game));
+            } else if (cluemaster_hints_needed) {
+                controls = this.cluemaster_hints_control(game);
             }
 
             const state = this.state;

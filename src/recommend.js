@@ -152,7 +152,6 @@ export function recommend(query) {
                 const word = model.word[candidate_idx];
                 const forms = [word].concat(model.other_word_forms[word] || []);
                 if(forms.some(word => forbidden_words.has(word))) {
-                    console.log("forbidding", word);
                     continue
                 }
 

@@ -179,6 +179,7 @@ export class RecommendBoxNotifications extends React.Component {
     }
 }
 
+// TODO(szymon): this really should not require threads.
 function throttled_execute(queue) {
     if (queue.length == 0) {
         setTimeout(() => throttled_execute(queue), 250);
@@ -189,7 +190,6 @@ function throttled_execute(queue) {
         }
         next_request(() => throttled_execute(queue));
     }
-
 }
 
 export class RecommendBox extends React.Component {

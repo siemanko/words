@@ -192,6 +192,16 @@ function throttled_execute(queue) {
     }
 }
 
+
+class ResponsiveButtonGroup extends React.Component {
+    render() {
+        return (<div>
+            <div className="btn-group w-100 d-sm-none d-md-none d-lg-block" role="group">{this.props.buttons}</div>
+            <div className="btn-group-vertical d-none  d-sm-block  d-md-block d-lg-none" role="group">{this.props.buttons}</div>
+        </div>);
+    }
+}
+
 export class RecommendBox extends React.Component {
     constructor(props) {
         super(props);
@@ -253,11 +263,9 @@ export class RecommendBox extends React.Component {
             <td className="cell-style align-middle cluemaster-control">
             <form>
                 <div className="form-group">
-                <label htmlFor="auto-cluemaster" style={{ marginLeft: '0.5rem', marginRight: '0.5rem' }}>
-                    Select the number of words to guess for <span className={color_to_flavor(color)}>{color}</span>.</label>
-                <div className="btn-group w-100" role="group" id="auto-cluemaster">
-                    {buttons}
-                </div>
+                    <label htmlFor="auto-cluemaster" style={{ marginLeft: '0.5rem', marginRight: '0.5rem' }}>
+                        Select the number of words to guess for <span className={color_to_flavor(color)}>{color}</span>.</label>
+                    <ResponsiveButtonGroup buttons={buttons} />
                 </div>
             </form>
             </td>
@@ -283,11 +291,10 @@ export class RecommendBox extends React.Component {
             <td className="cell-style align-middle cluemaster-control">
             <form>
                 <div className="form-group">
-                <label htmlFor="auto-cluemaster" style={{ marginLeft: '0.5rem', marginRight: '0.5rem' }}>
-                    Select the number of words to guess.</label>
-                <div className="btn-group w-100" role="group" id="auto-cluemaster">
-                    {buttons}
-                </div>
+                    <label htmlFor="auto-cluemaster" style={{ marginLeft: '0.5rem', marginRight: '0.5rem' }}>
+                        Select the number of words to guess.</label>
+                    <ResponsiveButtonGroup buttons={buttons} />
+
                 </div>
             </form>
             </td>

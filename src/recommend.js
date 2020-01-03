@@ -14,6 +14,7 @@ export function load_model(callback) {
     var vec = null;
     var word = null;
     var common_words = null;
+    var other_word_forms = null;
 
     function process_data() {
         var word_to_idx = {}
@@ -25,7 +26,8 @@ export function load_model(callback) {
             word: word,
             word_to_idx: word_to_idx,
             common_words: common_words,
-            common_words_stems_set: new Set(common_words.map(word => word.stem()))
+            common_words_stems_set: new Set(common_words.map(word => word.stem())),
+            other_word_forms: other_word_forms,
         };
         console.log('model loaded');
         if (callback) {
@@ -53,6 +55,7 @@ export function load_model(callback) {
                 oReq.addEventListener("load", function(event) {
                     word = event.target.response['word'];
                     common_words = event.target.response['common_words'];
+                    other_word_forms =  event.target.response['other_word_forms']
                     resolve();
                 });
                 oReq.open("GET", "recommend/word.json");
@@ -61,7 +64,7 @@ export function load_model(callback) {
             })
 
             Promise.all([vec_promise, word_promise]).then(function() {
-                ldb.set(storage_key, [vec, word, common_words])
+                ldb.set(storage_key, [vec, word, common_words, other_word_forms])
                 process_data();
             })
         } else {
@@ -69,6 +72,7 @@ export function load_model(callback) {
             vec = value[0];
             word = value[1];
             common_words = value[2];
+            other_word_forms = value[3];
             process_data();
         }
     }
@@ -134,6 +138,9 @@ export function recommend(query) {
                 forbidden_words.add(word + 'ings');
                 forbidden_words.add(word + 'ed');
                 forbidden_words.add(word.stem());
+                (model.other_word_forms[word] || []).forEach(function(word_form) {
+                    forbidden_words.add(word_form);
+                });
             }
 
             var most_common_words = model.common_words.slice(0, 100);
@@ -142,10 +149,13 @@ export function recommend(query) {
             }
             var res = []
             for (var candidate_idx of best_candidates) {
-                word = model.word[candidate_idx];
-                if (forbidden_words.has(word) || forbidden_words.has(word.stem())) {
-                    continue;
+                const word = model.word[candidate_idx];
+                const forms = [word].concat(model.other_word_forms[word] || []);
+                if(forms.some(word => forbidden_words.has(word))) {
+                    console.log("forbidding", word);
+                    continue
                 }
+
                 if (query.use_common_words && !model.common_words_stems_set.has(word.stem())) {
                     continue
                 }

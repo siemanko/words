@@ -159,7 +159,7 @@ class GamePanel extends React.Component {
 
 function NavBar() {
   return (
-    <nav className="navbar fixed-top navbar-expand-lg navbar-light bg-light">
+    <nav className="navbar fixed-top navbar-expand-lg navbar-light bg-light" id="main-navbar">
       <span className="navbar-brand">Words</span>
       <button className="navbar-toggler" type="button" data-toggle="collapse" data-target="#menu" aria-controls="menu" aria-expanded="false" aria-label="Toggle navigation">
         <span className="navbar-toggler-icon"></span>

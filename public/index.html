@@ -58,8 +58,6 @@
             }            
 
             function render() {
-                var game_ui = $("#game");
-                game_ui.html("");
                 // settings
                 $('#risk').val(game.risk);
                 $('#seed').val(game.seed);
@@ -67,17 +65,10 @@
                 $('#human-cluemaster-hints').prop('checked', game.human_cluemaster_hints);
                 $('#use-common-words').prop('checked', game.use_common_words);
 
-                if (window.boardComponent) {
-                    window.boardComponent.setState({gameState: game});
+                if (window.gamePanelComponent) {
+                    window.gamePanelComponent.setState({game: game});
                 }
-                if (window.recommendboxComponent) {
-                    window.recommendboxComponent.setState({gameState: game});
-                }
-                if (game.error) {
-                    var p = $('<p class="lead" \>');
-                    p.html(game.error);
-                    game_ui.append(p);
-                } else {
+                if (game.error === null) {
                     $('#cluemaster-li, #guess-li, #ai-cluemaster-li').removeClass('active');
                     if (game.allrevealed) {
                         $('#cluemaster-li').addClass("active");

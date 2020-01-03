@@ -1,6 +1,6 @@
 import React from 'react';
 import Board from  './Board.js';
-import RecommendBox from  './RecommendBox.js';
+import {RecommendBox, RecommendBoxNotifications} from  './RecommendBox.js';
 import './App.css';
 import natural from 'natural';
 
@@ -13,7 +13,7 @@ function App() {
       <NavBar />
       <AboutModal />
       <SettingsModal />
-      <MainPanel />
+      <GamePanel ref={(gamePanelComponent) => {window.gamePanelComponent = gamePanelComponent}} />
     </div>
   );
 }
@@ -64,7 +64,7 @@ function SettingsModal() {
               </label>
               <div className="form-check">
                 <input className="form-check-input" type="checkbox" value="" id="human-cluemaster-hints"/>
-                <label className="form-check-label" for="human-cluemaster-hints">
+                <label className="form-check-label" htmlFor="human-cluemaster-hints">
                   help me come up with clues
                 </label>
               </div>
@@ -79,7 +79,7 @@ function SettingsModal() {
               </label>
               <div className="form-check">
                 <input className="form-check-input" type="checkbox" value="" id="use-common-words" />
-                <label className="form-check-label" for="use-common-words">
+                <label className="form-check-label" htmlFor="use-common-words">
                   Keep it simple
                 </label>
               </div>
@@ -109,7 +109,7 @@ function SettingsModal() {
               </label>
               <div className="form-check">
                 <input className="form-check-input" type="checkbox" value="" id="debug-enable" disabled/>
-                <label className="form-check-label" for="debug-enable">
+                <label className="form-check-label" htmlFor="debug-enable">
                   I want to know everything! <i>(coming soon!)</i>
                 </label>
               </div>
@@ -123,28 +123,38 @@ function SettingsModal() {
   );
 }
 
-function MainPanel() {
-  return (
-    <div>
-      <div id="recommend-lang-warning">
-        <div className="alert alert-warning" role="alert">
-          Auto clues currently only work in english.
-        </div>
-      </div>
-      {/* hide this when not in AI mode */}
-      <div className="form-group d-block d-sm-none" id="ai-clues-phone-warning">
-        <div className="alert alert-warning" role="alert">
-           Auto clues are not currently support in portrait mode. Flip your phone.
-        </div>
-      </div>
-      <div className="container-fluid h-100">
-        <div className="row h-100">
-          <RecommendBox ref={(recommendboxComponent) => {window.recommendboxComponent = recommendboxComponent}} />
-          <Board ref={(boardComponent) => {window.boardComponent = boardComponent}} />
-        </div>
-      </div>
-    </div>
-  );
+class GamePanel extends React.Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            game: null
+        };
+    }
+
+    render() {
+        const game = this.state.game;
+        console.log("main render")
+
+        if (game === null) {
+            return <div />;
+        } else if (game.error !== null) {
+            return <p class="lead"> {game.error}</p>;
+        } else {
+            return (
+                <div>
+                  <div>
+                    <RecommendBoxNotifications game={game} />
+                  </div>
+                  <div className="container-fluid h-100">
+                    <div className="row h-100">
+                      <RecommendBox game={game} />
+                      <Board game={game} />
+                    </div>
+                  </div>
+                </div>
+            );
+        }
+    }
 }
 
 function NavBar() {

@@ -22,26 +22,6 @@ function render_cluemaster_hints() {
     }
 }
 
-function render_recommend() {
-    var recommend = $('#recommend');
-    var cluemaster_hints_needed = human_cluemaster_hints_needed();
-    var auto_clues_needed = !game.allrevealed && game.enable_auto_clues;
-    $('#recommend-lang-warning').toggle(
-        (auto_clues_needed || cluemaster_hints_needed) && get_lang() != 'en'
-    );
-    // css controls the rest
-    if (auto_clues_needed || cluemaster_hints_needed) {
-        $('#ai-clues-phone-warning').show()
-        $('#ai-clues-phone-warning').addClass('d-block');
-    } else {
-        $('#ai-clues-phone-warning').hide();
-        $('#ai-clues-phone-warning').removeClass('d-block');
-    }
-
-    
-}
-
-
  var current_hash = {blue: null, red: null}
             function cluemaster_recommend_thread(color) {
                 var wait_delay = 250;
@@ -99,7 +79,7 @@ class AutoCluesWordBox extends React.Component {
         var clues = this.props.clues;
 
         if (clues.length == 0) {
-            word_list.push(<span class="text-{flavor}"> No clues.</span>);
+            word_list.push(<span key="no-clue" className="text-{flavor}"> No clues.</span>);
         } else {
             for (var i = 0; i < clues.length; i++) {
                 var opacity = 0.4;
@@ -107,12 +87,12 @@ class AutoCluesWordBox extends React.Component {
                     opacity = 1.0;
                 }
                 if (clues[i] === null) {
-                    word_list.push(<div className={"spinner-grow spinner-grow-sm align-middle " + flavor} role="status" />)
+                    word_list.push(<div key={'spinner-' + i} className={"spinner-grow spinner-grow-sm align-middle " + flavor} role="status" />)
                 } else {
-                    word_list.push(<span style={{opacity: opacity}} class={flavor}> {clues[i].join(' ')} </span>);
+                    word_list.push(<span key={'clue-' + i} style={{opacity: opacity}} class={flavor}> {clues[i].join(' ')} </span>);
                 }
                 if (i + 1 < clues.length) {
-                    word_list.push(<br />);
+                    word_list.push(<br key={'br-' + i} />);
                 }
             }
         }
@@ -137,7 +117,6 @@ function hash(str) {
 
     return (hash1 >>> 0) * 4096 + (hash2 >>> 0)
 }
-
 
 function get_query_and_hash(game, color) {
     var w = {r: [], b: [], n: [], e: []};
@@ -204,23 +183,52 @@ function next_clue(box, game, color, val) {
     }, 0);
 }
 
-class RecommendBox extends React.Component {
+export class RecommendBoxNotifications extends React.Component {
+    render() {
+        const game = this.props.game;
+        var cluemaster_hints_needed = gu.human_cluemaster_hints_needed(game);
+        var auto_clues_needed = !game.allrevealed && game.enable_auto_clues;
+        var clues_needed = (cluemaster_hints_needed || auto_clues_needed);
+        var langauge_available = (gu.get_lang(game) == 'en');
+
+        var res = [];
+
+        if (clues_needed) {
+            // css hides this when screen is not portrait
+            res.push(<div key="lang" className="form-group d-block d-sm-none" id="ai-clues-phone-warning">
+                <div className="alert alert-warning" role="alert">
+                    Auto clues are not currently supported in portrait mode. Flip your phone.
+                </div>
+            </div>);
+        }
+
+        if (clues_needed && !langauge_available) {
+            res.push(<div key="phone" id="recommend-lang-warning">
+                <div className="alert alert-warning" role="alert">
+                Auto clues currently only work in english.
+                </div>
+            </div>);
+        }
+        return <div>{res}</div>;
+    }
+}
+
+export class RecommendBox extends React.Component {
     constructor(props) {
         super(props);
-        this.state = { gameState: {} };
+        this.state = { gameState: null, notifications: []};
     }
 
     autoclues_control(game, color) {
         var self = this;
         const buttons = [1, 2, 3, 4, "all"].map(function(val) {
-            console.log(color, gu.get_remaining(game, color))
             var remaining = gu.get_remaining(game, color);
             if (val == "all") {
                 var enabled = (remaining > 0);
             } else {
                 var enabled = (val <= remaining);
             }
-            return <button type="button" className="btn btn-light" onClick={() => next_clue(self, game, color, val)} disabled={!enabled}>
+            return <button key={val} type="button" className="btn btn-light" onClick={() => next_clue(self, game, color, val)} disabled={!enabled}>
                 {val.toString().replace('all', '∞')}
             </button>;
         })
@@ -241,18 +249,14 @@ class RecommendBox extends React.Component {
     }
 
     render() {
-        const game = this.state.gameState;
-        if (!game) {
-            return <div />
-        }
-        if (game.error !== null) {
-            return <div />;
-        }
+        const game = this.props.game;
+
         var cluemaster_hints_needed = gu.human_cluemaster_hints_needed(game);
         var auto_clues_needed = !game.allrevealed && game.enable_auto_clues;
+
         if (gu.get_lang(game) == 'en' && (auto_clues_needed || cluemaster_hints_needed)) {
-            var controls = null
-            var n
+            var controls = null;
+
             if (auto_clues_needed) {
                 controls = this.autoclues_control(game, gu.next_player(game));
             }
@@ -260,15 +264,17 @@ class RecommendBox extends React.Component {
             
             var boxes = ['red', 'blue'].map(function(color) {
                 var highlight = (color != gu.next_player(game));
-                return <AutoCluesWordBox color={color} clues={game.auto_clues[color]} highlight_last={highlight} />;
+                return <AutoCluesWordBox key={color} color={color} clues={game.auto_clues[color]} highlight_last={highlight} />;
             })
                 
             return (<div className="col-3 col-lg-2 collapse d-none d-sm-block" id="recommend">
                 <div className="row h-100">
                     <div className="col" >
                         <table className="table-style" style={{ borderSpacing: '0rem 1rem' }}>
-                            {controls}
-                            {boxes}
+                            <tbody>
+                                {controls}
+                                {boxes}
+                            </tbody>
                         </table>
                     </div>
                 </div>
@@ -276,7 +282,7 @@ class RecommendBox extends React.Component {
         } else {
             return <div />
         }
+
     }
 };
 
-export default RecommendBox;

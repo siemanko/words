@@ -8,38 +8,38 @@ function toggle_reveal(idx) {
     because some js is not ported to react yet */
     let game = window.game;
     game.revealed[idx] = !game.revealed[idx];
-    window.recommended_words.blue = null;
-    window.recommended_words.red = null;
     window.render();
 }
 
 
-class Board extends React.Component {
-    constructor(props) {
-        super(props);
-        this.state = { gameState: {} };
-    }
-
+export class BoardNotifications extends React.Component {
     render() {
         const game = this.props.game; 
-        var show_all_colors = game.allrevealed
-        if (gu.get_remaining(game, 'b') == 0 || gu.get_remaining(game, 'r') == 0 || gu.get_remaining(game, 'e') == 0) {
-            show_all_colors = true;
-        }
+        var revealed_color = gu.get_full_releaved_color(game)
+
         // when not in spymaster mode and the game is won show who has won.
         var winner_box = null;
-        if (!game.allrevealed && show_all_colors) {
-            if (gu.get_remaining(game, 'b') == 0) {
-                var winner = (<div><span className="text-primary">blue</span> has won the game.</div>);
-            } else if (gu.get_remaining(game, 'r') == 0) {
-                var winner = (<div><span className="text-danger">red</span> has won the game.</div>);
-            } else if (gu.get_remaining(game, 'e') == 0) {
-                var winner = (<div>black word was releaved.</div>);
+        if (!game.allrevealed && revealed_color !== null) {
+            var winner = null;
+            if (revealed_color == 'blue') {
+                winner = (<div><span className="text-primary">blue</span> has won the game.</div>);
+            } else if (revealed_color == 'red') {
+                winner = (<div><span className="text-danger">red</span> has won the game.</div>);
+            } else if (revealed_color == 'black') {
+                winner = (<div>black word was releaved.</div>);
             }
             winner_box = (<div className="alert alert-info" role="alert">
                 {winner} 
             </div>);
-        } 
+        }
+        return winner_box
+    }
+}
+
+export class Board extends React.Component {
+    render() {
+        const game = this.props.game; 
+        const show_all_colors = game.allrevealed || (gu.get_full_releaved_color(game) !== null)
 
         let boardRows = [];
         for (let i = 0; i < game.num_rows; i += 1) {
@@ -84,12 +84,9 @@ class Board extends React.Component {
 
         return (
             <div className="col">
-                {winner_box}
                 {/* Non-react stuff binds here */}
                 <table className="table-style"><tbody>{boardRows}</tbody></table>;
             </div>
         );
     }
 }
-
-export default Board;

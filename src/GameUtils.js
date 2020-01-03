@@ -30,3 +30,15 @@ export function get_remaining(game, c) {
     }
     return res;
 }
+
+export function get_full_releaved_color(game) { 
+    if (get_remaining(game, 'e') == 0) {
+        return 'black';
+    } else if (get_remaining(game, 'r') == 0) {
+        return 'red';
+    } else if (get_remaining(game, 'b') == 0) {
+        return 'blue';
+    } else {
+        return null;
+    }
+}

@@ -214,11 +214,6 @@ export class RecommendBoxNotifications extends React.Component {
 }
 
 export class RecommendBox extends React.Component {
-    constructor(props) {
-        super(props);
-        this.state = { gameState: null, notifications: []};
-    }
-
     autoclues_control(game, color) {
         var self = this;
         const buttons = [1, 2, 3, 4, "all"].map(function(val) {

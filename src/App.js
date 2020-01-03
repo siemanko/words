@@ -1,5 +1,5 @@
 import React from 'react';
-import Board from  './Board.js';
+import {Board, BoardNotifications} from  './Board.js';
 import {RecommendBox, RecommendBoxNotifications} from  './RecommendBox.js';
 import './App.css';
 import natural from 'natural';
@@ -133,7 +133,6 @@ class GamePanel extends React.Component {
 
     render() {
         const game = this.state.game;
-        console.log("main render")
 
         if (game === null) {
             return <div />;
@@ -144,6 +143,7 @@ class GamePanel extends React.Component {
                 <div>
                   <div>
                     <RecommendBoxNotifications game={game} />
+                    <BoardNotifications game={game} />
                   </div>
                   <div className="container-fluid h-100">
                     <div className="row h-100">

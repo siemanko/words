@@ -12,7 +12,7 @@ class CluemasterHintWordBox extends React.Component {
 
     render() {
         var flavor = color_to_flavor(this.props.color);
-        var clues = this.props.clues.slice(0, 8);
+        var clues = this.props.clues.slice(0, 5);
         var word_list = [];
 
         if (clues.length == 0) {
@@ -26,7 +26,7 @@ class CluemasterHintWordBox extends React.Component {
             }
         }
         return (<tr>
-            <td className="recommend-box cell-style">
+            <td className="recommend-box cell-style align-middle">
                 {word_list}
             </td>
         </tr>);

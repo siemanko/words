@@ -55,8 +55,22 @@ function SettingsModal() {
             <span aria-hidden="true">&times;</span>
           </button>
         </div>
+        
         <div className="modal-body">
           <form>
+            <div className="form-group">
+              <label className="text-justify">
+                Double click to reveal a word<br />
+                <small>Do you sometimes accidentally reveal a word because of your clumsy laptop touchpad? This option might be for you!.</small>
+              </label>
+              <div className="form-check">
+                <input className="form-check-input" type="checkbox" value="" id="double-click"/>
+                <label className="form-check-label" htmlFor="double-click">
+                  require double click / tap to reveal a word
+                </label>
+              </div>
+            </div>
+            <hr />
             <div className="form-group">
               <label className="text-justify">
                 Display AI hints<br />

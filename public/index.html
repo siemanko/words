@@ -35,7 +35,8 @@
                 blue: [],
             }
             game.human_cluemaster_hints = false;
-            game.use_common_words = false
+            game.use_common_words = false;
+            game.require_double_click = false;
 
             recommended_words = {}
             recommended_words.blue = null;
@@ -64,6 +65,7 @@
                 $('#num-guesses').val(game.num_guesses);
                 $('#human-cluemaster-hints').prop('checked', game.human_cluemaster_hints);
                 $('#use-common-words').prop('checked', game.use_common_words);
+                $('#double-click').prop('checked', game.require_double_click);
 
                 if (window.gamePanelComponent) {
                     window.gamePanelComponent.setState({game: game});
@@ -195,7 +197,12 @@
                 render();
             }
 
-            var current_version = 13;
+            function update_double_click() {
+                game.require_double_click = $(event.target).prop('checked');
+                render();
+            }
+
+            var current_version = 14;
 
             function verify_storage() {
                 var stored_version = sessionStorage.getItem('storage_version')
@@ -233,6 +240,7 @@
 
                 $('#human-cluemaster-hints').click(update_human_cluemaster_hints);
                 $('#use-common-words').click(update_use_common_words);
+                $('#double-click').click(update_double_click);
 
                 if (sessionStorage.getItem("game")) {
                     game = JSON.parse(sessionStorage.getItem("game"));

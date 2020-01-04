@@ -77,14 +77,20 @@ export class Board extends React.Component {
                         cellStrike = "cell-strike";
                     }
                 }
+                var handlers = {onClick: () => toggle_reveal(idx)};
+                if (game.require_double_click) {
+                    handlers = {
+                        onDoubleClick: () => toggle_reveal(idx),
+                        // onTouchEnd=() => toggle_reveal(idx),
+                    }
+                }
                 let cell = (
                     <td
                         className={`cell-style word ${revealStyle} ${colorStyle} ${cellStrike}`}
-                        onDoubleClick={() => { toggle_reveal(idx) }}
-                        onTouchEnd={() => { toggle_reveal(idx) }}
                         key={idx}
+                        {...handlers}
                     >
-                        <span className="cell-text">
+                        <span className="cell-text" >
                             {game.words[idx]}
                         </span>
                     </td>

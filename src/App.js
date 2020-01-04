@@ -72,6 +72,17 @@ function SettingsModal() {
             </div>
             <hr />
             <div className="form-group">
+              <label htmlFor="risk" className="text-justify">
+                Langauge
+              </label>
+              <select className="form-control" id="lang">
+                <option value="en">English</option>
+                <option value="pl">Polish</option>
+              </select>
+            </div>
+            <hr />
+
+            <div className="form-group">
               <label className="text-justify">
                 Display AI hints<br />
                 <small>In <tt>Give clues</tt> view we will display a list of suggested clues for the player to chose from. It is still up to them whether to use the suggestion or not.</small>
@@ -211,16 +222,10 @@ function NavBar() {
             </a>
           </li>
           {/* reset  */}
-          <li className="nav-item dropdown">
-            <a className="nav-link" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-              <img src="icons/reset.svg" style={{ height: '2rem' }} />&nbsp;Reset
+          <li className="nav-item"><a href='#' id="reset" className="nav-link">
+            <img src="icons/reset.svg" style={{ height: "2rem" }} />&nbsp;Reset
             </a>
-            <div className="dropdown-menu">
-              <a className="dropdown-item reset-button" href="#" data-language="en">English</a>
-              <a className="dropdown-item reset-button" href="#" data-language="pl">Polish</a>
-            </div>
           </li>
-
         </ul>
         <div className="nav-text">
           <span

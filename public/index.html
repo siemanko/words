@@ -19,6 +19,7 @@
         <script src="words.js"></script>
         <script>
             var game = {};
+            game.lang = 'en';
             game.seed = 'en-changeme';
             game.num_rows = 5;
             game.num_cols = 5;
@@ -61,6 +62,7 @@
             function render() {
                 // settings
                 $('#risk').val(game.risk);
+                $('#lang').val(game.lang);
                 $('#seed').val(game.seed);
                 $('#num-guesses').val(game.num_guesses);
                 $('#human-cluemaster-hints').prop('checked', game.human_cluemaster_hints);
@@ -111,7 +113,7 @@
 
                 game.error = null;
                 if (seed.length != 2) {
-                    game.error = "Seed must be of form <mark>lang</mark>-<mark>phrase</mark>, where <mark>lang</mark> is the language and <mark>phrase</mark> defines the board.";
+                    game.error = "Seed must be of form LANG-PHRASE, where LANG is the language and PHRASE defines the board.";
                     render(); return;
                 }
                 var lang = seed[0];
@@ -120,6 +122,7 @@
                     game.error = "Language must be one of " + Object.keys(word_lists).sort().join(', ') + ".";
                     render(); return;
                 }
+                game.lang = lang;
                 allwords = word_lists[lang];
 
                 total = game.num_rows * game.num_cols;
@@ -161,14 +164,9 @@
                 return res;
             }
 
-            function reset(event) {
-                var lang = "en";
-                if (event) {
-                    lang = $(event.toElement).attr("data-language");
-                }
-                console.log(lang);
+            function reset() {
                 seed = getRandomInt(0, 1e9);
-                seed_str = lang + "-" + int_to_string(seed);
+                seed_str = game.lang + "-" + int_to_string(seed);
                 game.seed = seed_str
                 set_from_seed();
             }
@@ -176,6 +174,11 @@
             function update_risk() {
                 game.risk = $('#risk').val();
                 render()
+            }
+
+            function update_lang() {
+                game.lang = $('#lang').val();
+                reset()
             }
 
             function update_num_guesses() {
@@ -202,7 +205,7 @@
                 render();
             }
 
-            var current_version = 15;
+            var current_version = 16;
 
             function verify_storage() {
                 var stored_version = sessionStorage.getItem('storage_version')
@@ -230,12 +233,13 @@
                 $("#ai-cluemaster").click(enable_ai_cluemaster);
                 $("#guess").click(enable_guess);
 
-                $(".reset-button").click(reset);
+                $("#reset").click(reset);
 
                 $("#about, #guess, #ai-cluemaster, #cluemaster, #settings, .reset-button").click(function() { $('#menu').collapse('hide') });
 
                 $("#seed").keyup(update_seed);
                 $("#risk").change(update_risk);
+                $("#lang").change(update_lang);
                 $("#num-guesses").change(update_num_guesses);
 
                 $('#human-cluemaster-hints').click(update_human_cluemaster_hints);

@@ -128,16 +128,18 @@ function get_query_and_hash(game, color) {
 }
 
 function next_clue(box, game, color, val) {
-    if (model === null) {
-        load_model(function() {next_clue(box, game, color, val);});
-        return;
-    }
+
     game.num_guesses = val;
     game.auto_clues[color].push(null);
     var idx = game.auto_clues[color].length - 1
     var blacklist = game.auto_clues[color].filter(clue => clue !== null).map(clue => clue[0]);
     box.forceUpdate(); // TODO(mib): why do we need this?
-    setTimeout(function() {
+
+    function update_word() {
+        if (model === null) {
+            load_model(update_word);
+            return;
+        }
         var query = get_query_and_hash(game, color)[0]
         query.blacklist = blacklist
         recommend(query).then(function(value) {
@@ -146,7 +148,9 @@ function next_clue(box, game, color, val) {
             game.auto_clues[color][idx] = [value[0], ng];
             box.forceUpdate(); // TODO(mib): why do we need this?
         });
-    }, 0);
+    }
+
+    setTimeout(update_word, 0);
 }
 
 export class RecommendBoxNotifications extends React.Component {

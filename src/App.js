@@ -29,11 +29,11 @@ function AboutModal() {
           </button>
         </div>
         <div className="modal-body">
-          <p>Simple website to keep track of words game.</p>
+          <p>Simple website to keep track of codenames-like game.</p>
 
-          <p>On laptops you need to <b>double-click</b> the words to select them.</p>
+          <p>The twist here is that you don't need a person to chose hints - the computer will chose them for you. </p>
 
-          <p>Check out <i>AI Clues</i> tab for a mode where computer recommends the clues. In <i> Give Clues</i> mode there's a settings to enable AI generated suggestions for clues.</p>
+          <p>In this mode even two people can play the game.</p>
         </div>
         <div className="modal-footer">
           <a className="btn btn-info" href="https://en.wikipedia.org/wiki/Codenames_(board_game)">Rules</a>

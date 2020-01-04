@@ -192,15 +192,6 @@ function throttled_execute(queue) {
     }
 }
 
-
-class ResponsiveButtonGroup extends React.Component {
-    render() {
-        return (<div>
-            <div className="btn-group w-100" role="group">{this.props.buttons}</div>
-        </div>);
-    }
-}
-
 export class RecommendBox extends React.Component {
     constructor(props) {
         super(props);
@@ -258,13 +249,18 @@ export class RecommendBox extends React.Component {
             </button>;
         })
 
+        var maybe_shake = "shake";
+        if (Object.values(game.auto_clues).some(clues => clues.length > 0)) {
+            maybe_shake = "";
+        }
+
         return (<tr id="auto-cluemaster-control">
             <td className="cell-style align-middle cluemaster-control">
             <form>
-                <div className="form-group">
+                <div className="form-group ">
                     <label htmlFor="auto-cluemaster"  className="d-sm-none d-md-none d-lg-block"  style={{ marginLeft: '0.5rem', marginRight: '0.5rem' }}>
                         Select the number of words to guess for <span className={color_to_flavor(color)}>{color}</span>.</label>
-                    <ResponsiveButtonGroup buttons={buttons} />
+                    <div className={"btn-group w-100 " + maybe_shake} role="group">{buttons} </div>
                 </div>
             </form>
             </td>
@@ -292,7 +288,7 @@ export class RecommendBox extends React.Component {
                 <div className="form-group">
                     <label className="d-sm-none d-md-none d-lg-block" htmlFor="auto-cluemaster" style={{ marginLeft: '0.5rem', marginRight: '0.5rem' }}>
                         Select the number of words to guess.</label>
-                    <ResponsiveButtonGroup buttons={buttons} />
+                    <div className="btn-group w-100" role="group">{buttons} </div>
 
                 </div>
             </form>

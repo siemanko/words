@@ -183,21 +183,23 @@ function NavBar() {
         <ul className="navbar-nav mr-auto mt-2 mt-lg-0">
           
           {/* game modes  */}
-          <li id="guess-li" className="nav-item">
-            <a className="nav-link" href="#" id="guess">
-              <img src="icons/guess.svg" style={{ height: '2rem' }} />&nbsp;Guess
+          <li className="nav-item dropdown">
+            <a className="nav-link" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+              <img src="icons/detective.svg" style={{ height: '2rem' }} />&nbsp;Game Mode
             </a>
+            <div className="dropdown-menu">
+              <a className="dropdown-item" href="#" id="guess">
+                <img src="icons/guess.svg" style={{ height: '2rem' }} />&nbsp;Guess
+              </a>
+              <a className="dropdown-item" href="#" id="cluemaster">
+                <img src="icons/detective.svg" style={{ height: '2rem' }} />&nbsp;Give&nbsp;Clues
+              </a>
+              <a className="dropdown-item" href="#" id="ai-cluemaster">
+                <img src="icons/ai.svg" style={{ height: '2rem' }} />&nbsp;AI&nbsp;Clues
+              </a>
+            </div>
           </li>
-          <li id="cluemaster-li" className="nav-item">
-            <a className="nav-link" href="#" id="cluemaster">
-              <img src="icons/detective.svg" style={{ height: '2rem' }} />&nbsp;Give&nbsp;Clues
-            </a>
-          </li>
-          <li id="ai-cluemaster-li" className="nav-item">
-            <a className="nav-link" href="#" id="ai-cluemaster">
-              <img src="icons/ai.svg" style={{ height: '2rem' }} />&nbsp;AI&nbsp;Clues
-            </a>
-          </li>
+          
           {/* settings */}
           <li className="nav-item"><a href='#' id="about" className="nav-link" data-toggle="modal" data-target="#settings-modal">
             <img src="icons/settings.svg" style={{ height: "2rem" }} />&nbsp;Settings

@@ -27,7 +27,7 @@
             game.allrevealed = false;
             game.type  = []
             game.error = null;
-            game.enable_auto_clues = false;
+            game.enable_auto_clues = true;
             game.risk = "0";
             game.num_guesses = "3";
             game.auto_clues = {
@@ -71,14 +71,14 @@
                     window.gamePanelComponent.setState({game: game});
                 }
                 if (game.error === null) {
-                    $('#cluemaster-li, #guess-li, #ai-cluemaster-li').removeClass('active');
+                    $('#cluemaster, #guess, #ai-cluemaster').removeClass('active');
                     if (game.allrevealed) {
-                        $('#cluemaster-li').addClass("active");
+                        $('#cluemaster').addClass("active");
                     } else {
                         if (game.enable_auto_clues) {
-                            $('#ai-cluemaster-li').addClass("active");
+                            $('#ai-cluemaster').addClass("active");
                         } else {
-                            $('#guess-li').addClass("active");
+                            $('#guess').addClass("active");
                         }
                     }
                     
@@ -202,7 +202,7 @@
                 render();
             }
 
-            var current_version = 14;
+            var current_version = 15;
 
             function verify_storage() {
                 var stored_version = sessionStorage.getItem('storage_version')

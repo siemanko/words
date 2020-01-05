@@ -8,15 +8,19 @@ export function get_lang(game) {
 
 // TODO(szymon): update logic
 export function next_player(game) {
-    var num_red = game.type.filter(x => x == 'r').length;
-    var num_blue = game.type.filter(x => x == 'b').length;
-    var turns_so_far = game.auto_clues.red.length + game.auto_clues.blue.length;
-    if (num_red > num_blue) {
-        var order = ['red', 'blue'];
+    const red_tiles = game.type.filter(x => x == 'r').length;
+    const blue_tiles = game.type.filter(x => x == 'b').length;
+    const starting_player = (red_tiles > blue_tiles) ? 'red' : 'blue';
+
+    const red_clues = game.auto_clues.red.length;
+    const blue_clues = game.auto_clues.blue.length;
+    if (red_clues < blue_clues) {
+        return 'red';
+    } else if (blue_clues < red_clues) {
+        return 'blue';
     } else {
-        var order = ['blue', 'red'];
+        return starting_player;
     }
-    return order[turns_so_far % 2];
 }
 
 // TODO(mib): how do we share this with index.html?

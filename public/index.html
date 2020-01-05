@@ -34,13 +34,10 @@
                 red: [],
                 blue: [],
             }
+            game.auto_clues_blacklist = [];
             game.human_cluemaster_hints = false;
             game.use_common_words = false;
             game.require_double_click = false;
-
-            recommended_words = {}
-            recommended_words.blue = null;
-            recommended_words.red = null;
 
             function getRandomInt(min, max) {
                 min = Math.ceil(min);
@@ -149,6 +146,7 @@
                 game.words = seeded_shuffle.shuffle(allwords, seed, true).slice(0, total);
                 game.auto_clues.red = [];
                 game.auto_clues.blue = [];
+                game.auto_clues_blacklist = [];
                 render();
             }
 
@@ -204,7 +202,7 @@
                 render();
             }
 
-            var current_version = 16;
+            var current_version = 18;
 
             function verify_storage() {
                 var stored_version = sessionStorage.getItem('storage_version')
@@ -247,6 +245,9 @@
 
                 if (sessionStorage.getItem("game")) {
                     game = JSON.parse(sessionStorage.getItem("game"));
+                    for (const key in game.auto_clues) {
+                        game.auto_clues[key] = game.auto_clues[key].filter(word => word != null);
+                    }
                     render();
                 } else {
                     reset();

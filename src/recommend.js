@@ -31,7 +31,7 @@ export function load_model(callback) {
         };
         console.log('model loaded');
         if (callback) {
-            callback();
+            callback(model);
         }
     }
 
@@ -82,6 +82,9 @@ export function load_model(callback) {
 
 function word_to_vec(word) {
     var idx = model.word_to_idx[word];
+    if (idx === undefined) {
+        throw Error("Cannot find word " + word + " in dictionary.");
+    }
     return model.vec.slice(idx, 1);
 
 }
@@ -163,7 +166,7 @@ export function recommend(query) {
                     continue;
                 }
                 res.push(word);
-                forbid_word(word)
+                forbid_word(word);
             }
             return res
         });

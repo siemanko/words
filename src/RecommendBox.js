@@ -11,6 +11,7 @@ function color_to_flavor(color) {
 class CluemasterHintWordBox extends React.Component {
 
     render() {
+     
         var flavor = color_to_flavor(this.props.color);
         var clues = this.props.clues.slice(0, 5);
         var word_list = [];
@@ -48,14 +49,26 @@ class AutoCluesWordBox extends React.Component {
             word_list.push(<span key="no-clue" className="text-{flavor}"> No clues.</span>);
         } else {
             for (var i = 0; i < clues.length; i++) {
-                var opacity = 0.4;
-                if (i + 1 == clues.length && this.props.highlight_last) {
-                    opacity = 1.0;
-                }
                 if (clues[i] === null) {
                     word_list.push(<div key={'spinner-' + i} className={"spinner-grow spinner-grow-sm align-middle " + flavor} role="status" />)
                 } else {
-                    word_list.push(<span key={'clue-' + i} style={{opacity: opacity}} className={flavor}> {clues[i].join(' ')} </span>);
+                    var self = this;
+                    const word_idx = i;
+                    const highlight = (i + 1 == clues.length && this.props.highlight_last);
+                    const opacity = highlight ? 1.0 : 0.4;
+
+                    function delete_clue() {
+                        const [removed_word, removed_cnt] = self.props.clues.splice(word_idx, 1)[0];
+                        self.props.blacklist.push(removed_word);
+                        window.render();
+                    }
+                    var deletebtn = null;
+                    if (highlight) {
+                        var deletebtn = <a href="#" onClick={delete_clue} className="text-secondary" style={{'opacity': 0.4}}>&times;</a>;
+                    }
+                    word_list.push(<span key={'clue-' + i} style={{opacity: opacity}} className={flavor}> 
+                        {clues[i].join(' ')}&nbsp;{deletebtn}
+                    </span>);
                 }
                 if (i + 1 < clues.length) {
                     word_list.push(<br key={'br-' + i} />);
@@ -86,9 +99,9 @@ function hash(str) {
 
 function get_query_and_hash(game, color) {
     var w = {r: [], b: [], n: [], e: []};
-    var res = 0;
+
     for (var idx = 0; idx < game.num_rows * game.num_cols; idx += 1) {
-        if (!game.revealed[idx]) {
+        if (!game.revealed[idx] && game.words[idx] !== null) {
             w[game.type[idx]].push(game.words[idx])
         }
     }
@@ -141,7 +154,7 @@ function next_clue(box, game, color, val) {
             return;
         }
         var query = get_query_and_hash(game, color)[0]
-        query.blacklist = blacklist
+        query.blacklist = [...blacklist, ...game.auto_clues_blacklist];
         recommend(query).then(function(value) {
             // TODO: blacklist
             var ng = (game.num_guesses == 'all' ? '∞' : game.num_guesses);
@@ -323,7 +336,10 @@ export class RecommendBox extends React.Component {
             var boxes = ['red', 'blue'].map(function(color) {
                 var highlight = (color != gu.next_player(game));
                 if (auto_clues_needed) {
-                    return <AutoCluesWordBox key={color} color={color} clues={game.auto_clues[color]} highlight_last={highlight} />;
+                    return <AutoCluesWordBox key={color} color={color} 
+                                             clues={game.auto_clues[color]} 
+                                             blacklist={game.auto_clues_blacklist} 
+                                             highlight_last={highlight} />;
                 } else if (cluemaster_hints_needed) {
                     return <CluemasterHintWordBox key={color} color={color} clues={state.cluemaster_hints[color]} />
                 }

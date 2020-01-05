@@ -1,8 +1,7 @@
 import React from 'react';
 import * as gu from './GameUtils.js';
 import {model, load_model, recommend} from './recommend.js';
-
-
+import Dialog from 'react-bootstrap-dialog';
 function color_to_flavor(color) {
     return (color == 'red') ? 'text-danger' : 'text-primary';
 }
@@ -58,15 +57,31 @@ class AutoCluesWordBox extends React.Component {
                     const opacity = highlight ? 1.0 : 0.4;
 
                     function delete_clue() {
-                        const [removed_word, removed_cnt] = self.props.clues.splice(word_idx, 1)[0];
-                        self.props.blacklist.push(removed_word);
-                        window.render();
+                        self.dialog.show({
+                            body: (<div className="text-center delete-clue-confirm">
+                                      <span>Are you sure you want to delete this clue?</span>
+                                      <br />
+                                      <span className={flavor}>{clues[word_idx].join(' ')}</span>
+                                      <br />
+                                      <span>This action cannot be undone.</span>
+                                  </div>),
+                            actions: [
+                                Dialog.CancelAction(),
+                                Dialog.OKAction(function() {
+                                    const [removed_word, removed_cnt] = self.props.clues.splice(word_idx, 1)[0];
+                                    self.props.blacklist.push(removed_word);
+                                    window.render();
+                                })
+                            ],
+                            bsSize: 'small',
+                        });
                     }
                     var deletebtn = null;
                     if (highlight) {
                         var deletebtn = <a href="#" onClick={delete_clue} className="text-secondary" style={{'opacity': 0.4}}>&times;</a>;
                     }
                     word_list.push(<span key={'clue-' + i} style={{opacity: opacity}} className={flavor}> 
+                        <Dialog ref={(component) => { this.dialog = component;}} />
                         {clues[i].join(' ')}&nbsp;{deletebtn}
                     </span>);
                 }

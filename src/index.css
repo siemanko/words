@@ -131,3 +131,7 @@ body {
   99.5% { transform: translate(1px, 2px) rotate(0deg); }
   100% { transform: translate(1px, -2px) rotate(-1deg); }
 }
+
+.delete-clue-confirm {
+    line-height: 1.7rem;
+}

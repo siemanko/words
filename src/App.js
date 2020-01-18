@@ -18,18 +18,19 @@ class Game extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      game: null
+      game: null,
     };
   }
 
   updateStateFromLegacyRender(game) {
-    this.setState({'game': Object.assign({}, game)});
+    this.setState({ 'game': Object.assign({}, game) });
   }
 
   render() {
+    const game = this.state.game || {};
     return (
       <div>
-        <NavBar />
+        <NavBar enable_auto_clues={game.enable_auto_clues} all_revealed={game.allrevealed} />
         <AboutModal />
         <SettingsModal />
         <GamePanel game={this.state.game} />
@@ -214,13 +215,13 @@ class NavBar extends React.Component {
                 <img src="icons/detective.svg" style={{ height: '2rem' }} />&nbsp;Game Mode
             </a>
               <div className="dropdown-menu">
-                <a className="dropdown-item" href="#" id="guess">
+                <a className={(!this.props.enable_auto_clues && !this.props.all_revealed) ? "dropdown-item active" : "dropdown-item"} href="#" id="guess">
                   <img src="icons/guess.svg" style={{ height: '2rem' }} />&nbsp;Guess
               </a>
-                <a className="dropdown-item" href="#" id="cluemaster">
+                <a className={this.props.all_revealed ? "dropdown-item active" : "dropdown-item"} href="#" id="cluemaster">
                   <img src="icons/detective.svg" style={{ height: '2rem' }} />&nbsp;Give&nbsp;Clues
               </a>
-                <a className="dropdown-item" href="#" id="ai-cluemaster">
+                <a className={this.props.enable_auto_clues ? "dropdown-item active" : "dropdown-item"} href="#" id="ai-cluemaster">
                   <img src="icons/ai.svg" style={{ height: '2rem' }} />&nbsp;AI&nbsp;Clues
               </a>
               </div>

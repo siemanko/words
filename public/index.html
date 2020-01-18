@@ -69,17 +69,6 @@
                     window.gameComponent.updateStateFromLegacyRender(game);
                 }
                 if (game.error === null) {
-                    $('#cluemaster, #guess, #ai-cluemaster').removeClass('active');
-                    if (game.allrevealed) {
-                        $('#cluemaster').addClass("active");
-                    } else {
-                        if (game.enable_auto_clues) {
-                            $('#ai-cluemaster').addClass("active");
-                        } else {
-                            $('#guess').addClass("active");
-                        }
-                    }
-                    
                     $('#red-left').text(get_remaining(game, "r"));
                     $('#blue-left').text(get_remaining(game, "b"));
                 }

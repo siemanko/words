@@ -65,8 +65,8 @@
                 $('#use-common-words').prop('checked', game.use_common_words);
                 $('#double-click').prop('checked', game.require_double_click);
 
-                if (window.gamePanelComponent) {
-                    window.gamePanelComponent.setState({game: game});
+                if (window.gameComponent) {
+                    window.gameComponent.updateStateFromLegacyRender(game);
                 }
                 if (game.error === null) {
                     $('#cluemaster, #guess, #ai-cluemaster').removeClass('active');

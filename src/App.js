@@ -3,20 +3,68 @@ import { Board, BoardNotifications } from './Board.js';
 import { RecommendBox, RecommendBoxNotifications } from './RecommendBox.js';
 import './App.css';
 import natural from 'natural';
+const Immutable = require('immutable');
 
 function App() {
   // needed for recommend.js
   natural.LancasterStemmer.attach();
 
   return (
-    <div>
-      <NavBar />
-      <AboutModal />
-      <SettingsModal />
-      <GamePanel ref={(gamePanelComponent) => { window.gamePanelComponent = gamePanelComponent }} />
-    </div>
+    <Game ref={(gameComponent) => { window.gameComponent = gameComponent }} />
   );
 }
+
+class Game extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      game: null
+    };
+  }
+
+  updateStateFromLegacyRender(game) {
+    this.setState({'game': Object.assign({}, game)});
+  }
+
+  render() {
+    return (
+      <div>
+        <NavBar />
+        <AboutModal />
+        <SettingsModal />
+        <GamePanel game={this.state.game} />
+      </div>
+    );
+  }
+}
+
+class GamePanel extends React.Component {
+  render() {
+    const game = this.props.game;
+
+    if (game === null) {
+      return <div />;
+    } else if (game.error !== null) {
+      return <p class="lead"> {game.error}</p>;
+    } else {
+      return (
+        <div>
+          <div>
+            <RecommendBoxNotifications game={game} />
+            <BoardNotifications game={game} />
+          </div>
+          <div className="container-fluid h-100">
+            <div className="row h-100">
+              <RecommendBox game={game} />
+              <Board game={game} />
+            </div>
+          </div>
+        </div>
+      );
+    }
+  }
+}
+
 
 function AboutModal() {
   return (<div className="modal fade" id="about-modal" tabIndex="-1" role="dialog" aria-labelledby="about-modal-label" aria-hidden="true">
@@ -148,45 +196,7 @@ function SettingsModal() {
   );
 }
 
-class GamePanel extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      game: null
-    };
-  }
-
-  render() {
-    const game = this.state.game;
-
-    if (game === null) {
-      return <div />;
-    } else if (game.error !== null) {
-      return <p class="lead"> {game.error}</p>;
-    } else {
-      return (
-        <div>
-          <div>
-            <RecommendBoxNotifications game={game} />
-            <BoardNotifications game={game} />
-          </div>
-          <div className="container-fluid h-100">
-            <div className="row h-100">
-              <RecommendBox game={game} />
-              <Board game={game} />
-            </div>
-          </div>
-        </div>
-      );
-    }
-  }
-}
-
 class NavBar extends React.Component {
-  constructor(props) {
-    super(props);
-  }
-
   render() {
     return (
       <nav className="navbar fixed-top navbar-expand-lg navbar-light bg-light" id="main-navbar">

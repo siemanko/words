@@ -2,7 +2,7 @@
 
 Browser version of boardgames [codenames](https://en.wikipedia.org/wiki/Codenames_(board_game)).
 
-Hosted at: https://siemanko.github.io/words/
+Hosted at: https://yonatanZax.github.io/words/
 
 *Tested and works great on iPad. Double clicks are there only for non-mobile, to deal with laptop touchpads, which are often producing false-click-positives.*
 

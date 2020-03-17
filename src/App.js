@@ -127,6 +127,7 @@ function SettingsModal() {
               <select className="form-control" id="lang">
                 <option value="en">English</option>
                 <option value="pl">Polish</option>
+                <option value="he">Hebrew</option>
               </select>
             </div>
             <hr />

@@ -215,7 +215,34 @@
                     $('#red-left').text(getRemaining("r"));
                     $('#blue-left').text(getRemaining("b"));
                 }
-                sessionStorage.setItem("game", JSON.stringify(game));
+                sessionStorage.setItem("game", stringToBinary(JSON.stringify(game)));
+            }
+            
+            function stringToBinary(input) {
+                var characters = input.split('');
+
+                return characters.map(function(char) {
+                  const binary = char.charCodeAt(0).toString(2)
+                  const pad = Math.max(8 - binary.length, 0);
+                  // Just to make sure it is 8 bits long.
+                  return '0'.repeat(pad) + binary;
+                }).join('');
+            }
+            
+            function binaryToString(input) {
+                let bytesLeft = input;
+                let result = '';
+
+                // Check if we have some bytes left
+                while (bytesLeft.length) {
+                    // Get the first digits
+                    const byte = bytesLeft.substr(0, 8);
+                    bytesLeft = bytesLeft.substr(8);
+                    
+                    result += String.fromCharCode(parseInt(byte, 2));
+                }
+                
+                return result;
             }
 
             function toggle_reveal(idx) {
@@ -229,7 +256,7 @@
             }
 
             function set_from_seed() {
-                var seed = $('#seed').val().split('-', 2);
+                var seed = binaryToString($('#seed').val().split('-', 2));
                 sessionStorage.setItem("seed", JSON.stringify($('#seed').val()));
 
                 game.error = null;

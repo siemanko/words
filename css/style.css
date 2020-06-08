@@ -64,6 +64,17 @@
    font-family: Verdana !important;
  }
  
+ .navbar-default .navbar-nav>.open>a, .navbar-default .navbar-nav>.open>a:focus, .navbar-default .navbar-nav>.open>a:hover {
+    color: #ffcc00;
+    background: rgba(0,0,0,0.5)!important;
+}
+
+ul.dropdown-menu li a:hover {
+    background: none;
+    opacity: 1!important;
+    color: #ffcc00;
+}
+ 
  .navbar-default .navbar-nav>li>a:focus, .navbar-default .navbar-nav>li>a:hover {
     color: #ffcc00;
 }
@@ -171,7 +182,7 @@ span.cell-text {
  }
  
  .cell-revealed span.cell-text {
-   opacity: 0.4;
+
  }
 
  .cell-red {
@@ -200,7 +211,7 @@ span.cell-text {
  }
 
  .cell-strike {
-   opacity: 0.2;
+   opacity: 0.6;
  }
  
 @media (max-device-width: 768px) {

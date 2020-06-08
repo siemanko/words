@@ -140,10 +140,10 @@ ul.dropdown-menu li a:hover {
    font-size: 1.7vw;
    display: table-cell;
    width: 20%;
-   height: 18%!important;
-   background: url(../img/yellow.jpg);
+   height: 18%!important; 
    box-shadow: 0px 0px 9px rgba(0, 0, 0, 1);
    background-position: center center;
+   background-size: cover;
    background-attachment: fixed!important;   
    vertical-align: middle;
    transition-timing-function: cubic-bezier(1, 0.15, 0.43, 0.93)!important;
@@ -185,22 +185,31 @@ span.cell-text {
  .cell-revealed span.cell-text {
 
  }
+ 
+  @media (min-device-width: 1081px) {
+ 
+  .cell {
+   background-image: url(../img/yellow.jpg);
+ }
+ 
 
  .cell-red {
-   background: url(../img/red.jpg);
+   background-image: url(../img/red.jpg);
  }
 
  .cell-blue {
-   background: url(../img/blue.jpg);
+   background-image: url(../img/blue.jpg);
  }
 
  .cell-neutral {
-   background: url(../img/white.jpg);
+   background-image: url(../img/white.jpg);
  }
 
  .cell-end {
-   background: url(../img/death.jpg);
+   background-image: url(../img/death.jpg);
    color: #eeeeee;
+ }
+ 
  }
 
 .remaining.red span {
@@ -221,24 +230,24 @@ span.cell-text {
 	 
   .cell {
 
-   background: url(../img/yellowv.jpg);
+   background-image: url(../img/yellowv.jpg);
 
  }
  
  .cell-red {
-   background: url(../img/redv.jpg);
+   background-image: url(../img/redv.jpg);
  }
 
  .cell-blue {
-   background: url(../img/bluev.jpg);
+   background-image: url(../img/bluev.jpg);
  }
 
  .cell-neutral {
-   background: url(../img/whitev.jpg);
+   background-image: url(../img/whitev.jpg);
  }
 
  .cell-end {
-   background: url(../img/deathv.jpg);
+   background-image: url(../img/deathv.jpg);
    color: #eeeeee;
  }
  

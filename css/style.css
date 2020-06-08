@@ -215,6 +215,35 @@ span.cell-text {
    opacity: 0.6;
  }
  
+  .cell {
+
+   background: url(../img/yellowv.jpg);
+
+ }
+ 
+ @media (max-device-width: 1080px) {
+ 
+ .cell-red {
+   background: url(../img/redv.jpg);
+ }
+
+ .cell-blue {
+   background: url(../img/bluev.jpg);
+ }
+
+ .cell-neutral {
+   background: url(../img/whitev.jpg);
+ }
+
+ .cell-end {
+   background: url(../img/deathv.jpg);
+   color: #eeeeee;
+ }
+ 
+ }
+ 
+ 
+ 
 @media (max-device-width: 768px) {
 	
  body {
@@ -288,28 +317,6 @@ ul.nav.navbar-nav>li a, ul.nav.navbar-nav>li span, ul.nav.navbar-nav>li span sel
 	padding-top: 180px;
 }
 
- .cell {
-
-   background: url(../img/yellowv.jpg);
-
- }
- 
- .cell-red {
-   background: url(../img/redv.jpg);
- }
-
- .cell-blue {
-   background: url(../img/bluev.jpg);
- }
-
- .cell-neutral {
-   background: url(../img/whitev.jpg);
- }
-
- .cell-end {
-   background: url(../img/deathv.jpg);
-   color: #eeeeee;
- }
 
 span.cell-text {
 	font-size: 33px;
@@ -341,6 +348,7 @@ p.navbar-text.navbar-right.remaining.blue {
     bottom: 10px;
     right: 10px;
 }
+
 
 
 

@@ -143,6 +143,7 @@ ul.dropdown-menu li a:hover {
    height: 18%!important;
    background: url(../img/yellow.jpg);
    box-shadow: 0px 0px 9px rgba(0, 0, 0, 1);
+   background-position: center center;
    background-attachment: fixed!important;   
    vertical-align: middle;
    transition-timing-function: cubic-bezier(1, 0.15, 0.43, 0.93)!important;
@@ -286,6 +287,29 @@ ul.nav.navbar-nav>li a, ul.nav.navbar-nav>li span, ul.nav.navbar-nav>li span sel
     margin: 0 auto;
 	padding-top: 180px;
 }
+
+ .cell {
+
+   background: url(../img/yellowv.jpg);
+
+ }
+ 
+ .cell-red {
+   background: url(../img/redv.jpg);
+ }
+
+ .cell-blue {
+   background: url(../img/bluev.jpg);
+ }
+
+ .cell-neutral {
+   background: url(../img/whitev.jpg);
+ }
+
+ .cell-end {
+   background: url(../img/deathv.jpg);
+   color: #eeeeee;
+ }
 
 span.cell-text {
 	font-size: 33px;

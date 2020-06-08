@@ -142,9 +142,8 @@ ul.dropdown-menu li a:hover {
    width: 20%;
    height: 18%!important; 
    box-shadow: 0px 0px 9px rgba(0, 0, 0, 1);
-   background-position: center center;
-   background-size: cover;
-   background-attachment: fixed!important;   
+   background-position: center left!important;
+   background-size: cover!important;
    vertical-align: middle;
    transition-timing-function: cubic-bezier(1, 0.15, 0.43, 0.93)!important;
    -webkit-transition-duration: 200ms;
@@ -186,12 +185,9 @@ span.cell-text {
 
  }
  
-  @media (min-device-width: 1081px) {
- 
-  .cell {
+   .cell {   
    background-image: url(../img/yellow.jpg);
- }
- 
+ } 
 
  .cell-red {
    background-image: url(../img/red.jpg);
@@ -206,9 +202,17 @@ span.cell-text {
  }
 
  .cell-end {
-   background-image: url(../img/death.jpg);
+   background-image: url(../img/black.jpg);
    color: #eeeeee;
  }
+ 
+  @media (min-device-width: 1081px) {
+ 
+  .cell {
+   background-attachment: fixed;
+ } 
+
+ 
  
  }
 
@@ -222,38 +226,8 @@ span.cell-text {
 
  .cell-strike {
    opacity: 0.6;
- }
- 
+ } 
 
- 
- @media (max-device-width: 1080px) {
-	 
-  .cell {
-
-   background-image: url(../img/yellowv.jpg);
-
- }
- 
- .cell-red {
-   background-image: url(../img/redv.jpg);
- }
-
- .cell-blue {
-   background-image: url(../img/bluev.jpg);
- }
-
- .cell-neutral {
-   background-image: url(../img/whitev.jpg);
- }
-
- .cell-end {
-   background-image: url(../img/deathv.jpg);
-   color: #eeeeee;
- }
- 
- }
- 
- 
  
 @media (max-device-width: 768px) {
 	

@@ -107,15 +107,19 @@ ul.dropdown-menu li a:hover {
  }
 
  .remaining span {
-   font-size: 32px;
+   font-size: 42px;
+ }
+ 
+ .span.left-label {
+	 color: #ffffff;
  }
 
- .red {
-   color: #d63838 !important;
+#red-left {
+   color: #dd3333 !important;
  }
 
- .blue {
-   color: #47c4ff !important;
+#blue-left {
+   color: #0088b1 !important;
  }
  
  input#seed {
@@ -129,6 +133,7 @@ ul.dropdown-menu li a:hover {
     border-spacing: 10px;
     border-collapse: separate;
     margin: 0 auto;
+	table-layout: fixed;
 }
 
  .cell {
@@ -137,11 +142,11 @@ ul.dropdown-menu li a:hover {
    border-radius: 14px;
    text-align: center;
    font-family: typo;
-   font-size: 1.7vw;
+   font-size: 32px;
    display: table-cell;
    width: 20%;
    height: 18%!important; 
-   box-shadow: 0px 0px 9px rgba(0, 0, 0, 1);
+   box-shadow: 2px 2px 6px rgba(0, 0, 0, 1);
    background-position: center left!important;
    background-size: cover!important;
    vertical-align: middle;
@@ -150,6 +155,8 @@ ul.dropdown-menu li a:hover {
     -moz-transition-duration: 200ms;
     -o-transition-duration: 200ms;
     transition-duration: 200ms;
+	overflow: hidden;
+	white-space: nowrap;
  }
 
 span.cell-text {
@@ -160,10 +167,11 @@ span.cell-text {
 	text-transform: uppercase;
 	transform: rotate(1deg);
 	color: #111111;
+	letter-spacing: -2px;
  }
  .cell:hover {
     transform: scale(1.2) rotate(-1.3deg);
-    box-shadow: 0px 0px 58px;
+    box-shadow: 10px 10px 45px;
 	z-index: 99999!important;
 	position: relative;
 }
@@ -216,13 +224,6 @@ span.cell-text {
  
  }
 
-.remaining.red span {
-   color: red;
- }
-
-.remaining.blue span {
-   color: #47c4ff;
- }
 
  .cell-strike {
    opacity: 0.6;
@@ -312,7 +313,7 @@ span#blue-left, span#red-left{
     font-size: 200px;
 }
 
-span#left-label {
+span.left-label {
     display: none;
 }
 

@@ -180,8 +180,12 @@ span.cell-text {
 	position: relative;
 }
 
-td.cell-revealed .cell-text {
-    visibility: hidden;
+/*td.cell-revealed .cell-text {
+    visibility: hidden;*/
+}
+
+td.cell-revealed.cell-strike {
+    opacity: 0.2;
 }
  
 

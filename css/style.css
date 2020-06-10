@@ -250,7 +250,8 @@ td.cell-revealed.cell-strike {
 
  td.cell.cell-revealed:after {
     visibility: visible;	
-    background-size: 63%!important;
+    background-size: contain!important;
+	opacity: 0.3;
 }
 
 
@@ -285,7 +286,7 @@ td.cell.cell-revealed.cell-neutral:after {
    color: #ffffff;
  }
  
-td.cell.cell-revealed.cell-black:after {
+td.cell.cell-revealed.cell-end:after {
     background: url(../img/black-sign.png) center center no-repeat;
 }
  

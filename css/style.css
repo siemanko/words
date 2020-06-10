@@ -250,7 +250,7 @@ td.cell-revealed.cell-strike {
 
  td.cell.cell-revealed:after {
     visibility: visible;	
-    background-size: 50%!important;
+    background-size: 70%!important;
 }
 
 

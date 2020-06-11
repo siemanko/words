@@ -34,7 +34,7 @@
 
  body {
    padding-top: 60px;
-   background: url(../img/bg02.jpg);
+   background: url(../img/bg-dark-landscape.jpg);
    background-size: cover;
  }
 
@@ -62,7 +62,11 @@
 
  .navbar {
    border: none;
-   background: rgba(0, 0, 0, 0.5);
+   background: rgb(0,0,0);
+background: -moz-linear-gradient(0deg, rgba(0,0,0,0) 0%, rgba(0,0,0,1) 100%);
+background: -webkit-linear-gradient(0deg, rgba(0,0,0,0) 0%, rgba(0,0,0,1) 100%);
+background: linear-gradient(0deg, rgba(0,0,0,0) 0%, rgba(0,0,0,1) 100%);
+filter: progid:DXImageTransform.Microsoft.gradient(startColorstr="#000000",endColorstr="#000000",GradientType=1);
    box-shadow: none;
  }
 
@@ -93,10 +97,11 @@
    font-family: Verdana !important;
  }
  
- .navbar-default .navbar-nav>.open>a, .navbar-default .navbar-nav>.open>a:focus, .navbar-default .navbar-nav>.open>a:hover {
-    color: #ffcc00;
-    background: rgba(0,0,0,0.5)!important;
+ .navbar-default .navbar-nav>.open>a, .navbar-default .navbar-nav>.open>a:focus, .navbar-default .navbar-nav>.open>a:hover, .navbar-default .navbar-nav>.active>a, .navbar-default .navbar-nav>.open>a {
+    color: #ffcc00!important;
+    background: transparent!important;
 }
+
 
 ul.dropdown-menu li a:hover {
     background: none;
@@ -163,7 +168,7 @@ ul.dropdown-menu li a:hover {
     vertical-align: middle;
     width: 95%;
     height:97%;
-    border-spacing: 10px;
+    border-spacing: 7px;
     border-collapse: separate;
     margin: 0 auto;
 	table-layout: fixed;
@@ -171,14 +176,14 @@ ul.dropdown-menu li a:hover {
 
  .cell {
 	 position: relative;
-   -webkit-border-radius: 14px;
-   -moz-border-radius: 14px;
-   border-radius: 14px;
+   -webkit-border-radius: 10px;
+   -moz-border-radius: 10px;
+   border-radius: 10px;
    text-align: center;
    display: table-cell;
    width: 20%;
    height: 18%!important; 
-   box-shadow: 2px 2px 6px rgba(0, 0, 0, 1);
+   box-shadow: 1px 1px 4px rgba(0, 0, 0, 1);
    background-position: center left!important;
    background-size: cover!important;
    vertical-align: middle;
@@ -201,7 +206,7 @@ span.cell-text {
 	color: #111111;
 	letter-spacing: -2px;
 	font-family: typo;
-   font-size: 32px;
+   font-size: 33px;
  }
  .cell:hover {
     transform: scale(1.2) rotate(-1.3deg);
@@ -310,7 +315,7 @@ td.cell.cell-revealed.cell-end:after {
 	
  body {
    padding-top: 60px;
-   background: url(../img/bg-vertical.jpg);
+   background: url(../img/bg-dark-portrait.jpg);
    background-size: cover;
  }
 	

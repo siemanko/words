@@ -41,10 +41,10 @@
  body *,
  td,
  span {
-   -webkit-transition-duration: 400ms;
-    -moz-transition-duration: 400ms;
-    -o-transition-duration: 400ms;
-    transition-duration: 400ms;
+   -webkit-transition-duration: 100ms;
+    -moz-transition-duration: 100ms;
+    -o-transition-duration: 100ms;
+    transition-duration: 100ms;
    -webkit-touch-callout: none;
    /* iOS Safari */
    -webkit-user-select: none;
@@ -188,10 +188,10 @@ ul.dropdown-menu li a:hover {
    background-size: cover!important;
    vertical-align: middle;
    transition-timing-function: cubic-bezier(1, 0.15, 0.43, 0.93)!important;
-   -webkit-transition-duration: 200ms;
-    -moz-transition-duration: 200ms;
-    -o-transition-duration: 200ms;
-    transition-duration: 200ms;
+   -webkit-transition-duration: 100ms;
+    -moz-transition-duration: 100ms;
+    -o-transition-duration: 100ms;
+    transition-duration: 100ms;
 	overflow: hidden;
 
  }
@@ -209,7 +209,7 @@ span.cell-text {
    font-size: 33px;
  }
  .cell:hover {
-    transform: scale(1.2) rotate(-1.3deg);
+    transform: scale(1.4) rotate(-1.3deg);
     box-shadow: 10px 10px 45px;
 	z-index: 99999!important;
 	position: relative;

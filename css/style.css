@@ -275,10 +275,11 @@ td.cell.cell-revealed.cell-blue:after {
 
  .cell-neutral {
    background-image: url(../img/white.jpg);
+   opacity: 0;
  }
  
 td.cell.cell-revealed.cell-neutral:after {
-    background: url(../img/neutral-sign.png) center center no-repeat;
+    /*background: url(../img/neutral-sign.png) center center no-repeat;*/
 }
 
  .cell-end {

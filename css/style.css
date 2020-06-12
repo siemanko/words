@@ -267,9 +267,9 @@ td.cell-revealed.cell-strike {
     transition-duration: 200ms;
 }
 
-  td.cell:hover:after {
+  /*td.cell:hover:after {
 	  opacity: 0.5!important;
-  }
+  }*/
 
  
   td.cell.cell-revealed.cell-red {

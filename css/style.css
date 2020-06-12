@@ -183,9 +183,7 @@ ul.dropdown-menu li a:hover {
    display: table-cell;
    width: 20%;
    height: 18%!important; 
-   box-shadow: 1px 1px 4px rgba(0, 0, 0, 1);
-   background-position: center center;
-    background-size: 800px;
+   box-shadow: 1px 1px 4px rgba(0, 0, 0, 1);  
    vertical-align: middle;
    transition-timing-function: cubic-bezier(1, 0.15, 0.43, 0.93)!important;
    -webkit-transition-duration: 300ms;
@@ -393,6 +391,10 @@ ul.nav.navbar-nav>li a, ul.nav.navbar-nav>li span, ul.nav.navbar-nav>li span sel
 	padding-top: 180px;
 }
 
+.cell {
+	background-position: center center;
+    background-size: 800px;
+}
 
 span.cell-text {
 	font-size: 33px;

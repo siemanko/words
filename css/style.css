@@ -206,6 +206,7 @@ span.cell-text {
 	letter-spacing: -2px;
 	font-family: typo;
    font-size: 33px;
+   line-height: 0.7em;
  }
  .cell.cell-inrevealed:hover {
     transform: scale(1.2) rotate(-1.3deg);

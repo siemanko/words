@@ -251,16 +251,16 @@ td.cell-revealed.cell-strike {
   -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=30)";
 
   /* IE 5-7 */
-  filter: alpha(opacity=30);
+  filter: alpha(opacity=40);
 
   /* Netscape */
-  -moz-opacity: 0.3;
+  -moz-opacity: 0.4;
 
   /* Safari 1.x */
-  -khtml-opacity: 0.3;
+  -khtml-opacity: 0.4;
 
   /* Good browsers */
-  opacity: 0.3;
+  opacity: 0.4;
   -webkit-transition-duration: 200ms;
     -moz-transition-duration: 200ms;
     -o-transition-duration: 200ms;

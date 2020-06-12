@@ -172,6 +172,15 @@
                 }
               } else {
                 cell.addClass("cell-inrevealed");
+				if (game.type[idx] === "r") {
+                  cell.addClass("cell-red");
+                } else if (game.type[idx] === "b") {
+                  cell.addClass("cell-blue");
+                } else if (game.type[idx] === "n") {
+                  cell.addClass("cell-neutral");
+                } else if (game.type[idx] === "e") {
+                  cell.addClass("cell-end");
+                }
               }
               cell.click(function(inner) {
                 return function() {

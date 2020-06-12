@@ -184,8 +184,8 @@ ul.dropdown-menu li a:hover {
    width: 20%;
    height: 18%!important; 
    box-shadow: 1px 1px 4px rgba(0, 0, 0, 1);
-   background-position: center left!important;
-   background-size: cover!important;
+   background-position: center center;
+    background-size: 800px;
    vertical-align: middle;
    transition-timing-function: cubic-bezier(1, 0.15, 0.43, 0.93)!important;
    -webkit-transition-duration: 300ms;

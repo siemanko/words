@@ -230,9 +230,9 @@ td.cell-revealed.cell-strike {
    cursor: pointer;
  }
 
-/* .cell-revealed {
+ .cell-revealed {
 	 pointer-events: none;
- }*/
+ }
  
 
    .cell {   

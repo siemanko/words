@@ -144,12 +144,18 @@ ul.dropdown-menu li a:hover {
    font-size: 42px;
  }
  
- .blue span.left-label {
-	 color: #0088b1;
- }
+.blue span.left-label {
+    color: #0088b1;
+    background: url(../img/blue-sign.png) left center no-repeat;
+    background-size: contain;
+    padding-left: 50px;
+}
  
   .red span.left-label {
 	 color: #dd3333;
+	     background: url(../img/red-sign.png) left center no-repeat;
+    background-size: contain;
+    padding-left: 50px;
  }
 
 #red-left {

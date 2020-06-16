@@ -413,6 +413,7 @@ td.cell-revealed {
 
 td.cell-revealed span.cell-text {
     display: block;
+	bottom: 5px;
 }
 
 span#blue-left, span#red-left{

@@ -94,7 +94,6 @@ filter: progid:DXImageTransform.Microsoft.gradient(startColorstr="#000000",endCo
    color: #ffffff;
    text-shadow: 0px 0px 2px rgba(0, 0, 0, 0.5);
    font-size: 14px !important;
-   font-family: Verdana !important;
  }
  
  .navbar-default .navbar-nav>.open>a, .navbar-default .navbar-nav>.open>a:focus, .navbar-default .navbar-nav>.open>a:hover, .navbar-default .navbar-nav>.active>a, .navbar-default .navbar-nav>.open>a {

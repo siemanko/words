@@ -305,7 +305,7 @@ td.cell-revealed.cell-strike {
  
 
  
-  @media (min-device-width: 769px) {
+  @media (min-device-width: 1081) {
  
   .cell {
    background-attachment: fixed;
@@ -323,7 +323,7 @@ td.cell-revealed span.cell-text {
  
 
  
-@media (max-device-width: 768px) {
+@media (max-device-width: 1080) {
 	
  body {
    padding-top: 60px;

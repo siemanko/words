@@ -403,6 +403,14 @@ span.cell-text {
 	letter-spacing: -2px;
 }
 
+td.cell-revealed span.cell-text {
+    text-align: left;
+    font-size: 25px;
+}
+td.cell-revealed {
+    vertical-align: bottom;
+}
+
 span#blue-left, span#red-left{
     font-size: 200px;
 }

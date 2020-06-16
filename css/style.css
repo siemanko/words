@@ -215,9 +215,7 @@ span.cell-text {
 	position: relative;
 }
 
-td.cell-revealed .cell-text {
-    display: none;
-}
+
 
 
 
@@ -307,11 +305,16 @@ td.cell-revealed.cell-strike {
  
 
  
-  @media (min-device-width: 1081px) {
+  @media (min-device-width: 769px) {
  
   .cell {
    background-attachment: fixed;
  } 
+ 
+ 
+td.cell-revealed span.cell-text {
+    display: none;
+}
 
  
  

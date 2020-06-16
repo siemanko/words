@@ -401,10 +401,15 @@ ul.nav.navbar-nav>li a, ul.nav.navbar-nav>li span, ul.nav.navbar-nav>li span sel
 span.cell-text {
 	font-size: 33px;
 	letter-spacing: -2px;
+	
 }
 
 td.cell-revealed {
     vertical-align: bottom;
+}
+
+td.cell-revealed span.cell-text {
+    display: block;
 }
 
 span#blue-left, span#red-left{
